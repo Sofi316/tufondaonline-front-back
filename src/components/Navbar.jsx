@@ -1,0 +1,85 @@
+import { NavLink } from "react-router-dom";
+import logoFonda from "../assets/Fonda_som.png";
+import React, { useState } from 'react';
+import banderas from "../assets/Banderines.png";
+
+export default function Navbar() {
+    const [isExpanded, setIsExpanded] = useState(false);
+  return (
+    <>
+    
+    <nav className="navbar navbar-expand-lg navbar-dark navbar-custom">
+      
+      <div className="container ps-0">
+
+        {/* Logo */}
+        <NavLink to="/" className="navbar-brand">
+          <img src={logoFonda} alt="Logo de TuFondaOnline" className="logoFonda" />
+        </NavLink>
+
+        {/* BOTÓN HAMBURGUESA */}
+        {/* Este es el botón que aparece en móviles */}
+        <button
+          className="navbar-toggler"
+          type="button"
+          onClick={() => setIsExpanded(!isExpanded)} 
+          aria-expanded={isExpanded} 
+          aria-controls="mainNavbar"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+
+        {/* CONTENEDOR COLAPSABLE */}
+        {/* Añade la clase 'show' SÓLO si isExpanded es true */}
+        <div className={`collapse navbar-collapse ${isExpanded ? 'show' : ''}`} 
+          id="mainNavbar">
+
+          {/* ENLACES */}
+          <ul className="navbar-nav ms-auto">
+            <li className="nav-item">
+              <NavLink to="/" className="nav-link"
+              onClick={() => setIsExpanded(false)}>Inicio</NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink to="/categorias" className="nav-link"
+              onClick={() => setIsExpanded(false)}>Categorías</NavLink>
+            </li>
+
+            <li className="nav-item">
+              <NavLink to="/blogs" className="nav-link"
+              onClick={() => setIsExpanded(false)}>Blogs</NavLink>
+            </li>
+            
+           
+            <li className="nav-item">
+              <NavLink to="/about" className="nav-link"
+              onClick={() => setIsExpanded(false)}>Nosotros</NavLink>
+            </li>
+            
+           
+            <li className="nav-item">
+              <NavLink to="/contact" className="nav-link"
+              onClick={() => setIsExpanded(false)}>Contacto</NavLink>
+            </li>
+
+            {/* CARRITO DE COMPRAS (falta funcionalidad) */}
+            <li className="nav-item">
+              <NavLink to="/carrito" className="nav-link"
+              onClick={() => setIsExpanded(false)}>
+                <i className="bi bi-cart"></i>
+                <span className="badge bg-danger rounded-pill ms-1">
+                  0
+                </span>
+              </NavLink>
+            </li>
+            
+          </ul>
+        </div>
+
+      </div>
+    </nav>
+    <img src={banderas} alt="banderines" className="img-fluid d-block mb-0" />
+    </>
+  );
+}

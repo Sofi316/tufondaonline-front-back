@@ -1,0 +1,10 @@
+
+body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f7f7f7; }
+.navbar-custom {background-color: rgb(12, 43, 83); }
+main { padding: 24px 16px; max-width: 900px; margin: 0 auto; background:#fff; }
+footer { text-align:center; padding: 16px; color:#666; }
+.error { color:#b30000; font-size: .9rem; margin-top: 4px; }
+.ok    { color:#0a7a0a; font-size: .95rem; }
+.field { margin-bottom: 16px; }
+input, textarea { width: 100%; padding: 8px; }
+.logoFonda { height: 80px;width: 85px;border-radius: 50%;}

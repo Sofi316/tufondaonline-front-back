@@ -3,8 +3,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Coiny&family=Lato:wght@300;400;700&display=swap');
 
 ul,nav,p,div{font-family: 'Lato', sans-serif;}
-h1,h2{font-family: 'Coiny', sans-serif;color: rgb(12, 43, 83);padding-top: 15px;}
+h1,h2,h3{font-family: 'Coiny', sans-serif;color: rgb(12, 43, 83);padding-top: 15px;}
 .carousel-caption h3{font-family: 'Coiny', sans-serif;color: rgb(255, 255, 255);padding-top: 15px;}
+.boton-blog{font-family: 'Lato', sans-serif;background-color: rgb(12, 43, 83);}
 body { font-family: 'Lato', sans-serif; margin: 0; padding: 0; background: #f7f7f7; }
 .navbar-custom {background-color: rgb(12, 43, 83); }
 .card-bienvenida { font-family: 'Coiny', sans-serif; color: rgb(12, 43, 83); text-align: center;}

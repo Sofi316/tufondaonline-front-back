@@ -43,15 +43,15 @@ export default function Navbar() {
               onClick={() => setIsExpanded(false)}>Inicio</NavLink>
             </li>
             <li className="nav-item">
-              <NavLink to="/categorias" className="nav-link"
+              <NavLink to="/Categorias" className="nav-link"
               onClick={() => setIsExpanded(false)}>Categorías</NavLink>
             </li>
             <li className="nav-item">
-              <NavLink to="/ofertas" className="nav-link"
+              <NavLink to="/Ofertas" className="nav-link"
               onClick={() => setIsExpanded(false)}>Ofertas</NavLink>
             </li>
             <li className="nav-item">
-              <NavLink to="/blogs" className="nav-link"
+              <NavLink to="/Blogs" className="nav-link"
               onClick={() => setIsExpanded(false)}>Blogs</NavLink>
             </li>
             
@@ -63,23 +63,23 @@ export default function Navbar() {
             
            
             <li className="nav-item">
-              <NavLink to="/contacto" className="nav-link"
+              <NavLink to="/Contacto" className="nav-link"
               onClick={() => setIsExpanded(false)}>Contacto</NavLink>
             </li>
 
             <li className="nav-item me-2"> 
-              <Link to="/iniciarSesion" className="btn btn-danger">
+              <Link to="/IniciarSesion" className="btn btn-danger">
                   Iniciar Sesión
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="/registro" className="btn btn-primary">
+              <Link to="/Registro" className="btn btn-primary">
                   Crear cuenta
               </Link>
             </li>
             {/* CARRITO DE COMPRAS (falta funcionalidad) */}
             <li className="nav-item">
-              <NavLink to="/carrito" className="nav-link"
+              <NavLink to="/Carrito" className="nav-link"
               onClick={() => setIsExpanded(false)}>
                 <i className="bi bi-cart"></i>
                 <span className="badge bg-danger rounded-pill ms-1">

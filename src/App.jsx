@@ -1,12 +1,13 @@
+
 import './App.css';
 import { Routes,Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
-import About from './pages/About';
-import Contact from './pages/Contact';
+import Blogs from './pages/Blogs';
+import Blog1 from './pages/Blog1';
+import Blog2 from './pages/Blog2';
+import Contacto from './pages/Contacto';
 import Footer from './components/Footer';
-import MiFoto from './components/MiFoto';
-
 
 export default function App() {
   return (
@@ -14,13 +15,15 @@ export default function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/mifoto" element={<MiFoto />} />
         <Route path="*" element={<h1>404 - Página no encontrada</h1>} />
+        <Route path="/Blogs" element={<Blogs />} />
+        <Route path="/Blog1" element={<Blog1 />} />
+        <Route path="/Blog2" element={<Blog2 />} />
+        <Route path="/Contacto" element={<Contacto />} />
       </Routes>
       <Footer/>
     
     </>
   );
 }
+

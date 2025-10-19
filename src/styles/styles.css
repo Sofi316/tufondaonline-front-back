@@ -1,6 +1,13 @@
 
-body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f7f7f7; }
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Coiny&family=Lato:wght@300;400;700&display=swap');
+
+ul,nav,p,div{font-family: 'Lato', sans-serif;}
+h1,h2{font-family: 'Coiny', sans-serif;color: rgb(12, 43, 83);padding-top: 15px;}
+.carousel-caption h3{font-family: 'Coiny', sans-serif;color: rgb(255, 255, 255);padding-top: 15px;}
+body { font-family: 'Lato', sans-serif; margin: 0; padding: 0; background: #f7f7f7; }
 .navbar-custom {background-color: rgb(12, 43, 83); }
+.card-bienvenida { font-family: 'Coiny', sans-serif; color: rgb(12, 43, 83); text-align: center;}
 main { padding: 24px 16px; max-width: 900px; margin: 0 auto; background:#fff; }
 footer { text-align:center; padding: 16px; color:#666; }
 .error { color:#b30000; font-size: .9rem; margin-top: 4px; }
@@ -8,3 +15,11 @@ footer { text-align:center; padding: 16px; color:#666; }
 .field { margin-bottom: 16px; }
 input, textarea { width: 100%; padding: 8px; }
 .logoFonda { height: 80px;width: 85px;border-radius: 50%;}
+.carousel-fijo {
+    margin: 0 auto;
+    max-width: 800px;
+}
+.carousel-fijo .carousel-item {
+  height: 300px; background-color: #333;
+}
+

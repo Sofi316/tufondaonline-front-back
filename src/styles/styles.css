@@ -128,3 +128,29 @@ input, textarea { width: 100%; padding: 8px; }
     font-family: Arial, sans-serif;
 }
 /* FORMULARIO FIN */
+/* Recuadros para los productos */
+.recuadro {
+    display: inline-block;
+    width: 300px; /* ancho del recuadro */
+    border: 2px solid #4c4eaf; /* borde azul */
+    border-radius: 12px; /* esquinas redondeadas */
+    padding: 15px; /* espacio interno */
+    box-shadow: 2px 4px 8px rgba(0,0,0,0.2); /* sombra */
+    text-align: center; /* centrar contenido */
+    background-color: #f9f9f9; /* color de fondo */
+    margin: 20px auto; /* centrar horizontalmente */
+    vertical-align: top;
+   
+}
+
+.recuadro img {
+    max-width: 100%; /* imagen no más grande que el recuadro */
+    border-radius: 8px;
+}
+
+.recuadro p {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #333;
+}
+/*Fin de los recuadros de los productos*/

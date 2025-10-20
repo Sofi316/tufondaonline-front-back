@@ -5,18 +5,16 @@ import Home from './pages/Home';
 import Footer from './components/Footer';
 import Registro from './pages/Registro';
 import Productos from './pages/Productos';
+import Blogs from './pages/Blogs';
+import Blog1 from './pages/Blog1';
+import Blog2 from './pages/Blog2';
+import Contacto from './pages/Contacto';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import './styles/styles.css'
 
 
 export default function App() {
-  const [carrito, setCarrito] = useState([]);
-
-  const agregarAlCarrito = (nombre, precio) => {
-    setCarrito([...carrito, { nombre, precio }]);
-    alert(`${nombre} agregado al carrito por $${precio}`);
-     };
     return (
       <>
         <Navbar />
@@ -24,6 +22,10 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/registro" element={<Registro />} />
           <Route path="/productos" element={<Productos />} />
+          <Route path="/Blogs" element={<Blogs />} />
+          <Route path="/Blog1" element={<Blog1 />} />
+          <Route path="/Blog2" element={<Blog2 />} />
+          <Route path="/Contacto" element={<Contacto />} />
           <Route path="*" element={<h1>404 - Página no encontrada</h1>} />
         </Routes>
         <Footer />

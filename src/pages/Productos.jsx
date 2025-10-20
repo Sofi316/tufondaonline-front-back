@@ -30,7 +30,7 @@ const productos = [
   { nombre: "Pastel de Choclo Vegano", precio: 17000, img: pastelChocloVeg, detalle: "detalle_pastel_choclo_veg.html", categoria: "Plato sin carne" },
   { nombre: "Terremoto", precio: 3500, img: terremoto, detalle: "detalle_terremoto.html", categoria: "Bebestible" },
   { nombre: "Terremoto para Niños", precio: 3000, img: terremotoNinos, detalle: "detalle_terremoto_nin.html", categoria: "Bebestible" },
-  { nombre: "Bebida Coca Cola", precio: 1000, img: cocaCola, detalle: "detalle_coca.html", categoria: "Bebestible" },
+  { nombre: "Bebida Coca Cola", precio: 2500, img: cocaCola, detalle: "detalle_coca.html", categoria: "Bebestible" },
   { nombre: "Agua", precio: 1800, img: agua, detalle: "detalle_agua.html", categoria: "Bebestible" },
 ];
 
@@ -41,6 +41,7 @@ function Productos({ agregarAlCarrito }) {
         <center>
         <h1>Productos para su mesa</h1>
         </center>
+        <br />
       {productos.map((producto) => (
         <div className="recuadro" data-categoria={producto.categoria} key={producto.nombre}>
           <a href={producto.detalle}>
@@ -50,7 +51,7 @@ function Productos({ agregarAlCarrito }) {
             <a href={producto.detalle}>{producto.nombre}</a>
           </h2>
           <p>${producto.precio.toLocaleString("es-CL")}</p>
-          <button className="btn rojo" onClick={() => agregarAlCarrito(producto.nombre, producto.precio)}>
+          <button className="btn btn-danger" onClick={() => agregarAlCarrito(producto.nombre, producto.precio)}>
             Agregar al carrito
           </button>
         </div>

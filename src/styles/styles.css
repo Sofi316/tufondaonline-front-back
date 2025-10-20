@@ -1,6 +1,14 @@
 
-body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f7f7f7; }
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Coiny&family=Lato:wght@300;400;700&display=swap');
+
+ul,nav,p,div{font-family: 'Lato', sans-serif;}
+h1,h2,h3{font-family: 'Coiny', sans-serif;color: rgb(12, 43, 83);padding-top: 15px;}
+.carousel-caption h3{font-family: 'Coiny', sans-serif;color: rgb(255, 255, 255);padding-top: 15px;}
+.boton-blog{font-family: 'Lato', sans-serif;background-color: rgb(12, 43, 83);}
+body { font-family: 'Lato', sans-serif; margin: 0; padding: 0; background: #f7f7f7; }
 .navbar-custom {background-color: rgb(12, 43, 83); }
+.card-bienvenida { font-family: 'Coiny', sans-serif; color: rgb(12, 43, 83); text-align: center;}
 main { padding: 24px 16px; max-width: 900px; margin: 0 auto; background:#fff; }
 footer { text-align:center; padding: 16px; color:#666; }
 .error { color:#b30000; font-size: .9rem; margin-top: 4px; }
@@ -8,6 +16,7 @@ footer { text-align:center; padding: 16px; color:#666; }
 .field { margin-bottom: 16px; }
 input, textarea { width: 100%; padding: 8px; }
 .logoFonda { height: 80px;width: 85px;border-radius: 50%;}
+
 
 /* FOOTER COMIENZO */
 .main-footer{
@@ -129,28 +138,65 @@ input, textarea { width: 100%; padding: 8px; }
 }
 /* FORMULARIO FIN */
 /* Recuadros para los productos */
-.recuadro {
-    display: inline-block;
-    width: 300px; /* ancho del recuadro */
-    border: 2px solid #4c4eaf; /* borde azul */
-    border-radius: 12px; /* esquinas redondeadas */
-    padding: 15px; /* espacio interno */
-    box-shadow: 2px 4px 8px rgba(0,0,0,0.2); /* sombra */
-    text-align: center; /* centrar contenido */
-    background-color: #f9f9f9; /* color de fondo */
-    margin: 20px auto; /* centrar horizontalmente */
-    vertical-align: top;
-   
+/* CONTENEDOR GENERAL DE LOS PRODUCTOS */
+.contenedor-productos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columnas iguales */
+    gap: 30px; /* espacio entre las tarjetas */
+    justify-content: center; /* centra el grid horizontalmente */
+    padding: 40px;
+    max-width: 1200px; /* limita el ancho total */
+    margin: 0 auto; /* centra el contenedor en la página */
 }
 
+/* TARJETA DE PRODUCTO */
+.recuadro {
+    border: 2px solid #4c4eaf;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 2px 4px 8px rgba(0,0,0,0.2);
+    text-align: center;
+    background-color: #f9f9f9;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* EFECTO AL PASAR EL MOUSE */
+.recuadro:hover {
+    transform: translateY(-5px);
+    box-shadow: 4px 8px 12px rgba(0,0,0,0.25);
+}
+
+/* IMÁGENES DENTRO DE LA TARJETA */
 .recuadro img {
-    max-width: 100%; /* imagen no más grande que el recuadro */
+    max-width: 100%;
     border-radius: 8px;
 }
 
+/* TEXTO */
 .recuadro p {
     margin-top: 10px;
     font-size: 16px;
     color: #333;
 }
+
+/* RESPONSIVE (ajuste automático en pantallas pequeñas) */
+@media (max-width: 900px) {
+    .contenedor-productos {
+        grid-template-columns: repeat(2, 1fr); /* 2 por fila */
+    }
+}
+
+@media (max-width: 600px) {
+    .contenedor-productos {
+        grid-template-columns: 1fr; /* 1 por fila */
+    }
+}
 /*Fin de los recuadros de los productos*/
+
+.carousel-fijo {
+    margin: 0 auto;
+    max-width: 800px;
+}
+.carousel-fijo .carousel-item {
+  height: 300px; background-color: #333;
+}

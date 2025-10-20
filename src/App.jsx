@@ -9,6 +9,7 @@ import Blogs from './pages/Blogs';
 import Blog1 from './pages/Blog1';
 import Blog2 from './pages/Blog2';
 import Contacto from './pages/Contacto';
+import ProductoChoripan from './pages/ProductoChoripan';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import './styles/styles.css'
@@ -26,6 +27,7 @@ export default function App() {
           <Route path="/Blog1" element={<Blog1 />} />
           <Route path="/Blog2" element={<Blog2 />} />
           <Route path="/Contacto" element={<Contacto />} />
+          <Route path="/Choripan" element={<ProductoChoripan />} />
           <Route path="*" element={<h1>404 - Página no encontrada</h1>} />
         </Routes>
         <Footer />

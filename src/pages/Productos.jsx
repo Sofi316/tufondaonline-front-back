@@ -15,9 +15,8 @@ import terremotoNinos from "../assets/productos/terremotoniños.jpg"
 import cocaCola from "../assets/productos/coca-cola.jpg"
 import agua from "../assets/productos/agua.jpg"
 
-
 const productos = [
-  { nombre: "Choripán", precio: 3000, img: choripan, detalle: "detalle_choripan.html", categoria: "Plato con Carne" },
+  { nombre: "Choripán", precio: 3000, img: choripan, detalle: "/Choripan", categoria: "Plato con Carne" },
   { nombre: "Completo Italiano", precio: 3500, img: completo, detalle: "detalle_completo.html", categoria: "Plato con Carne" },
   { nombre: "Anticucho", precio: 10000, img: anticucho, detalle: "detalle_anticucho.html", categoria: "Plato con Carne" },
   { nombre: "Pastel de Choclo", precio: 17000, img: pastelChoclo, detalle: "detalle_pastel_choclo.html", categoria: "Plato con Carne" },

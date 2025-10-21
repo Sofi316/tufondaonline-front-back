@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import choripan from "../assets/productos/choripan.jpg"
+import choripan2 from "../assets/productos/choripan2.jpg"
+import choripan3 from "../assets/productos/choripan3.jpg"
+import choripan4 from "../assets/productos/choripan4.jpg"
 import completo from "../assets/productos/completo.jpg"
 import anticucho from "../assets/productos/anticucho.jpg"
 import pastelChoclo from "../assets/productos/pastelchoclo.jpg"
@@ -33,16 +36,16 @@ const ProductoChoripan = () => {
         <div className="producto-imagen">
           <img src={choripan} alt="Choripan" />
           <div className="miniaturas">
-            <img src={choripan || choripan} alt="Vista 1 del choripan" />
-            <img src={choripan || choripan} alt="Vista 2 del choripan" />
-            <img src={choripan || choripan} alt="Vista 3 del choripan" />
+            <img src={choripan2 || choripan} alt="Vista 1 del choripan" />
+            <img src={choripan3 || choripan} alt="Vista 2 del choripan" />
+            <img src={choripan4 || choripan} alt="Vista 3 del choripan" />
           </div>
         </div>
         
         <div className="producto-info">
           <br />
           <br />
-          <h1>CHORIPAN</h1>
+          <h1>CHORIPÁN</h1>
           <p className="precio">$3.500</p>
           <p className="descripcion">
             Delicioso chorizo de Chillán asado a la parrilla dentro de un crujiente pan.
@@ -57,9 +60,9 @@ const ProductoChoripan = () => {
             onChange={(e) => setCantidad(parseInt(e.target.value) || 1)}
           />
           <br />
-          
+          <br />
           <button 
-            className="btn rojo" 
+            className="btn btn-danger"
             onClick={() => agregarAlCarrito('Choripán', 3500)}
           >
             AGREGAR AL CARRITO
@@ -69,7 +72,9 @@ const ProductoChoripan = () => {
 
       {/* Productos relacionados */}
       <section style={{ marginTop: '40px' }}>
+        <center>
         <h1>PRODUCTOS RELACIONADOS</h1>
+        </center>
         <div className="productos-relacionados" style={{ 
           display: 'flex', 
           gap: '20px', 
@@ -77,13 +82,7 @@ const ProductoChoripan = () => {
           flexWrap: 'wrap' 
         }}>
           {productosRelacionados.map((producto, index) => (
-            <div key={index} className="recuadro" style={{ 
-              textAlign: 'center',
-              border: '1px solid #ddd',
-              padding: '15px',
-              borderRadius: '8px',
-              maxWidth: '200px'
-            }}>
+            <div key={index} className="recuadro" >
               <img 
                 src={producto.img} 
                 alt={producto.nombre} 

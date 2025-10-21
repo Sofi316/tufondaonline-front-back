@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from 'react-router-dom';
 import choripan from "../assets/productos/choripan.jpg"
 import completo from "../assets/productos/completo.jpg"
 import anticucho from "../assets/productos/anticucho.jpg"
@@ -36,11 +37,11 @@ const productos = [
 function Productos({ agregarAlCarrito }) {
   return (
     <div className="contenedor-productos">
-        <br />
-        <center>
+      <br />
+      <center>
         <h1>Productos para su mesa</h1>
-        </center>
-        <br />
+      </center>
+      <br />
       {productos.map((producto) => (
         <div className="recuadro" data-categoria={producto.categoria} key={producto.nombre}>
           <a href={producto.detalle}>

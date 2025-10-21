@@ -43,43 +43,43 @@ export default function Navbar() {
               onClick={() => setIsExpanded(false)}>Inicio</NavLink>
             </li>
             <li className="nav-item">
-              <NavLink to="/Categorias" className="nav-link"
+              <NavLink to="/categorias" className="nav-link"
               onClick={() => setIsExpanded(false)}>Categorías</NavLink>
             </li>
             <li className="nav-item">
-              <NavLink to="/Ofertas" className="nav-link"
+              <NavLink to="/ofertas" className="nav-link"
               onClick={() => setIsExpanded(false)}>Ofertas</NavLink>
             </li>
             <li className="nav-item">
-              <NavLink to="/Blogs" className="nav-link"
+              <NavLink to="/blogs" className="nav-link"
               onClick={() => setIsExpanded(false)}>Blogs</NavLink>
             </li>
             
            
             <li className="nav-item">
-              <NavLink to="/about" className="nav-link"
+              <NavLink to="/nosotros" className="nav-link"
               onClick={() => setIsExpanded(false)}>Nosotros</NavLink>
             </li>
             
            
             <li className="nav-item">
-              <NavLink to="/Contacto" className="nav-link"
+              <NavLink to="/contacto" className="nav-link"
               onClick={() => setIsExpanded(false)}>Contacto</NavLink>
             </li>
 
             <li className="nav-item me-2"> 
-              <Link to="/IniciarSesion" className="btn btn-danger">
+              <Link to="/iniciarSesion" className="btn btn-danger">
                   Iniciar Sesión
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="/Registro" className="btn btn-primary">
+              <Link to="/registro" className="btn btn-primary">
                   Crear cuenta
               </Link>
             </li>
             {/* CARRITO DE COMPRAS (falta funcionalidad) */}
             <li className="nav-item">
-              <NavLink to="/Carrito" className="nav-link"
+              <NavLink to="/carrito" className="nav-link"
               onClick={() => setIsExpanded(false)}>
                 <i className="bi bi-cart"></i>
                 <span className="badge bg-danger rounded-pill ms-1">

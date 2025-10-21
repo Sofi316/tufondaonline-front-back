@@ -18,7 +18,7 @@ import agua from "../assets/productos/agua.jpg"
 
 const productos = [
   { nombre: "Choripán", precio: 3000, img: choripan, detalle: "/Choripan", categoria: "Plato con Carne" },
-  { nombre: "Completo Italiano", precio: 3500, img: completo, detalle: "detalle_completo.html", categoria: "Plato con Carne" },
+  { nombre: "Completo Italiano", precio: 3500, img: completo, detalle: "/Completo", categoria: "Plato con Carne" },
   { nombre: "Anticucho", precio: 10000, img: anticucho, detalle: "detalle_anticucho.html", categoria: "Plato con Carne" },
   { nombre: "Pastel de Choclo", precio: 17000, img: pastelChoclo, detalle: "detalle_pastel_choclo.html", categoria: "Plato con Carne" },
   { nombre: "Empanada de Pino", precio: 5000, img: empanada, detalle: "detalle_empanada_pino.html", categoria: "Plato con Carne" },

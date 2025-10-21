@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import choripan from "../assets/productos/choripan.jpg"
-import choripan2 from "../assets/productos/choripan2.jpg"
-import choripan3 from "../assets/productos/choripan3.jpg"
-import choripan4 from "../assets/productos/choripan4.jpg"
 import completo from "../assets/productos/completo.jpg"
+import completo2 from "../assets/productos/completo2.jpg"
+import completo3 from "../assets/productos/completo3.jpg"
+import completo4 from "../assets/productos/completo4.jpg"
 import anticucho from "../assets/productos/anticucho.jpg"
 import pastelChoclo from "../assets/productos/pastelchoclo.jpg"
 
-const ProductoChoripan = () => {
+const ProductoCompleto = () => {
   const [cantidad, setCantidad] = useState(1);
 
   const agregarAlCarrito = (nombre, precio) => {
@@ -18,8 +18,8 @@ const ProductoChoripan = () => {
 
   // Productos relacionados (solo los 3 que muestras en la imagen)
   const productosRelacionados = [
-    { nombre: "Completo Italiano", img: completo, detalle: "/Completo" },
     { nombre: "Anticucho", img: anticucho, detalle: "/producto/anticucho" },
+    { nombre: "Choripan", img: choripan, detalle: "/Choripan" },
     { nombre: "Pastel de Choclo", img: pastelChoclo, detalle: "/producto/pastel-choclo" }
   ];
 
@@ -34,21 +34,21 @@ const ProductoChoripan = () => {
       {/* Producto principal */}
       <section className="producto">
         <div className="producto-imagen">
-          <img src={choripan} alt="Choripan" />
+          <img src={completo} alt="Completo" />
           <div className="miniaturas">
-            <img src={choripan2 || choripan} alt="Vista 1 del choripan" />
-            <img src={choripan3 || choripan} alt="Vista 2 del choripan" />
-            <img src={choripan4 || choripan} alt="Vista 3 del choripan" />
+            <img src={completo2 || choripan} alt="Vista 1 del choripan" />
+            <img src={completo3 || choripan} alt="Vista 2 del choripan" />
+            <img src={completo4 || choripan} alt="Vista 3 del choripan" />
           </div>
         </div>
         
         <div className="producto-info">
           <br />
           <br />
-          <h1>CHORIPÁN</h1>
+          <h1>COMPLETO ITALIANO</h1>
           <p className="precio">$3.500</p>
           <p className="descripcion">
-            Delicioso chorizo de Chillán asado a la parrilla dentro de un crujiente pan.
+            Tradicional completo chileno con palta, tomate y mayonesa.
           </p>
           
           <label htmlFor="cantidad">Cantidad:</label>
@@ -82,8 +82,8 @@ const ProductoChoripan = () => {
           flexWrap: 'wrap' 
         }}>
           {productosRelacionados.map((producto, index) => (
-            <div key={index} className="recuadro" >
-              <a href={producto.detalle}>
+            <div key={index} className="recuadro" data-categoria={producto.categoria}>
+                <a href={producto.detalle}>
               <img 
                 src={producto.img} 
                 alt={producto.nombre} 
@@ -108,4 +108,4 @@ const ProductoChoripan = () => {
   );
 };
 
-export default ProductoChoripan;
+export default ProductoCompleto;

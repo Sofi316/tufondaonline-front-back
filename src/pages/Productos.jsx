@@ -27,11 +27,11 @@ const productos = [
   { nombre: "Empanada Vegana", precio: 5000, img: empanadaVeg, detalle: "/EmpanadaVegana", categoria: "Plato sin carne" },
   { nombre: "Empanada de Queso", precio: 5000, img: empanadaQueso, detalle: "/EmpanadaQueso", categoria: "Plato sin carne" },
   { nombre: "Anticucho de Verduras", precio: 8000, img: anticuchoVer, detalle: "/AnticuchoVerdura", categoria: "Plato sin carne" },
-  { nombre: "Pastel de Choclo Vegano", precio: 17000, img: pastelChocloVeg, detalle: "detalle_pastel_choclo_veg.html", categoria: "Plato sin carne" },
-  { nombre: "Terremoto", precio: 3500, img: terremoto, detalle: "detalle_terremoto.html", categoria: "Bebestible" },
-  { nombre: "Terremoto para Niños", precio: 3000, img: terremotoNinos, detalle: "detalle_terremoto_nin.html", categoria: "Bebestible" },
-  { nombre: "Bebida Coca Cola", precio: 2500, img: cocaCola, detalle: "detalle_coca.html", categoria: "Bebestible" },
-  { nombre: "Agua", precio: 1800, img: agua, detalle: "detalle_agua.html", categoria: "Bebestible" },
+  { nombre: "Pastel de Choclo Vegano", precio: 17000, img: pastelChocloVeg, detalle: "/PastelChocloVegano", categoria: "Plato sin carne" },
+  { nombre: "Terremoto", precio: 3500, img: terremoto, detalle: "/Terremoto", categoria: "Bebestible" },
+  { nombre: "Terremoto para Niños", precio: 3000, img: terremotoNinos, detalle: "/TerremotoNinos", categoria: "Bebestible" },
+  { nombre: "Bebida Coca Cola", precio: 2500, img: cocaCola, detalle: "/CocaCola", categoria: "Bebestible" },
+  { nombre: "Agua", precio: 1800, img: agua, detalle: "/Agua", categoria: "Bebestible" },
 ];
 
 function Productos({ agregarAlCarrito }) {

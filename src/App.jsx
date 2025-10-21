@@ -19,6 +19,11 @@ import ProductoCompletoVeg from './pages/ProductoCompletoVeg';
 import ProductoEmpanadaVeg from './pages/ProductoEmpanadaVeg';
 import ProductoEmpanadaQueso from './pages/ProductoEmpanadaQueso';
 import ProductoAnticuchoVeg from './pages/ProductoAnticuchoVer';
+import ProductoPastelChocloVeg from './pages/ProductoPastelChocloVeg';
+import ProductoTerremoto from './pages/ProductoTerremoto';
+import ProductoTerremotoNinos from './pages/ProductoTerremotoNinos';
+import ProductoCocaCola from './pages/ProductoCoca';
+import ProductoAgua from './pages/ProductoAgua';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import './styles/styles.css'
@@ -41,12 +46,18 @@ export default function App() {
           <Route path="/Anticucho" element={<ProductoAnticucho />} />
           <Route path="/PastelChoclo" element={<ProductoPastelChoclo />} />
           <Route path="/Empanada" element={<ProductoEmpanada />} />
-          <Route path="*" element={<h1>404 - Página no encontrada</h1>} />
           <Route path="/ChoripanVegano" element={<ProductoChoripanVeg />} />
           <Route path="/CompletoVegano" element={<ProductoCompletoVeg />} />
           <Route path="/EmpanadaVegana" element={<ProductoEmpanadaVeg />} />
           <Route path="/EmpanadaQueso" element={<ProductoEmpanadaQueso />} />
           <Route path="/AnticuchoVerdura" element={<ProductoAnticuchoVeg />} />
+          <Route path="/PastelChocloVegano" element={<ProductoPastelChocloVeg />} />
+          <Route path="/Terremoto" element={<ProductoTerremoto />} />
+          <Route path="/TerremotoNinos" element={<ProductoTerremotoNinos />} />
+          <Route path="/CocaCola" element={<ProductoCocaCola />} />
+          <Route path="/Agua" element={<ProductoAgua />} />
+          <Route path="*" element={<h1>404 - Página no encontrada</h1>} />
+
         </Routes>
         <Footer />
 

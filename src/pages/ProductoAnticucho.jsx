@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import choripan from "../assets/productos/choripan.jpg"
-import choripan2 from "../assets/productos/choripan2.jpg"
-import choripan3 from "../assets/productos/choripan3.jpg"
-import choripan4 from "../assets/productos/choripan4.jpg"
-import completo from "../assets/productos/completo.jpg"
 import anticucho from "../assets/productos/anticucho.jpg"
+import anticucho2 from "../assets/productos/anticucho2.jpg"
+import anticucho3 from "../assets/productos/anticucho3.jpg"
+import anticucho4 from "../assets/productos/anticucho4.jpg"     
+import completo from "../assets/productos/completo.jpg"
+import choripan from "../assets/productos/choripan.jpg"
 import pastelChoclo from "../assets/productos/pastelchoclo.jpg"
 
-const ProductoChoripan = () => {
+const ProductoAnticucho = () => {
   const [cantidad, setCantidad] = useState(1);
 
   const agregarAlCarrito = (nombre, precio) => {
@@ -19,7 +19,7 @@ const ProductoChoripan = () => {
   // Productos relacionados (solo los 3 que muestras en la imagen)
   const productosRelacionados = [
     { nombre: "Completo Italiano", img: completo, detalle: "/Completo" },
-    { nombre: "Anticucho", img: anticucho, detalle: "/Anticucho" },
+    { nombre: "Choripan", img: choripan, detalle: "/Choripan" },
     { nombre: "Pastel de Choclo", img: pastelChoclo, detalle: "/PastelChoclo" }
   ];
 
@@ -34,21 +34,21 @@ const ProductoChoripan = () => {
       {/* Producto principal */}
       <section className="producto">
         <div className="producto-imagen">
-          <img src={choripan} alt="Choripan" />
+          <img src={anticucho} alt="Completo" />
           <div className="miniaturas">
-            <img src={choripan2 || completo} alt="Vista 1 del choripan" />
-            <img src={choripan3 || completo} alt="Vista 2 del choripan" />
-            <img src={choripan4 || completo} alt="Vista 3 del choripan" />
+            <img src={anticucho2 || anticucho} alt="Vista 1 del anticucho" />
+            <img src={anticucho3 || anticucho} alt="Vista 2 del anticucho" />
+            <img src={anticucho4 || anticucho} alt="Vista 3 del anticucho" />
           </div>
         </div>
         
         <div className="producto-info">
           <br />
           <br />
-          <h1>CHORIPÁN</h1>
-          <p className="precio">$3.000</p>
+          <h1>ANTICUCHO</h1>
+          <p className="precio">$10.000</p>
           <p className="descripcion">
-            Delicioso chorizo de Chillán asado a la parrilla dentro de un crujiente pan.
+            Trozos de carne y vegetales asados a la parrilla e insertados en una varilla de madera.
           </p>
           
           <label htmlFor="cantidad">Cantidad:</label>
@@ -82,8 +82,8 @@ const ProductoChoripan = () => {
           flexWrap: 'wrap' 
         }}>
           {productosRelacionados.map((producto, index) => (
-            <div key={index} className="recuadro" >
-              <a href={producto.detalle}>
+            <div key={index} className="recuadro" data-categoria={producto.categoria}>
+                <a href={producto.detalle}>
               <img 
                 src={producto.img} 
                 alt={producto.nombre} 
@@ -108,4 +108,4 @@ const ProductoChoripan = () => {
   );
 };
 
-export default ProductoChoripan;
+export default ProductoAnticucho;

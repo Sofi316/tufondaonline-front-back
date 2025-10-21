@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import choripan from "../assets/productos/choripan.jpg"
-import choripan2 from "../assets/productos/choripan2.jpg"
-import choripan3 from "../assets/productos/choripan3.jpg"
-import choripan4 from "../assets/productos/choripan4.jpg"
-import completo from "../assets/productos/completo.jpg"
-import anticucho from "../assets/productos/anticucho.jpg"
 import pastelChoclo from "../assets/productos/pastelchoclo.jpg"
+import pastelChoclo2 from "../assets/productos/pastelchoclo2.jpg"
+import pastelChoclo3 from "../assets/productos/pastelchoclo3.jpg"
+import pastelChoclo4 from "../assets/productos/pastelchoclo4.jpg"
+import anticucho from "../assets/productos/anticucho.jpg"  
+import completo from "../assets/productos/completo.jpg"
+import choripan from "../assets/productos/choripan.jpg"
 
-const ProductoChoripan = () => {
+const ProductoPastelChoclo = () => {
   const [cantidad, setCantidad] = useState(1);
 
   const agregarAlCarrito = (nombre, precio) => {
@@ -18,9 +18,9 @@ const ProductoChoripan = () => {
 
   // Productos relacionados (solo los 3 que muestras en la imagen)
   const productosRelacionados = [
-    { nombre: "Completo Italiano", img: completo, detalle: "/Completo" },
     { nombre: "Anticucho", img: anticucho, detalle: "/Anticucho" },
-    { nombre: "Pastel de Choclo", img: pastelChoclo, detalle: "/PastelChoclo" }
+    { nombre: "Choripan", img: choripan, detalle: "/Choripan" },
+    { nombre: "Completo Italiano", img: completo, detalle: "/Completo" },
   ];
 
   return (
@@ -34,21 +34,22 @@ const ProductoChoripan = () => {
       {/* Producto principal */}
       <section className="producto">
         <div className="producto-imagen">
-          <img src={choripan} alt="Choripan" />
+          <img src={pastelChoclo} alt="Completo" />
           <div className="miniaturas">
-            <img src={choripan2 || completo} alt="Vista 1 del choripan" />
-            <img src={choripan3 || completo} alt="Vista 2 del choripan" />
-            <img src={choripan4 || completo} alt="Vista 3 del choripan" />
+            <img src={pastelChoclo2 || pastelChoclo} alt="Vista 1 del pastel" />
+            <img src={pastelChoclo3 || pastelChoclo} alt="Vista 2 del pastel" />
+            <img src={pastelChoclo4 || pastelChoclo} alt="Vista 3 del pastel" />
           </div>
         </div>
         
         <div className="producto-info">
           <br />
           <br />
-          <h1>CHORIPÁN</h1>
-          <p className="precio">$3.000</p>
+          <h1>PASTEL DE CHOCLO</h1>
+          <p className="precio">$17.000</p>
           <p className="descripcion">
-            Delicioso chorizo de Chillán asado a la parrilla dentro de un crujiente pan.
+            Plato tradicional chileno hecho con una base de choclo molido, 
+            relleno con una mezcla sabrosa de carne de res y pollo, cebolla, aceitunas, pasas y huevo duro. Cubierto con azúcar para darle un toque caramelizado al hornearse.
           </p>
           
           <label htmlFor="cantidad">Cantidad:</label>
@@ -82,8 +83,8 @@ const ProductoChoripan = () => {
           flexWrap: 'wrap' 
         }}>
           {productosRelacionados.map((producto, index) => (
-            <div key={index} className="recuadro" >
-              <a href={producto.detalle}>
+            <div key={index} className="recuadro" data-categoria={producto.categoria}>
+                <a href={producto.detalle}>
               <img 
                 src={producto.img} 
                 alt={producto.nombre} 
@@ -108,4 +109,4 @@ const ProductoChoripan = () => {
   );
 };
 
-export default ProductoChoripan;
+export default ProductoPastelChoclo;

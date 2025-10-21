@@ -18,9 +18,9 @@ const ProductoCompleto = () => {
 
   // Productos relacionados (solo los 3 que muestras en la imagen)
   const productosRelacionados = [
-    { nombre: "Anticucho", img: anticucho, detalle: "/producto/anticucho" },
+    { nombre: "Anticucho", img: anticucho, detalle: "/Anticucho" },
     { nombre: "Choripan", img: choripan, detalle: "/Choripan" },
-    { nombre: "Pastel de Choclo", img: pastelChoclo, detalle: "/producto/pastel-choclo" }
+    { nombre: "Pastel de Choclo", img: pastelChoclo, detalle: "/PastelChoclo" }
   ];
 
   return (
@@ -36,9 +36,9 @@ const ProductoCompleto = () => {
         <div className="producto-imagen">
           <img src={completo} alt="Completo" />
           <div className="miniaturas">
-            <img src={completo2 || choripan} alt="Vista 1 del choripan" />
-            <img src={completo3 || choripan} alt="Vista 2 del choripan" />
-            <img src={completo4 || choripan} alt="Vista 3 del choripan" />
+            <img src={completo2 || completo} alt="Vista 1 del completo" />
+            <img src={completo3 || completo} alt="Vista 2 del completo" />
+            <img src={completo4 || completo} alt="Vista 3 del completo" />
           </div>
         </div>
         

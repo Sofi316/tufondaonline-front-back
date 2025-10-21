@@ -34,7 +34,7 @@ const ProductoEmpanada = () => {
       {/* Producto principal */}
       <section className="producto">
         <div className="producto-imagen">
-          <img src={empanada} alt="Completo" />
+          <img src={empanada} alt="Empanada" />
           <div className="miniaturas">
             <img src={empanada2 || empanada} alt="Vista 1 del pastel" />
             <img src={empanada3 || empanada} alt="Vista 2 del pastel" />

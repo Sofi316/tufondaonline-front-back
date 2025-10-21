@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import pastelChoclo from "../assets/productos/pastelchoclo.jpg"
-import pastelChoclo2 from "../assets/productos/pastelchoclo2.jpg"
-import pastelChoclo3 from "../assets/productos/pastelchoclo3.jpg"
-import pastelChoclo4 from "../assets/productos/pastelchoclo4.jpg"
-import anticucho from "../assets/productos/anticucho.jpg"  
-import completo from "../assets/productos/completo.jpg"
-import choripan from "../assets/productos/choripan.jpg"
+import choripanveg from "../assets/productos/choripanveg.jpg"
+import choripanveg2 from "../assets/productos/choripanveg2.jpg"
+import choripanveg3 from "../assets/productos/choripanveg3.jpg"
+import choripanveg4 from "../assets/productos/choripanveg4.jpg"
+import anticuchoverdura from "../assets/productos/anticuchoverdura.jpg"
+import completoveg from "../assets/productos/completoveg.jpg"
+import pastelchocloveg from "../assets/productos/pastelchocloveg.jpg"
 
-const ProductoPastelChoclo = () => {
+const ProductoChoripanVeg = () => {
   const [cantidad, setCantidad] = useState(1);
 
   const agregarAlCarrito = (nombre, precio) => {
@@ -18,9 +18,9 @@ const ProductoPastelChoclo = () => {
 
   // Productos relacionados (solo los 3 que muestras en la imagen)
   const productosRelacionados = [
-    { nombre: "Anticucho", img: anticucho, detalle: "/Anticucho" },
-    { nombre: "Choripan", img: choripan, detalle: "/Choripan" },
-    { nombre: "Completo Italiano", img: completo, detalle: "/Completo" },
+    { nombre: "Anticucho de Verduras", img: anticuchoverdura, detalle: "/AnticuchoVerdura" },
+    { nombre: "Completo Italiano Vegano", img: completoveg, detalle: "/CompletoVegano" },
+    { nombre: "Pastel de Choclo Vegano", img: pastelchocloveg, detalle: "/PastelChocloVegano" },
   ];
 
   return (
@@ -34,22 +34,21 @@ const ProductoPastelChoclo = () => {
       {/* Producto principal */}
       <section className="producto">
         <div className="producto-imagen">
-          <img src={pastelChoclo} alt="Pastel de choclo" />
+          <img src={choripanveg} alt="Choripan Vegano" />
           <div className="miniaturas">
-            <img src={pastelChoclo2 || pastelChoclo} alt="Vista 1 del pastel" />
-            <img src={pastelChoclo3 || pastelChoclo} alt="Vista 2 del pastel" />
-            <img src={pastelChoclo4 || pastelChoclo} alt="Vista 3 del pastel" />
+            <img src={choripanveg2 || choripanveg} alt="Vista 1 del choripan vegano" />
+            <img src={choripanveg3 || choripanveg} alt="Vista 2 del choripan vegano" />
+            <img src={choripanveg4 || choripanveg} alt="Vista 3 del choripan vegano" />
           </div>
         </div>
         
         <div className="producto-info">
           <br />
           <br />
-          <h1>PASTEL DE CHOCLO</h1>
-          <p className="precio">$17.000</p>
+          <h1>CHORIPÁN VEGANO</h1>
+          <p className="precio">$3.000</p>
           <p className="descripcion">
-            Plato tradicional chileno hecho con una base de choclo molido, 
-            relleno con una mezcla sabrosa de carne de res y pollo, cebolla, aceitunas, pasas y huevo duro. Cubierto con azúcar para darle un toque caramelizado al hornearse.
+            El tradicional choripán chileno, ahora en su versión vegana. Disfruta de un delicioso chorizo vegetal libre de carne.
           </p>
           
           <label htmlFor="cantidad">Cantidad:</label>
@@ -109,4 +108,4 @@ const ProductoPastelChoclo = () => {
   );
 };
 
-export default ProductoPastelChoclo;
+export default ProductoChoripanVeg;

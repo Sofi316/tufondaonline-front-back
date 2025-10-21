@@ -14,6 +14,7 @@ import ProductoCompleto from './pages/ProductoCompleto';
 import ProductoAnticucho from './pages/ProductoAnticucho';
 import ProductoPastelChoclo from './pages/ProductoPastelChoclo';
 import ProductoEmpanada from './pages/ProductoEmpanada';
+import ProductoChoripanVeg from './pages/ProductoChoripanVeg';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import './styles/styles.css'
@@ -37,6 +38,7 @@ export default function App() {
           <Route path="/PastelChoclo" element={<ProductoPastelChoclo />} />
           <Route path="/Empanada" element={<ProductoEmpanada />} />
           <Route path="*" element={<h1>404 - Página no encontrada</h1>} />
+          <Route path="/ChoripanVegano" element={<ProductoChoripanVeg />} />
         </Routes>
         <Footer />
 

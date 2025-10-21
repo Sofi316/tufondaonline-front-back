@@ -22,7 +22,7 @@ const productos = [
   { nombre: "Anticucho", precio: 10000, img: anticucho, detalle: "/Anticucho", categoria: "Plato con Carne" },
   { nombre: "Pastel de Choclo", precio: 17000, img: pastelChoclo, detalle: "/PastelChoclo", categoria: "Plato con Carne" },
   { nombre: "Empanada de Pino", precio: 5000, img: empanada, detalle: "/Empanada", categoria: "Plato con Carne" },
-  { nombre: "Choripán Vegano", precio: 3000, img: choripanVeg, detalle: "detalle_choripan_veg.html", categoria: "Plato sin carne" },
+  { nombre: "Choripán Vegano", precio: 3000, img: choripanVeg, detalle: "/ChoripanVegano", categoria: "Plato sin carne" },
   { nombre: "Completo Italiano Vegano", precio: 3500, img: completoVeg, detalle: "detalle_completo_veg.html", categoria: "Plato sin carne" },
   { nombre: "Empanada Vegana", precio: 5000, img: empanadaVeg, detalle: "detalle_empanada_veg.html", categoria: "Plato sin carne" },
   { nombre: "Empanada de Queso", precio: 5000, img: empanadaQueso, detalle: "detalle_empanada_queso.html", categoria: "Plato sin carne" },

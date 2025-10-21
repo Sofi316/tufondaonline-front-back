@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import logoFonda from "../assets/Fonda_som.png";
 import React, { useState } from 'react';
 import banderas from "../assets/Banderines.png";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
     const [isExpanded, setIsExpanded] = useState(false);
@@ -45,7 +46,10 @@ export default function Navbar() {
               <NavLink to="/categorias" className="nav-link"
               onClick={() => setIsExpanded(false)}>Categorías</NavLink>
             </li>
-
+            <li className="nav-item">
+              <NavLink to="/ofertas" className="nav-link"
+              onClick={() => setIsExpanded(false)}>Ofertas</NavLink>
+            </li>
             <li className="nav-item">
               <NavLink to="/blogs" className="nav-link"
               onClick={() => setIsExpanded(false)}>Blogs</NavLink>
@@ -53,16 +57,26 @@ export default function Navbar() {
             
            
             <li className="nav-item">
-              <NavLink to="/about" className="nav-link"
+              <NavLink to="/nosotros" className="nav-link"
               onClick={() => setIsExpanded(false)}>Nosotros</NavLink>
             </li>
             
            
             <li className="nav-item">
-              <NavLink to="/contact" className="nav-link"
+              <NavLink to="/contacto" className="nav-link"
               onClick={() => setIsExpanded(false)}>Contacto</NavLink>
             </li>
 
+            <li className="nav-item me-2"> 
+              <Link to="/iniciarSesion" className="btn btn-danger">
+                  Iniciar Sesión
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/registro" className="btn btn-primary">
+                  Crear cuenta
+              </Link>
+            </li>
             {/* CARRITO DE COMPRAS (falta funcionalidad) */}
             <li className="nav-item">
               <NavLink to="/carrito" className="nav-link"

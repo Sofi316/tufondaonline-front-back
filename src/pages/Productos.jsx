@@ -8,9 +8,8 @@ function Productos() {
 
   const handleAgregarAlCarrito = (producto) => {
     agregarAlCarrito(producto.nombre, producto.precio, producto.img);
-    console.log('✅ ${producto.nombre} agregado al carrito');
+    alert(`✅ ${producto.nombre} agregado al carrito`);
   };
-
   return (
     <div className="contenedor-productos">
       <br />
@@ -27,8 +26,8 @@ function Productos() {
             <Link to={producto.detalle}>{producto.nombre}</Link>
           </h2>
           <p>${producto.precio.toLocaleString("es-CL")}</p>
-          <button 
-            className="btn btn-danger" 
+          <button
+            className="btn btn-danger"
             onClick={() => handleAgregarAlCarrito(producto)}
           >
             Agregar al carrito

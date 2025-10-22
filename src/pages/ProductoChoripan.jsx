@@ -7,16 +7,26 @@ import choripan4 from "../assets/productos/choripan4.jpg";
 import completo from "../assets/productos/completo.jpg";
 import anticucho from "../assets/productos/anticucho.jpg";
 import pastelChoclo from "../assets/productos/pastelchoclo.jpg";
+import { useCarrito } from "../components/CarritoContext";
 
 const ProductoChoripan = () => {
   const [cantidad, setCantidad] = useState(1);
   const [imagenPrincipal, setImagenPrincipal] = useState(choripan);
+  const { agregarAlCarrito } = useCarrito();
 
-  const agregarAlCarrito = (nombre, precio) => {
-    console.log(
-      `Agregado al carrito: ${nombre} - Cantidad: ${cantidad} - Total: $${precio * cantidad}`
-    );
-    // Aquí puedes agregar la lógica del carrito
+  const handleAgregarAlCarrito = () => {
+    // Agregar la cantidad seleccionada al carrito
+    for (let i = 0; i < cantidad; i++) {
+      agregarAlCarrito("Choripán", 3000, choripan);
+    }
+    
+    console.log(`✅ ${cantidad} ${cantidad === 1 ? 'choripán' : 'choripanes'} agregado${cantidad === 1 ? '' : 's'} al carrito`);
+    
+    // Mostrar mensaje de confirmación
+    alert(`✅ ${cantidad} ${cantidad === 1 ? 'choripán' : 'choripanes'} agregado${cantidad === 1 ? '' : 's'} al carrito`);
+    
+    // Opcional: Resetear la cantidad a 1 después de agregar
+    setCantidad(1);
   };
 
   const miniaturas = [choripan2, choripan3, choripan4];
@@ -74,9 +84,9 @@ const ProductoChoripan = () => {
           <br />
           <button
             className="btn btn-danger"
-            onClick={() => agregarAlCarrito("Choripán", 3500)}
+            onClick={handleAgregarAlCarrito}
           >
-            AGREGAR AL CARRITO
+            AGREGAR {cantidad > 1 ? `${cantidad} AL ` : ''}CARRITO
           </button>
         </div>
       </section>
@@ -97,7 +107,7 @@ const ProductoChoripan = () => {
         >
           {productosRelacionados.map((producto, index) => (
             <div key={index} className="recuadro">
-              <a href={producto.detalle}>
+              <Link to={producto.detalle}>
                 <img
                   src={producto.img}
                   alt={producto.nombre}
@@ -108,12 +118,12 @@ const ProductoChoripan = () => {
                     borderRadius: "4px",
                   }}
                 />
-              </a>
-              <a href={producto.detalle}>
+              </Link>
+              <Link to={producto.detalle}>
                 <h2 style={{ marginTop: "10px", fontSize: "16px" }}>
                   {producto.nombre.toUpperCase()}
                 </h2>
-              </a>
+              </Link>
             </div>
           ))}
         </div>

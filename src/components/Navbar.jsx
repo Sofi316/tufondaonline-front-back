@@ -3,97 +3,98 @@ import logoFonda from "../assets/Fonda_som.png";
 import React, { useState } from 'react';
 import banderas from "../assets/Banderines.png";
 import { Link } from "react-router-dom";
+import { useCarrito } from "../components/CarritoContext";
 
 export default function Navbar() {
     const [isExpanded, setIsExpanded] = useState(false);
-  return (
-    <>
-    
-    <nav className="navbar navbar-expand-lg navbar-dark navbar-custom">
-      
-      <div className="container ps-0">
+    const { totalProductos } = useCarrito(); 
 
-        {/* Logo */}
-        <NavLink to="/" className="navbar-brand">
-          <img src={logoFonda} alt="Logo de TuFondaOnline" className="logoFonda" />
-        </NavLink>
+    return (
+        <>
+            <nav className="navbar navbar-expand-lg navbar-dark navbar-custom">
+                <div className="container ps-0">
 
-        {/* BOTÓN HAMBURGUESA */}
-        {/* Este es el botón que aparece en móviles */}
-        <button
-          className="navbar-toggler"
-          type="button"
-          onClick={() => setIsExpanded(!isExpanded)} 
-          aria-expanded={isExpanded} 
-          aria-controls="mainNavbar"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
+                    {/* Logo */}
+                    <NavLink to="/" className="navbar-brand">
+                        <img src={logoFonda} alt="Logo de TuFondaOnline" className="logoFonda" />
+                    </NavLink>
 
-        {/* CONTENEDOR COLAPSABLE */}
-        {/* Añade la clase 'show' SÓLO si isExpanded es true */}
-        <div className={`collapse navbar-collapse ${isExpanded ? 'show' : ''}`} 
-          id="mainNavbar">
+                    {/* BOTÓN HAMBURGUESA */}
+                    <button
+                        className="navbar-toggler"
+                        type="button"
+                        onClick={() => setIsExpanded(!isExpanded)} 
+                        aria-expanded={isExpanded} 
+                        aria-controls="mainNavbar"
+                        aria-label="Toggle navigation"
+                    >
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
 
-          {/* ENLACES */}
-          <ul className="navbar-nav ms-auto">
-            <li className="nav-item">
-              <NavLink to="/" className="nav-link"
-              onClick={() => setIsExpanded(false)}>Inicio</NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink to="/Categorias" className="nav-link"
-              onClick={() => setIsExpanded(false)}>Categorías</NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink to="/Ofertas" className="nav-link"
-              onClick={() => setIsExpanded(false)}>Ofertas</NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink to="/Blogs" className="nav-link"
-              onClick={() => setIsExpanded(false)}>Blogs</NavLink>
-            </li>
-            
-           
-            <li className="nav-item">
-              <NavLink to="/Nosotros" className="nav-link"
-              onClick={() => setIsExpanded(false)}>Nosotros</NavLink>
-            </li>
-            
-           
-            <li className="nav-item">
-              <NavLink to="/Contacto" className="nav-link"
-              onClick={() => setIsExpanded(false)}>Contacto</NavLink>
-            </li>
+                    {/* CONTENEDOR COLAPSABLE */}
+                    <div className={`collapse navbar-collapse ${isExpanded ? 'show' : ''}`} 
+                        id="mainNavbar">
 
-            <li className="nav-item me-2"> 
-              <Link to="/IniciarSesion" className="btn btn-danger">
-                  Iniciar Sesión
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/Registro" className="btn btn-primary">
-                  Crear cuenta
-              </Link>
-            </li>
-            {/* CARRITO DE COMPRAS (falta funcionalidad) */}
-            <li className="nav-item">
-              <NavLink to="/Carrito" className="nav-link"
-              onClick={() => setIsExpanded(false)}>
-                <i className="bi bi-cart"></i>
-                <span className="badge bg-danger rounded-pill ms-1">
-                  0
-                </span>
-              </NavLink>
-            </li>
-            
-          </ul>
-        </div>
+                        {/* ENLACES */}
+                        <ul className="navbar-nav ms-auto">
+                            <li className="nav-item">
+                                <NavLink to="/" className="nav-link"
+                                onClick={() => setIsExpanded(false)}>Inicio</NavLink>
+                            </li>
+                            <li className="nav-item">
+                                <NavLink to="/Categorias" className="nav-link"
+                                onClick={() => setIsExpanded(false)}>Categorías</NavLink>
+                            </li>
+                            <li className="nav-item">
+                                <NavLink to="/Ofertas" className="nav-link"
+                                onClick={() => setIsExpanded(false)}>Ofertas</NavLink>
+                            </li>
+                            <li className="nav-item">
+                                <NavLink to="/Blogs" className="nav-link"
+                                onClick={() => setIsExpanded(false)}>Blogs</NavLink>
+                            </li>
+                            
+                        
+                            <li className="nav-item">
+                                <NavLink to="/Nosotros" className="nav-link"
+                                onClick={() => setIsExpanded(false)}>Nosotros</NavLink>
+                            </li>
+                            
+                        
+                            <li className="nav-item">
+                                <NavLink to="/Contacto" className="nav-link"
+                                onClick={() => setIsExpanded(false)}>Contacto</NavLink>
+                            </li>
 
-      </div>
-    </nav>
-    <img src={banderas} alt="banderines" className="img-fluid d-block mb-0" />
-    </>
-  );
+                            <li className="nav-item me-2"> 
+                                <Link to="/IniciarSesion" className="btn btn-danger">
+                                    Iniciar Sesión
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link to="/Registro" className="btn btn-primary">
+                                    Crear cuenta
+                                </Link>
+                            </li>
+                            
+                            {/* CARRITO DE COMPRAS - ACTUALIZADO */}
+                            <li className="nav-item">
+                                <NavLink to="/Carrito" className="nav-link position-relative"
+                                onClick={() => setIsExpanded(false)}>
+                                    <i className="bi bi-cart3 fs-5"></i>
+                                    {totalProductos > 0 && (
+                                        <span className="position-absolute top-0 start-100 translate-middle badge bg-danger rounded-pill">
+                                            {totalProductos}
+                                        </span>
+                                    )}
+                                </NavLink>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <img src={banderas} alt="banderines" className="img-fluid d-block mb-0" />
+        </>
+    );
 }

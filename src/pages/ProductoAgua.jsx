@@ -7,16 +7,26 @@ import agua4 from "../assets/productos/agua4.jpg";
 import cocaCola from "../assets/productos/coca-cola.jpg";
 import terremoto from "../assets/productos/terremoto.jpg";
 import terremotoNinos from "../assets/productos/terremotoniños.jpg";
+import { useCarrito } from "../components/CarritoContext";
 
 const ProductoAgua = () => {
   const [cantidad, setCantidad] = useState(1);
   const [imagenPrincipal, setImagenPrincipal] = useState(agua);
+  const { agregarAlCarrito } = useCarrito();
 
-  const agregarAlCarrito = (nombre, precio) => {
-    console.log(
-      `Agregado al carrito: ${nombre} - Cantidad: ${cantidad} - Total: $${precio * cantidad}`
-    );
-    // Aquí puedes agregar la lógica del carrito
+  const handleAgregarAlCarrito = () => {
+    // Agregar la cantidad seleccionada al carrito
+    for (let i = 0; i < cantidad; i++) {
+      agregarAlCarrito("Agua", 1800, agua);
+    }
+    
+    console.log(`✅ ${cantidad} ${cantidad === 1 ? 'botella' : 'botellas'} de agua agregada${cantidad === 1 ? '' : 's'} al carrito`);
+    
+    // Mostrar mensaje de confirmación
+    alert(`✅ ${cantidad} ${cantidad === 1 ? 'botella' : 'botellas'} de agua agregada${cantidad === 1 ? '' : 's'} al carrito`);
+    
+    // Opcional: Resetear la cantidad a 1 después de agregar
+    setCantidad(1);
   };
 
   // 🔹 Miniaturas disponibles
@@ -39,10 +49,7 @@ const ProductoAgua = () => {
       {/* Producto principal */}
       <section className="producto">
         <div className="producto-imagen">
-          {/* 🔹 Imagen principal que cambia */}
           <img src={imagenPrincipal} alt="Agua" />
-
-          {/* 🔹 Miniaturas clickeables */}
           <div className="miniaturas">
             {miniaturas.map((mini, index) => (
               <img
@@ -75,9 +82,9 @@ const ProductoAgua = () => {
           <br />
           <button
             className="btn btn-danger"
-            onClick={() => agregarAlCarrito("Agua", 1800)}
+            onClick={handleAgregarAlCarrito}
           >
-            AGREGAR AL CARRITO
+            AGREGAR {cantidad > 1 ? `${cantidad} AL ` : ''}CARRITO
           </button>
         </div>
       </section>
@@ -98,7 +105,7 @@ const ProductoAgua = () => {
         >
           {productosRelacionados.map((producto, index) => (
             <div key={index} className="recuadro" data-categoria={producto.categoria}>
-              <a href={producto.detalle}>
+              <Link to={producto.detalle}>
                 <img
                   src={producto.img}
                   alt={producto.nombre}
@@ -109,12 +116,12 @@ const ProductoAgua = () => {
                     borderRadius: "4px",
                   }}
                 />
-              </a>
-              <a href={producto.detalle}>
+              </Link>
+              <Link to={producto.detalle}>
                 <h2 style={{ marginTop: "10px", fontSize: "16px" }}>
                   {producto.nombre.toUpperCase()}
                 </h2>
-              </a>
+              </Link>
             </div>
           ))}
         </div>

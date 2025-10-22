@@ -7,16 +7,26 @@ import anticuchoverdura4 from "../assets/productos/anticuchoverdura4.jpg";
 import completoveg from "../assets/productos/completoveg.jpg";
 import choripanveg from "../assets/productos/choripanveg.jpg";
 import pastelchocloveg from "../assets/productos/pastelchocloveg.jpg";
+import { useCarrito } from "../components/CarritoContext";
 
 const ProductoAnticuchoVeg = () => {
   const [cantidad, setCantidad] = useState(1);
   const [imagenPrincipal, setImagenPrincipal] = useState(anticuchoverdura);
+  const { agregarAlCarrito } = useCarrito();
 
-  const agregarAlCarrito = (nombre, precio) => {
-    console.log(
-      `Agregado al carrito: ${nombre} - Cantidad: ${cantidad} - Total: $${precio * cantidad}`
-    );
-    // Aquí puedes agregar la lógica del carrito
+  const handleAgregarAlCarrito = () => {
+    // Agregar la cantidad seleccionada al carrito
+    for (let i = 0; i < cantidad; i++) {
+      agregarAlCarrito("Anticucho de Verduras", 8000, anticuchoverdura);
+    }
+    
+    console.log(`✅ ${cantidad} ${cantidad === 1 ? 'anticucho de verduras' : 'anticuchos de verduras'} agregado${cantidad === 1 ? '' : 's'} al carrito`);
+    
+    // Mostrar mensaje de confirmación
+    alert(`✅ ${cantidad} ${cantidad === 1 ? 'anticucho de verduras' : 'anticuchos de verduras'} agregado${cantidad === 1 ? '' : 's'} al carrito`);
+    
+    // Opcional: Resetear la cantidad a 1 después de agregar
+    setCantidad(1);
   };
 
   // 🔹 Miniaturas disponibles
@@ -75,9 +85,9 @@ const ProductoAnticuchoVeg = () => {
           <br />
           <button
             className="btn btn-danger"
-            onClick={() => agregarAlCarrito("Anticucho de Verduras", 8000)}
+            onClick={handleAgregarAlCarrito}
           >
-            AGREGAR AL CARRITO
+            AGREGAR {cantidad > 1 ? `${cantidad} AL ` : ''}CARRITO
           </button>
         </div>
       </section>
@@ -98,7 +108,7 @@ const ProductoAnticuchoVeg = () => {
         >
           {productosRelacionados.map((producto, index) => (
             <div key={index} className="recuadro" data-categoria={producto.categoria}>
-              <a href={producto.detalle}>
+              <Link to={producto.detalle}>
                 <img
                   src={producto.img}
                   alt={producto.nombre}
@@ -109,12 +119,12 @@ const ProductoAnticuchoVeg = () => {
                     borderRadius: "4px",
                   }}
                 />
-              </a>
-              <a href={producto.detalle}>
+              </Link>
+              <Link to={producto.detalle}>
                 <h2 style={{ marginTop: "10px", fontSize: "16px" }}>
                   {producto.nombre.toUpperCase()}
                 </h2>
-              </a>
+              </Link>
             </div>
           ))}
         </div>

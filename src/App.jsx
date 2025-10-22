@@ -10,11 +10,15 @@ import Nosotros from './pages/Nosotros';
 import IniciarSesion from './pages/IniciarSesion';
 import Footer from './components/Footer';
 import AdminLayout from './components/AdminLayout';
-import AdminDashboard from './pages/AdminDashboard';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminUsuarios from './pages/admin/AdminUsuarios';
 import Registro from './pages/Registro';
+import AdminOrdenes from './pages/admin/AdminOrdenes';
+import AdminVerOrden from './pages/admin/AdminVerOrden';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import './styles/styles.css';
+import AdminCrearUsuario from './pages/admin/AdminCrearUsuario';
 
 
 export default function App() {
@@ -50,9 +54,14 @@ export default function App() {
         {/* 'index' es la página por defecto que se muestra en /admin */}
         <Route index element={<AdminDashboard />} />
         
+        
         {/* Aquí puedes añadir más rutas de admin en el futuro */}
         {/* <Route path="productos" element={<AdminProductos />} /> */}
-        {/* <Route path="usuarios" element={<AdminUsuarios />} /> */}
+        { <Route path="usuarios" element={<AdminUsuarios />} /> }
+        { <Route path="usuarios/crearUser" element={<AdminCrearUsuario />} /> }
+
+        <Route path="ordenes" element={<AdminOrdenes />} />
+        <Route path="ordenes/:id" element={<AdminVerOrden />} /> {/* Ruta de detalle */}
       </Route>
 
     </Routes>

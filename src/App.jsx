@@ -1,5 +1,6 @@
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
+import { CarritoProvider } from './components/CarritoContext';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Footer from './components/Footer';
@@ -25,14 +26,14 @@ import ProductoTerremotoNinos from './pages/ProductoTerremotoNinos';
 import ProductoCocaCola from './pages/ProductoCoca';
 import ProductoAgua from './pages/ProductoAgua';
 import Nosotros from './pages/Nosotros';
+import Carrito from './pages/Carrito';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import './styles/styles.css'
 
-
 export default function App() {
     return (
-      <>
+      <CarritoProvider> {/* Envuelve toda tu aplicación con el Provider */}
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -58,11 +59,10 @@ export default function App() {
           <Route path="/CocaCola" element={<ProductoCocaCola />} />
           <Route path="/Agua" element={<ProductoAgua />} />
           <Route path="/Nosotros" element={<Nosotros />} />
+          <Route path="/Carrito" element={<Carrito />} />
           <Route path="*" element={<h1>404 - Página no encontrada</h1>} />
-
         </Routes>
         <Footer />
-
-      </>
+      </CarritoProvider>
     );
   }

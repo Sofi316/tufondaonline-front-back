@@ -82,7 +82,7 @@ input, textarea { width: 100%; padding: 8px; }
 /* FOOTER FIN */
 
 /* FORMULARIO COMIENZO */
-/* Estilos base de tu HTML original (ya los tienes) */
+/* Estilos base de tu HTML original*/
 .contenedor {
     max-width: 1100px;
     margin: 0 auto;
@@ -249,9 +249,14 @@ input, textarea { width: 100%; padding: 8px; }
 }
 
 .miniaturas img {
-  width: 80px;
-  cursor: pointer;
-  border: 1px solid #ccc;
+    width: 80px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    transition: transform 0.2s, border 0.2s;
+}
+.miniaturas img:hover {
+    transform: scale(1.1);
+    border: 2px solid #4c4eaf;
 }
 .producto-info {
   flex: 1;

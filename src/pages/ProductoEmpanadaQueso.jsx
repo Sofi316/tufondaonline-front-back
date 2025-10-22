@@ -1,22 +1,26 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import empanadaqueso from "../assets/productos/empanadaqueso.jpg"
-import empanadaqueso2 from "../assets/productos/empanadaqueso2.jpg"
-import empanadaqueso3 from "../assets/productos/empanadaqueso3.jpg"
-import empanadaqueso4 from "../assets/productos/empanadaqueso4.jpg"
-import choripanveg from "../assets/productos/choripanveg.jpg"
-import anticuchoverdura from "../assets/productos/anticuchoverdura.jpg"
-import pastelchocloveg from "../assets/productos/pastelchocloveg.jpg"
+import empanadaqueso from "../assets/productos/empanadaqueso.jpg";
+import empanadaqueso2 from "../assets/productos/empanadaqueso2.jpg";
+import empanadaqueso3 from "../assets/productos/empanadaqueso3.jpg";
+import empanadaqueso4 from "../assets/productos/empanadaqueso4.jpg";
+import choripanveg from "../assets/productos/choripanveg.jpg";
+import anticuchoverdura from "../assets/productos/anticuchoverdura.jpg";
+import pastelchocloveg from "../assets/productos/pastelchocloveg.jpg";
 
 const ProductoEmpanadaQueso = () => {
   const [cantidad, setCantidad] = useState(1);
+  const [imagenPrincipal, setImagenPrincipal] = useState(empanadaqueso);
 
   const agregarAlCarrito = (nombre, precio) => {
     console.log(`Agregado al carrito: ${nombre} - Cantidad: ${cantidad} - Total: $${precio * cantidad}`);
     // Aquí puedes agregar la lógica del carrito
   };
 
-  // Productos relacionados (solo los 3 que muestras en la imagen)
+  // 🔹 Miniaturas disponibles
+  const miniaturas = [empanadaqueso2, empanadaqueso3, empanadaqueso4];
+
+  // 🔹 Productos relacionados
   const productosRelacionados = [
     { nombre: "Anticucho de Verduras", img: anticuchoverdura, detalle: "/AnticuchoVerdura" },
     { nombre: "Choripan Vegano", img: choripanveg, detalle: "/ChoripanVegano" },
@@ -27,24 +31,30 @@ const ProductoEmpanadaQueso = () => {
     <main>
       {/* Breadcrumb */}
       <div className="breadcrumb">
-        <Link to="/">Inicio</Link> /
-        <Link to="/productos">Productos</Link> /
+        <Link to="/">Inicio</Link> /<Link to="/productos">Productos</Link> /
       </div>
 
       {/* Producto principal */}
       <section className="producto">
         <div className="producto-imagen">
-          <img src={empanadaqueso} alt="Empanada Queso" />
+          {/* Imagen principal */}
+          <img src={imagenPrincipal} alt="Empanada de Queso" />
+
+          {/* Miniaturas clickeables */}
           <div className="miniaturas">
-            <img src={empanadaqueso2 || empanadaqueso} alt="Vista 1 de la empanada queso" />
-            <img src={empanadaqueso3 || empanadaqueso} alt="Vista 2 de la empanada queso" />
-            <img src={empanadaqueso4 || empanadaqueso} alt="Vista 3 de la empanada queso" />
+            {miniaturas.map((mini, index) => (
+              <img
+                key={index}
+                src={mini}
+                alt={`Vista ${index + 1} de la Empanada de Queso`}
+                onClick={() => setImagenPrincipal(mini)} 
+                style={{ cursor: "pointer" }}
+              />
+            ))}
           </div>
         </div>
         
         <div className="producto-info">
-          <br />
-          <br />
           <h1>EMPANADA DE QUESO</h1>
           <p className="precio">$5.000</p>
           <p className="descripcion">
@@ -63,7 +73,7 @@ const ProductoEmpanadaQueso = () => {
           <br />
           <button 
             className="btn btn-danger"
-            onClick={() => agregarAlCarrito('Choripán', 3500)}
+            onClick={() => agregarAlCarrito('Empanada de Queso', 5000)}
           >
             AGREGAR AL CARRITO
           </button>
@@ -73,7 +83,7 @@ const ProductoEmpanadaQueso = () => {
       {/* Productos relacionados */}
       <section style={{ marginTop: '40px' }}>
         <center>
-        <h1>PRODUCTOS RELACIONADOS</h1>
+          <h1>PRODUCTOS RELACIONADOS</h1>
         </center>
         <div className="productos-relacionados" style={{ 
           display: 'flex', 
@@ -83,22 +93,22 @@ const ProductoEmpanadaQueso = () => {
         }}>
           {productosRelacionados.map((producto, index) => (
             <div key={index} className="recuadro" data-categoria={producto.categoria}>
-                <a href={producto.detalle}>
-              <img 
-                src={producto.img} 
-                alt={producto.nombre} 
-                style={{ 
-                  width: '150px', 
-                  height: '150px', 
-                  objectFit: 'cover',
-                  borderRadius: '4px'
-                }} 
-              />
+              <a href={producto.detalle}>
+                <img 
+                  src={producto.img} 
+                  alt={producto.nombre} 
+                  style={{ 
+                    width: '150px', 
+                    height: '150px', 
+                    objectFit: 'cover',
+                    borderRadius: '4px'
+                  }} 
+                />
               </a>
               <a href={producto.detalle}>
-              <h2 style={{ marginTop: '10px', fontSize: '16px' }}>
-                {producto.nombre.toUpperCase()}
-              </h2>
+                <h2 style={{ marginTop: '10px', fontSize: '16px' }}>
+                  {producto.nombre.toUpperCase()}
+                </h2>
               </a>
             </div>
           ))}

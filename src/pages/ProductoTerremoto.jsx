@@ -1,23 +1,26 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import terremoto from "../assets/productos/terremoto.jpg"
-import terremoto2 from "../assets/productos/terremoto2.jpg"
-import terremoto3 from "../assets/productos/terremoto3.jpg"
-import terremoto4 from "../assets/productos/terremoto4.jpg"
-import terremotoNinos from "../assets/productos/terremotoniños.jpg"
-import cocaCola from "../assets/productos/coca-cola.jpg"
-import agua from "../assets/productos/agua.jpg"
-
+import terremoto from "../assets/productos/terremoto.jpg";
+import terremoto2 from "../assets/productos/terremoto2.jpg";
+import terremoto3 from "../assets/productos/terremoto3.jpg";
+import terremoto4 from "../assets/productos/terremoto4.jpg";
+import terremotoNinos from "../assets/productos/terremotoniños.jpg";
+import cocaCola from "../assets/productos/coca-cola.jpg";
+import agua from "../assets/productos/agua.jpg";
 
 const ProductoTerremoto = () => {
   const [cantidad, setCantidad] = useState(1);
+  const [imagenPrincipal, setImagenPrincipal] = useState(terremoto);
 
   const agregarAlCarrito = (nombre, precio) => {
     console.log(`Agregado al carrito: ${nombre} - Cantidad: ${cantidad} - Total: $${precio * cantidad}`);
     // Aquí puedes agregar la lógica del carrito
   };
 
-  // Productos relacionados (solo los 3 que muestras en la imagen)
+  // 🔹 Miniaturas disponibles
+  const miniaturas = [terremoto2, terremoto3, terremoto4];
+
+  // 🔹 Productos relacionados
   const productosRelacionados = [
     { nombre: "Terremoto para Niños", img: terremotoNinos, detalle: "/TerremotoNinos" },
     { nombre: "Bebida Coca Cola", img: cocaCola, detalle: "/CocaCola" },
@@ -28,24 +31,30 @@ const ProductoTerremoto = () => {
     <main>
       {/* Breadcrumb */}
       <div className="breadcrumb">
-        <Link to="/">Inicio</Link> /
-        <Link to="/productos">Productos</Link> /
+        <Link to="/">Inicio</Link> /<Link to="/productos">Productos</Link> /
       </div>
 
       {/* Producto principal */}
       <section className="producto">
         <div className="producto-imagen">
-          <img src={terremoto} alt="Terremoto" />
+          {/* Imagen principal */}
+          <img src={imagenPrincipal} alt="Terremoto" />
+
+          {/* Miniaturas clickeables */}
           <div className="miniaturas">
-            <img src={terremoto2|| terremoto} alt="Vista 1 de terremoto" />
-            <img src={terremoto3 || terremoto} alt="Vista 2 de terremoto" />
-            <img src={terremoto4 || terremoto} alt="Vista 3 de terremoto" />
+            {miniaturas.map((mini, index) => (
+              <img
+                key={index}
+                src={mini}
+                alt={`Vista ${index + 1} del Terremoto`}
+                onClick={() => setImagenPrincipal(mini)}
+                style={{ cursor: "pointer" }}
+              />
+            ))}
           </div>
         </div>
         
         <div className="producto-info">
-          <br />
-          <br />
           <h1>TERREMOTO</h1>
           <p className="precio">$3.500</p>
           <p className="descripcion">
@@ -64,7 +73,7 @@ const ProductoTerremoto = () => {
           <br />
           <button 
             className="btn btn-danger"
-            onClick={() => agregarAlCarrito('Choripán', 3500)}
+            onClick={() => agregarAlCarrito('Terremoto', 3500)}
           >
             AGREGAR AL CARRITO
           </button>
@@ -74,7 +83,7 @@ const ProductoTerremoto = () => {
       {/* Productos relacionados */}
       <section style={{ marginTop: '40px' }}>
         <center>
-        <h1>PRODUCTOS RELACIONADOS</h1>
+          <h1>PRODUCTOS RELACIONADOS</h1>
         </center>
         <div className="productos-relacionados" style={{ 
           display: 'flex', 
@@ -84,22 +93,22 @@ const ProductoTerremoto = () => {
         }}>
           {productosRelacionados.map((producto, index) => (
             <div key={index} className="recuadro" data-categoria={producto.categoria}>
-                <a href={producto.detalle}>
-              <img 
-                src={producto.img} 
-                alt={producto.nombre} 
-                style={{ 
-                  width: '150px', 
-                  height: '150px', 
-                  objectFit: 'cover',
-                  borderRadius: '4px'
-                }} 
-              />
+              <a href={producto.detalle}>
+                <img 
+                  src={producto.img} 
+                  alt={producto.nombre} 
+                  style={{ 
+                    width: '150px', 
+                    height: '150px', 
+                    objectFit: 'cover',
+                    borderRadius: '4px'
+                  }} 
+                />
               </a>
               <a href={producto.detalle}>
-              <h2 style={{ marginTop: '10px', fontSize: '16px' }}>
-                {producto.nombre.toUpperCase()}
-              </h2>
+                <h2 style={{ marginTop: '10px', fontSize: '16px' }}>
+                  {producto.nombre.toUpperCase()}
+                </h2>
               </a>
             </div>
           ))}

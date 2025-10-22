@@ -1,69 +1,81 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import choripan from "../assets/productos/choripan.jpg"
-import completo from "../assets/productos/completo.jpg"
-import completo2 from "../assets/productos/completo2.jpg"
-import completo3 from "../assets/productos/completo3.jpg"
-import completo4 from "../assets/productos/completo4.jpg"
-import anticucho from "../assets/productos/anticucho.jpg"
-import pastelChoclo from "../assets/productos/pastelchoclo.jpg"
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import choripan from "../assets/productos/choripan.jpg";
+import completo from "../assets/productos/completo.jpg";
+import completo2 from "../assets/productos/completo2.jpg";
+import completo3 from "../assets/productos/completo3.jpg";
+import completo4 from "../assets/productos/completo4.jpg";
+import anticucho from "../assets/productos/anticucho.jpg";
+import pastelChoclo from "../assets/productos/pastelchoclo.jpg";
 
 const ProductoCompleto = () => {
   const [cantidad, setCantidad] = useState(1);
+  const [imagenPrincipal, setImagenPrincipal] = useState(completo);
 
   const agregarAlCarrito = (nombre, precio) => {
-    console.log(`Agregado al carrito: ${nombre} - Cantidad: ${cantidad} - Total: $${precio * cantidad}`);
+    console.log(
+      `Agregado al carrito: ${nombre} - Cantidad: ${cantidad} - Total: $${precio * cantidad}`
+    );
     // Aquí puedes agregar la lógica del carrito
   };
 
-  // Productos relacionados (solo los 3 que muestras en la imagen)
+  // 🔹 Miniaturas disponibles
+  const miniaturas = [completo2, completo3, completo4];
+
+  // 🔹 Productos relacionados
   const productosRelacionados = [
     { nombre: "Anticucho", img: anticucho, detalle: "/Anticucho" },
-    { nombre: "Choripan", img: choripan, detalle: "/Choripan" },
-    { nombre: "Pastel de Choclo", img: pastelChoclo, detalle: "/PastelChoclo" }
+    { nombre: "Choripán", img: choripan, detalle: "/Choripan" },
+    { nombre: "Pastel de Choclo", img: pastelChoclo, detalle: "/PastelChoclo" },
   ];
 
   return (
     <main>
       {/* Breadcrumb */}
       <div className="breadcrumb">
-        <Link to="/">Inicio</Link> /
-        <Link to="/productos">Productos</Link> /
+        <Link to="/">Inicio</Link> /<Link to="/productos">Productos</Link> /
       </div>
 
       {/* Producto principal */}
       <section className="producto">
         <div className="producto-imagen">
-          <img src={completo} alt="Completo" />
+          {/* Imagen principal */}
+          <img src={imagenPrincipal} alt="Completo Italiano" />
+
+          {/* Miniaturas clickeables */}
           <div className="miniaturas">
-            <img src={completo2 || completo} alt="Vista 1 del completo" />
-            <img src={completo3 || completo} alt="Vista 2 del completo" />
-            <img src={completo4 || completo} alt="Vista 3 del completo" />
+            {miniaturas.map((mini, index) => (
+              <img
+                key={index}
+                src={mini}
+                alt={`Vista ${index + 1} del Completo Italiano`}
+                onClick={() => setImagenPrincipal(mini)}
+                style={{ cursor: "pointer" }}
+              />
+            ))}
           </div>
         </div>
-        
+
         <div className="producto-info">
-          <br />
-          <br />
           <h1>COMPLETO ITALIANO</h1>
           <p className="precio">$3.500</p>
           <p className="descripcion">
             Tradicional completo chileno con palta, tomate y mayonesa.
           </p>
-          
+
           <label htmlFor="cantidad">Cantidad:</label>
-          <input 
-            type="number" 
-            id="cantidad" 
+          <input
+            type="number"
+            id="cantidad"
             value={cantidad}
             min="1"
             onChange={(e) => setCantidad(parseInt(e.target.value) || 1)}
           />
           <br />
           <br />
-          <button 
+          <button
             className="btn btn-danger"
-            onClick={() => agregarAlCarrito('Choripán', 3500)}
+            onClick={() => agregarAlCarrito("Completo Italiano", 3500)}
           >
             AGREGAR AL CARRITO
           </button>
@@ -71,34 +83,37 @@ const ProductoCompleto = () => {
       </section>
 
       {/* Productos relacionados */}
-      <section style={{ marginTop: '40px' }}>
+      <section style={{ marginTop: "40px" }}>
         <center>
-        <h1>PRODUCTOS RELACIONADOS</h1>
+          <h1>PRODUCTOS RELACIONADOS</h1>
         </center>
-        <div className="productos-relacionados" style={{ 
-          display: 'flex', 
-          gap: '20px', 
-          justifyContent: 'center',
-          flexWrap: 'wrap' 
-        }}>
+        <div
+          className="productos-relacionados"
+          style={{
+            display: "flex",
+            gap: "20px",
+            justifyContent: "center",
+            flexWrap: "wrap",
+          }}
+        >
           {productosRelacionados.map((producto, index) => (
             <div key={index} className="recuadro" data-categoria={producto.categoria}>
-                <a href={producto.detalle}>
-              <img 
-                src={producto.img} 
-                alt={producto.nombre} 
-                style={{ 
-                  width: '150px', 
-                  height: '150px', 
-                  objectFit: 'cover',
-                  borderRadius: '4px'
-                }} 
-              />
+              <a href={producto.detalle}>
+                <img
+                  src={producto.img}
+                  alt={producto.nombre}
+                  style={{
+                    width: "150px",
+                    height: "150px",
+                    objectFit: "cover",
+                    borderRadius: "4px",
+                  }}
+                />
               </a>
               <a href={producto.detalle}>
-              <h2 style={{ marginTop: '10px', fontSize: '16px' }}>
-                {producto.nombre.toUpperCase()}
-              </h2>
+                <h2 style={{ marginTop: "10px", fontSize: "16px" }}>
+                  {producto.nombre.toUpperCase()}
+                </h2>
               </a>
             </div>
           ))}

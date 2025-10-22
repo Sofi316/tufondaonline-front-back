@@ -1,22 +1,28 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import choripanveg from "../assets/productos/choripanveg.jpg"
-import choripanveg2 from "../assets/productos/choripanveg2.jpg"
-import choripanveg3 from "../assets/productos/choripanveg3.jpg"
-import choripanveg4 from "../assets/productos/choripanveg4.jpg"
-import anticuchoverdura from "../assets/productos/anticuchoverdura.jpg"
-import completoveg from "../assets/productos/completoveg.jpg"
-import pastelchocloveg from "../assets/productos/pastelchocloveg.jpg"
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import choripanveg from "../assets/productos/choripanveg.jpg";
+import choripanveg2 from "../assets/productos/choripanveg2.jpg";
+import choripanveg3 from "../assets/productos/choripanveg3.jpg";
+import choripanveg4 from "../assets/productos/choripanveg4.jpg";
+import anticuchoverdura from "../assets/productos/anticuchoverdura.jpg";
+import completoveg from "../assets/productos/completoveg.jpg";
+import pastelchocloveg from "../assets/productos/pastelchocloveg.jpg";
 
 const ProductoChoripanVeg = () => {
   const [cantidad, setCantidad] = useState(1);
+  const [imagenPrincipal, setImagenPrincipal] = useState(choripanveg);
 
   const agregarAlCarrito = (nombre, precio) => {
-    console.log(`Agregado al carrito: ${nombre} - Cantidad: ${cantidad} - Total: $${precio * cantidad}`);
+    console.log(
+      `Agregado al carrito: ${nombre} - Cantidad: ${cantidad} - Total: $${precio * cantidad}`
+    );
     // Aquí puedes agregar la lógica del carrito
   };
 
-  // Productos relacionados (solo los 3 que muestras en la imagen)
+  // 🔹 Miniaturas disponibles
+  const miniaturas = [choripanveg2, choripanveg3, choripanveg4];
+
+  // 🔹 Productos relacionados
   const productosRelacionados = [
     { nombre: "Anticucho de Verduras", img: anticuchoverdura, detalle: "/AnticuchoVerdura" },
     { nombre: "Completo Italiano Vegano", img: completoveg, detalle: "/CompletoVegano" },
@@ -27,43 +33,49 @@ const ProductoChoripanVeg = () => {
     <main>
       {/* Breadcrumb */}
       <div className="breadcrumb">
-        <Link to="/">Inicio</Link> /
-        <Link to="/productos">Productos</Link> /
+        <Link to="/">Inicio</Link> /<Link to="/productos">Productos</Link> /
       </div>
 
       {/* Producto principal */}
       <section className="producto">
         <div className="producto-imagen">
-          <img src={choripanveg} alt="Choripan Vegano" />
+          {/* 🔹 Imagen principal (cambia al hacer clic en una miniatura) */}
+          <img src={imagenPrincipal} alt="Choripán Vegano" />
+
+          {/* 🔹 Miniaturas clickeables */}
           <div className="miniaturas">
-            <img src={choripanveg2 || choripanveg} alt="Vista 1 del choripan vegano" />
-            <img src={choripanveg3 || choripanveg} alt="Vista 2 del choripan vegano" />
-            <img src={choripanveg4 || choripanveg} alt="Vista 3 del choripan vegano" />
+            {miniaturas.map((mini, index) => (
+              <img
+                key={index}
+                src={mini}
+                alt={`Vista ${index + 1} del Choripán Vegano`}
+                onClick={() => setImagenPrincipal(mini)}
+                style={{ cursor: "pointer" }}
+              />
+            ))}
           </div>
         </div>
-        
+
         <div className="producto-info">
-          <br />
-          <br />
           <h1>CHORIPÁN VEGANO</h1>
           <p className="precio">$3.000</p>
           <p className="descripcion">
             El tradicional choripán chileno, ahora en su versión vegana. Disfruta de un delicioso chorizo vegetal libre de carne.
           </p>
-          
+
           <label htmlFor="cantidad">Cantidad:</label>
-          <input 
-            type="number" 
-            id="cantidad" 
+          <input
+            type="number"
+            id="cantidad"
             value={cantidad}
             min="1"
             onChange={(e) => setCantidad(parseInt(e.target.value) || 1)}
           />
           <br />
           <br />
-          <button 
+          <button
             className="btn btn-danger"
-            onClick={() => agregarAlCarrito('Choripán', 3500)}
+            onClick={() => agregarAlCarrito("Choripán Vegano", 3000)}
           >
             AGREGAR AL CARRITO
           </button>
@@ -71,34 +83,37 @@ const ProductoChoripanVeg = () => {
       </section>
 
       {/* Productos relacionados */}
-      <section style={{ marginTop: '40px' }}>
+      <section style={{ marginTop: "40px" }}>
         <center>
-        <h1>PRODUCTOS RELACIONADOS</h1>
+          <h1>PRODUCTOS RELACIONADOS</h1>
         </center>
-        <div className="productos-relacionados" style={{ 
-          display: 'flex', 
-          gap: '20px', 
-          justifyContent: 'center',
-          flexWrap: 'wrap' 
-        }}>
+        <div
+          className="productos-relacionados"
+          style={{
+            display: "flex",
+            gap: "20px",
+            justifyContent: "center",
+            flexWrap: "wrap",
+          }}
+        >
           {productosRelacionados.map((producto, index) => (
             <div key={index} className="recuadro" data-categoria={producto.categoria}>
-                <a href={producto.detalle}>
-              <img 
-                src={producto.img} 
-                alt={producto.nombre} 
-                style={{ 
-                  width: '150px', 
-                  height: '150px', 
-                  objectFit: 'cover',
-                  borderRadius: '4px'
-                }} 
-              />
+              <a href={producto.detalle}>
+                <img
+                  src={producto.img}
+                  alt={producto.nombre}
+                  style={{
+                    width: "150px",
+                    height: "150px",
+                    objectFit: "cover",
+                    borderRadius: "4px",
+                  }}
+                />
               </a>
               <a href={producto.detalle}>
-              <h2 style={{ marginTop: '10px', fontSize: '16px' }}>
-                {producto.nombre.toUpperCase()}
-              </h2>
+                <h2 style={{ marginTop: "10px", fontSize: "16px" }}>
+                  {producto.nombre.toUpperCase()}
+                </h2>
               </a>
             </div>
           ))}

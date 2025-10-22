@@ -57,7 +57,7 @@ export default function Navbar() {
             
            
             <li className="nav-item">
-              <NavLink to="/about" className="nav-link"
+              <NavLink to="/Nosotros" className="nav-link"
               onClick={() => setIsExpanded(false)}>Nosotros</NavLink>
             </li>
             

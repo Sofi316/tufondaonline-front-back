@@ -24,6 +24,7 @@ import ProductoTerremoto from './pages/ProductoTerremoto';
 import ProductoTerremotoNinos from './pages/ProductoTerremotoNinos';
 import ProductoCocaCola from './pages/ProductoCoca';
 import ProductoAgua from './pages/ProductoAgua';
+import Nosotros from './pages/Nosotros';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import './styles/styles.css'
@@ -56,6 +57,7 @@ export default function App() {
           <Route path="/TerremotoNinos" element={<ProductoTerremotoNinos />} />
           <Route path="/CocaCola" element={<ProductoCocaCola />} />
           <Route path="/Agua" element={<ProductoAgua />} />
+          <Route path="/Nosotros" element={<Nosotros />} />
           <Route path="*" element={<h1>404 - Página no encontrada</h1>} />
 
         </Routes>

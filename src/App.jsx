@@ -14,6 +14,11 @@ import IniciarSesion from './pages/IniciarSesion';
 import Footer from './components/Footer';
 import AdminLayout from './components/AdminLayout';
 import AdminDashboard from './pages/admin/AdminDashboard.jsx';
+import AdminUsuarios from './pages/admin/AdminUsuarios';
+import AdminOrdenes from './pages/admin/AdminOrdenes';
+import AdminVerOrden from './pages/admin/AdminVerOrden';
+import AdminCrearUsuario from './pages/admin/AdminCrearUsuario';
+
 import ProductoChoripan from './pages/ProductoChoripan';
 import ProductoCompleto from './pages/ProductoCompleto';
 import ProductoAnticucho from './pages/ProductoAnticucho';
@@ -71,6 +76,7 @@ export default function App() {
               <Route path="/nosotros" element={<Nosotros />} />
               <Route path="/carrito" element={<Carrito />} />
               <Route path="/iniciarSesion" element={<IniciarSesion />} />
+              <Route path="/registro" element={<Registro />} />
               {/* Esta es la ruta 404 para el sitio público */}
               <Route path="*" element={<h1>404 - Página no encontrada</h1>} />
             </Routes>
@@ -87,9 +93,14 @@ export default function App() {
         {/* 'index' es la página por defecto que se muestra en /admin */}
         <Route index element={<AdminDashboard />} />
         
+        
         {/* Aquí puedes añadir más rutas de admin en el futuro */}
         {/* <Route path="productos" element={<AdminProductos />} /> */}
-        {/* <Route path="usuarios" element={<AdminUsuarios />} /> */}
+        { <Route path="usuarios" element={<AdminUsuarios />} /> }
+        { <Route path="usuarios/crearUser" element={<AdminCrearUsuario />} /> }
+
+        <Route path="ordenes" element={<AdminOrdenes />} />
+        <Route path="ordenes/:id" element={<AdminVerOrden />} /> {/* Ruta de detalle */}
       </Route>
 
     </Routes>

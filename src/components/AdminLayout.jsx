@@ -1,17 +1,17 @@
 import React from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
 // Asegúrate de tener bootstrap-icons (npm install bootstrap-icons)
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 // Importa tus estilos donde añadirás las clases de admin
 
 
 export default function AdminLayout() {
+  const navigate = useNavigate();
   
   // (Aquí iría la lógica para "Cerrar Sesión")
   const handleLogout = () => {
     console.log ("Cerrar sesión");
-    // Aquí borrarías el estado global del usuario y redirigirías al login
-    // navigate('/iniciarSesion');
+    navigate('/iniciarSesion');
   };
 
   return (

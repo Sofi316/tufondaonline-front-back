@@ -23,6 +23,10 @@ function Productos() {
 
   return (
     <div className="pagina-productos">
+            {/* Breadcrumb */}
+            <div className="breadcrumb">
+              <Link to="/">Inicio</Link>
+            </div>
       <br />
       <center>
         <h1>Todos los productos</h1>

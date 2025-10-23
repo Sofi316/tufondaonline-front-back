@@ -11,6 +11,7 @@ import Blog2 from './pages/Blog2';
 import Contacto from './pages/Contacto';
 import Nosotros from './pages/Nosotros';
 import IniciarSesion from './pages/IniciarSesion';
+import Ofertas from './pages/Ofertas.jsx';
 import Footer from './components/Footer';
 import AdminLayout from './components/AdminLayout';
 import AdminDashboard from './pages/admin/AdminDashboard.jsx';
@@ -57,6 +58,7 @@ export default function App() {
               <Route path="/blogs" element={<Blogs />} />
               <Route path="/blog1" element={<Blog1 />} />
               <Route path="/blog2" element={<Blog2 />} />
+              <Route path="/ofertas" element={<Ofertas />} /> 
               <Route path="/contacto" element={<Contacto />} />
               <Route path="/choripan" element={<ProductoChoripan />} />
               <Route path="/completo" element={<ProductoCompleto />} />

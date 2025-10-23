@@ -6,7 +6,7 @@ import FiltroCategorias from "../components/Filtrado";
 
 function Productos() {
   const { agregarAlCarrito } = useCarrito();
-  const [categoriaFiltro, setCategoriaFiltro] = useState('Todas');
+  const [categoriaFiltro, setCategoriaFiltro] = useState('Todos los productos');
 
   const productosFiltrados = categoriaFiltro === 'Todos los productos' 
     ? productos 
@@ -36,7 +36,7 @@ function Productos() {
       <div className="categoria-activa">
         <center>
           <h3>
-            {categoriaFiltro === 'Todas' 
+            {categoriaFiltro === 'Todos los productos' 
               ? 'Productos para su mesa' 
               : `Categoría: ${categoriaFiltro}`
             }

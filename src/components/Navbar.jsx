@@ -80,14 +80,20 @@ export default function Navbar() {
             </li>
              {/* CARRITO DE COMPRAS - ACTUALIZADO */}
             <li className="nav-item">
-              <NavLink to="/Carrito" className="nav-link position-relative"
+              <NavLink to="/Carrito" className="nav-link" 
               onClick={() => setIsExpanded(false)}>
-                <i className="bi bi-cart3 fs-5"></i>
-                {totalProductos > 0 && (
-                    <span className="position-absolute top-0 start-100 translate-middle badge bg-danger rounded-pill">
-                        {totalProductos}
-                    </span>
-                )}
+                
+                {/* 1. Envolvemos el icono en un span */}
+                <span className="position-relative d-inline-block "> {/* Lo hacemos relativo y en línea */}
+                  <i className="bi bi-cart3 fs-5"></i> {/* Icono */}
+                  
+                  {/* 2. El badge ahora se posiciona relativo AL SPAN */}
+                  {totalProductos > 0 && (
+                      <span className="position-absolute top-1 start-100 ms-2 badge bg-danger rounded-pill"> 
+                          {totalProductos}
+                      </span>
+                  )}
+                </span> {/* Cerramos el span contenedor */}
               </NavLink>
             </li>
 

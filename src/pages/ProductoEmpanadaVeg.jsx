@@ -7,14 +7,26 @@ import empanada4 from "../assets/productos/empanada4.jpg";
 import choripanveg from "../assets/productos/choripanveg.jpg";
 import anticuchoverdura from "../assets/productos/anticuchoverdura.jpg";
 import pastelchocloveg from "../assets/productos/pastelchocloveg.jpg";
+import { useCarrito } from "../components/CarritoContext";
 
 const ProductoEmpanadaVeg = () => {
   const [cantidad, setCantidad] = useState(1);
   const [imagenPrincipal, setImagenPrincipal] = useState(empanadaveg);
+  const { agregarAlCarrito } = useCarrito();
 
-  const agregarAlCarrito = (nombre, precio) => {
-    console.log(`Agregado al carrito: ${nombre} - Cantidad: ${cantidad} - Total: $${precio * cantidad}`);
-    // Aquí puedes agregar la lógica del carrito
+  const handleAgregarAlCarrito = () => {
+    // Agregar la cantidad seleccionada al carrito
+    for (let i = 0; i < cantidad; i++) {
+      agregarAlCarrito("Empanada Vegana", 5000, empanadaveg);
+    }
+    
+    console.log(`✅ ${cantidad} ${cantidad === 1 ? 'empanada vegana' : 'empanadas veganas'} agregada${cantidad === 1 ? '' : 's'} al carrito`);
+    
+    // Mostrar mensaje de confirmación
+    alert(`✅ ${cantidad} ${cantidad === 1 ? 'empanada vegana' : 'empanadas veganas'} agregada${cantidad === 1 ? '' : 's'} al carrito`);
+    
+    // Opcional: Resetear la cantidad a 1 después de agregar
+    setCantidad(1);
   };
 
   // 🔹 Miniaturas disponibles
@@ -73,9 +85,9 @@ const ProductoEmpanadaVeg = () => {
           <br />
           <button 
             className="btn btn-danger"
-            onClick={() => agregarAlCarrito('Empanada Vegana', 5000)}
+            onClick={handleAgregarAlCarrito}
           >
-            AGREGAR AL CARRITO
+            AGREGAR {cantidad > 1 ? `${cantidad} AL ` : ''}CARRITO
           </button>
         </div>
       </section>
@@ -93,7 +105,7 @@ const ProductoEmpanadaVeg = () => {
         }}>
           {productosRelacionados.map((producto, index) => (
             <div key={index} className="recuadro" data-categoria={producto.categoria}>
-              <a href={producto.detalle}>
+              <Link to={producto.detalle}>
                 <img 
                   src={producto.img} 
                   alt={producto.nombre} 
@@ -104,12 +116,12 @@ const ProductoEmpanadaVeg = () => {
                     borderRadius: '4px'
                   }} 
                 />
-              </a>
-              <a href={producto.detalle}>
+              </Link>
+              <Link to={producto.detalle}>
                 <h2 style={{ marginTop: '10px', fontSize: '16px' }}>
                   {producto.nombre.toUpperCase()}
                 </h2>
-              </a>
+              </Link>
             </div>
           ))}
         </div>

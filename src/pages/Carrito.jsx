@@ -20,7 +20,7 @@ function Carrito() {
       {carrito.length === 0 ? (
         <div className="text-center py-5">
           <p>Tu carrito está vacío</p>
-          <Link to="/productos" className="btn btn-primary">
+          <Link to="/categorias" className="btn btn-primary">
             Ver Productos
           </Link>
         </div>

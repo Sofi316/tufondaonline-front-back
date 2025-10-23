@@ -5,7 +5,7 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Footer from './components/Footer';
 import Registro from './pages/Registro';
-import Productos from './pages/Productos';
+import Categorias from './pages/Categorias'
 import Blogs from './pages/Blogs';
 import Blog1 from './pages/Blog1';
 import Blog2 from './pages/Blog2';
@@ -38,7 +38,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/registro" element={<Registro />} />
-          <Route path="/productos" element={<Productos />} />
+          <Route path='/categorias' element={<Categorias />} />
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/blog1" element={<Blog1 />} />
           <Route path="/blog2" element={<Blog2 />} />

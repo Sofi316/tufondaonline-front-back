@@ -13,7 +13,7 @@ function Carrito() {
     <div className="container mt-4">
         {/* Breadcrumb */}
         <div className="breadcrumb">
-        <Link to="/">Inicio</Link> /<Link to="/productos">Productos</Link> /
+        <Link to="/">Inicio</Link> /<Link to="/categorias">Categorias</Link> /
         </div>
       <h2>Carrito de Compras</h2>
       

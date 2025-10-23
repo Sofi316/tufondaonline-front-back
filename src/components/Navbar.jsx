@@ -35,66 +35,72 @@ export default function Navbar() {
                     <div className={`collapse navbar-collapse ${isExpanded ? 'show' : ''}`} 
                         id="mainNavbar">
 
-                        {/* ENLACES */}
-                        <ul className="navbar-nav ms-auto">
-                            <li className="nav-item">
-                                <NavLink to="/" className="nav-link"
-                                onClick={() => setIsExpanded(false)}>Inicio</NavLink>
-                            </li>
-                            <li className="nav-item">
-                                <NavLink to="/Categorias" className="nav-link"
-                                onClick={() => setIsExpanded(false)}>Categorías</NavLink>
-                            </li>
-                            <li className="nav-item">
-                                <NavLink to="/Ofertas" className="nav-link"
-                                onClick={() => setIsExpanded(false)}>Ofertas</NavLink>
-                            </li>
-                            <li className="nav-item">
-                                <NavLink to="/Blogs" className="nav-link"
-                                onClick={() => setIsExpanded(false)}>Blogs</NavLink>
-                            </li>
-                            
-                        
-                            <li className="nav-item">
-                                <NavLink to="/Nosotros" className="nav-link"
-                                onClick={() => setIsExpanded(false)}>Nosotros</NavLink>
-                            </li>
-                            
-                        
-                            <li className="nav-item">
-                                <NavLink to="/Contacto" className="nav-link"
-                                onClick={() => setIsExpanded(false)}>Contacto</NavLink>
-                            </li>
+          {/* ENLACES */}
+          <ul className="navbar-nav ms-auto">
+            <li className="nav-item">
+              <NavLink to="/" className="nav-link"
+              onClick={() => setIsExpanded(false)}>Inicio</NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink to="/categorias" className="nav-link"
+              onClick={() => setIsExpanded(false)}>Categorías</NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink to="/ofertas" className="nav-link"
+              onClick={() => setIsExpanded(false)}>Ofertas</NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink to="/blogs" className="nav-link"
+              onClick={() => setIsExpanded(false)}>Blogs</NavLink>
+            </li>
+            
+           
+            <li className="nav-item">
+              <NavLink to="/nosotros" className="nav-link"
+              onClick={() => setIsExpanded(false)}>Nosotros</NavLink>
+            </li>
+            
+           
+            <li className="nav-item">
+              <NavLink to="/contacto" className="nav-link"
+              onClick={() => setIsExpanded(false)}>Contacto</NavLink>
+            </li>
 
-                            <li className="nav-item me-2"> 
-                                <Link to="/IniciarSesion" className="btn btn-danger">
-                                    Iniciar Sesión
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link to="/Registro" className="btn btn-primary">
-                                    Crear cuenta
-                                </Link>
-                            </li>
-                            
-                            {/* CARRITO DE COMPRAS - ACTUALIZADO */}
-                            <li className="nav-item">
-                                <NavLink to="/Carrito" className="nav-link position-relative"
-                                onClick={() => setIsExpanded(false)}>
-                                    <i className="bi bi-cart3 fs-5"></i>
-                                    {totalProductos > 0 && (
-                                        <span className="position-absolute top-0 start-100 translate-middle badge bg-danger rounded-pill">
-                                            {totalProductos}
-                                        </span>
-                                    )}
-                                </NavLink>
-                            </li>
-                            
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-            <img src={banderas} alt="banderines" className="img-fluid d-block mb-0" />
-        </>
-    );
+            <li className="nav-item me-2"> 
+              <Link to="/iniciarSesion" className="btn btn-danger">
+                  Iniciar Sesión
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/registro" className="btn btn-primary">
+                  Crear cuenta
+              </Link>
+            </li>
+             {/* CARRITO DE COMPRAS - ACTUALIZADO */}
+            <li className="nav-item">
+              <NavLink to="/Carrito" className="nav-link" 
+              onClick={() => setIsExpanded(false)}>
+                
+                {/* 1. Envolvemos el icono en un span */}
+                <span className="position-relative d-inline-block "> {/* Lo hacemos relativo y en línea */}
+                  <i className="bi bi-cart3 fs-5"></i> {/* Icono */}
+                  
+                  {/* 2. El badge ahora se posiciona relativo AL SPAN */}
+                  {totalProductos > 0 && (
+                      <span className="position-absolute top-1 start-100 ms-2 badge bg-danger rounded-pill"> 
+                          {totalProductos}
+                      </span>
+                  )}
+                </span> {/* Cerramos el span contenedor */}
+              </NavLink>
+            </li>
+
+          </ul>
+        </div>
+
+      </div>
+    </nav>
+    <img src={banderas} alt="banderines" className="img-fluid d-block mb-0" />
+    </>
+  );
 }

@@ -43,7 +43,7 @@ const ProductoEmpanadaQueso = () => {
     <main>
       {/* Breadcrumb */}
       <div className="breadcrumb">
-        <Link to="/">Inicio</Link> /<Link to="/productos">Productos</Link> /
+        <Link to="/">Inicio</Link> /<Link to="/categorias">Categorias</Link> /
       </div>
 
       {/* Producto principal */}

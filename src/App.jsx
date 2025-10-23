@@ -10,7 +10,7 @@ import Nosotros from './pages/Nosotros';
 import IniciarSesion from './pages/IniciarSesion';
 import Footer from './components/Footer';
 import AdminLayout from './components/AdminLayout';
-import AdminDashboard from './pages/AdminDashboard';
+import AdminDashboard from './pages/admin/AdminDashboard.jsx';
 
 export default function App() {
   return (
@@ -40,6 +40,7 @@ export default function App() {
 
       {/* --- GRUPO 2: RUTAS DE ADMINISTRADOR --- */}
       {/* Esta ruta carga el layout de admin */}
+      
       <Route path="/admin" element={<AdminLayout />}>
         {/* 'index' es la página por defecto que se muestra en /admin */}
         <Route index element={<AdminDashboard />} />

@@ -9,7 +9,7 @@ export default function AdminLayout() {
   
   // (Aquí iría la lógica para "Cerrar Sesión")
   const handleLogout = () => {
-    console.log("Cerrar sesión");
+    console.log ("Cerrar sesión");
     // Aquí borrarías el estado global del usuario y redirigirías al login
     // navigate('/iniciarSesion');
   };

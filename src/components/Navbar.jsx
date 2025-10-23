@@ -3,15 +3,16 @@ import logoFonda from "../assets/Fonda_som.png";
 import React, { useState } from 'react';
 import banderas from "../assets/Banderines.png";
 import { Link } from "react-router-dom";
+import { useCarrito } from "../components/CarritoContext";
 
 export default function Navbar() {
     const [isExpanded, setIsExpanded] = useState(false);
-  return (
-    <>
-    
-    <nav className="navbar navbar-expand-lg navbar-dark navbar-custom">
-      
-      <div className="container ps-0">
+    const { totalProductos } = useCarrito(); 
+
+    return (
+        <>
+            <nav className="navbar navbar-expand-lg navbar-dark navbar-custom">
+                <div className="container ps-0">
 
         {/* Logo */}
         <NavLink to="/" className="navbar-brand">
@@ -77,17 +78,19 @@ export default function Navbar() {
                   Crear cuenta
               </Link>
             </li>
-            {/* CARRITO DE COMPRAS (falta funcionalidad) */}
+             {/* CARRITO DE COMPRAS - ACTUALIZADO */}
             <li className="nav-item">
-              <NavLink to="/carrito" className="nav-link"
+              <NavLink to="/Carrito" className="nav-link position-relative"
               onClick={() => setIsExpanded(false)}>
-                <i className="bi bi-cart"></i>
-                <span className="badge bg-danger rounded-pill ms-1">
-                  0
-                </span>
+                <i className="bi bi-cart3 fs-5"></i>
+                {totalProductos > 0 && (
+                    <span className="position-absolute top-0 start-100 translate-middle badge bg-danger rounded-pill">
+                        {totalProductos}
+                    </span>
+                )}
               </NavLink>
             </li>
-            
+
           </ul>
         </div>
 

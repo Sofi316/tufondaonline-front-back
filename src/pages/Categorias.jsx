@@ -8,7 +8,6 @@ function Productos() {
   const { agregarAlCarrito } = useCarrito();
   const [categoriaFiltro, setCategoriaFiltro] = useState('Todas');
 
-  // Filtrar productos según la categoría seleccionada
   const productosFiltrados = categoriaFiltro === 'Todas' 
     ? productos 
     : productos.filter(producto => producto.categoria === categoriaFiltro);
@@ -23,26 +22,36 @@ function Productos() {
   };
 
   return (
-    <div className="contenedor-productos">
+    <div className="pagina-productos">
       <br />
-      
-      {/* Breadcrumb */}
-      <div className="breadcrumb">
-        <Link to="/">Inicio</Link> / <Link to="/productos">Productos</Link> /
-      </div>
-      
       <center>
-        <h1>Productos para su mesa</h1>
+        <h1>Todos los productos</h1>
       </center>
       <br />
-
+      
       {/* Componente de filtro */}
       <FiltroCategorias onFiltroChange={handleFiltroChange} />
+      
+      {/* Indicador de categoría activa */}
+      <div className="categoria-activa">
+        <center>
+          <h3>
+            {categoriaFiltro === 'Todas' 
+              ? 'Productos para su mesa' 
+              : `Categoría: ${categoriaFiltro}`
+            }
+          </h3>
+        </center>
+      </div>
 
-      {/* Grid de productos */}
-      <div className="grid-productos">
+      {/* CONTENEDOR ESPECÍFICO PARA EL GRID DE PRODUCTOS */}
+      <div className="contenedor-productos">
         {productosFiltrados.map((producto) => (
-          <div className="recuadro" data-categoria={producto.categoria} key={producto.nombre}>
+          <div 
+            className="recuadro" 
+            data-categoria={producto.categoria} 
+            key={producto.nombre}
+          >
             <Link to={producto.detalle}>
               <img src={producto.img} alt={producto.nombre} />
             </Link>
@@ -50,8 +59,8 @@ function Productos() {
               <Link to={producto.detalle}>{producto.nombre}</Link>
             </h2>
             <p>${producto.precio.toLocaleString("es-CL")}</p>
-            <button
-              className="btn btn-danger"
+            <button 
+              className="btn btn-danger" 
               onClick={() => handleAgregarAlCarrito(producto)}
             >
               Agregar al carrito
@@ -63,7 +72,9 @@ function Productos() {
       {/* Mensaje si no hay productos */}
       {productosFiltrados.length === 0 && (
         <div className="no-productos">
-          <h3>No hay productos en esta categoría</h3>
+          <center>
+            <h3>No hay productos en esta categoría</h3>
+          </center>
         </div>
       )}
     </div>

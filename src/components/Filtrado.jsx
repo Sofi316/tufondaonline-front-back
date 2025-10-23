@@ -1,41 +1,48 @@
-import React, { useState } from 'react';
-import { productos } from "../data/productosData";
+import React from "react";
 
 const FiltroCategorias = ({ onFiltroChange }) => {
-  const [categoriaActiva, setCategoriaActiva] = useState('Todas');
-
-  // Obtener categorías únicas
   const categorias = [
-    { 
-      nombre: 'Todas', 
-      cantidad: productos.length 
+    {
+      nombre: "Todas",
+      imagen: "https://via.placeholder.com/100x100?text=Todas",
+      activa: true
     },
-    ...Array.from(new Set(productos.map(p => p.categoria))).map(categoria => ({
-      nombre: categoria,
-      cantidad: productos.filter(p => p.categoria === categoria).length
-    }))
+    {
+      nombre: "Plato con Carne",
+      imagen: "https://via.placeholder.com/100x100?text=Carne",
+      activa: true
+    },
+    {
+      nombre: "Plato sin carne",
+      imagen: "https://via.placeholder.com/100x100?text=Vegano",
+      activa: true
+    },
+    {
+      nombre: "Bebestible",
+      imagen: "https://via.placeholder.com/100x100?text=Bebidas",
+      activa: true
+    }
   ];
 
   const handleCategoriaClick = (categoria) => {
-    setCategoriaActiva(categoria);
     onFiltroChange(categoria);
   };
 
   return (
-    <div className="card mb-4">
-      <div className="card-body">
-        <h5 className="card-title mb-3">Filtrar por categoría</h5>
-        <div className="d-flex flex-wrap gap-2">
-          {categorias.map((categoria) => (
-            <button
-              key={categoria.nombre}
-              className={`btn ${categoriaActiva === categoria.nombre ? 'btn-primary' : 'btn-outline-primary'}`}
-              onClick={() => handleCategoriaClick(categoria.nombre)}
-            >
-              {categoria.nombre} <span className="badge bg-light text-dark ms-1">{categoria.cantidad}</span>
-            </button>
-          ))}
-        </div>
+    <div className="filtro-categorias">
+      <div className="categorias-container">
+        {categorias.map((categoria, index) => (
+          <div
+            key={index}
+            className="categoria-item"
+            onClick={() => handleCategoriaClick(categoria.nombre)}
+          >
+            <div className="categoria-imagen">
+              <img src={categoria.imagen} alt={categoria.nombre} />
+            </div>
+            <span className="categoria-nombre">{categoria.nombre}</span>
+          </div>
+        ))}
       </div>
     </div>
   );

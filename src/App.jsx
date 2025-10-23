@@ -1,12 +1,13 @@
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
+import { CarritoProvider } from './components/CarritoContext';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Registro from './pages/Registro';
 import Productos from './pages/Productos';
 import Blogs from './pages/Blogs';
-import Blog1 from './pages/Blog1'; // Asumo que esta es la página BlogDetalle1
-import Blog2 from './pages/Blog2'; // Asumo que esta es la página BlogDetalle2
+import Blog1 from './pages/Blog1'; 
+import Blog2 from './pages/Blog2'; 
 import Contacto from './pages/Contacto';
 import Nosotros from './pages/Nosotros';
 import IniciarSesion from './pages/IniciarSesion';

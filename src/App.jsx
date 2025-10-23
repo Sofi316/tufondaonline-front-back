@@ -53,23 +53,23 @@ export default function App() {
               <Route path="/blog1" element={<Blog1 />} />
               <Route path="/blog2" element={<Blog2 />} />
               <Route path="/contacto" element={<Contacto />} />
-              <Route path="/Choripan" element={<ProductoChoripan />} />
-              <Route path="/Completo" element={<ProductoCompleto />} />
-              <Route path="/Anticucho" element={<ProductoAnticucho />} />
-              <Route path="/PastelChoclo" element={<ProductoPastelChoclo />} />
-              <Route path="/Empanada" element={<ProductoEmpanada />} />
-              <Route path="/ChoripanVegano" element={<ProductoChoripanVeg />} />
-              <Route path="/CompletoVegano" element={<ProductoCompletoVeg />} />
-              <Route path="/EmpanadaVegana" element={<ProductoEmpanadaVeg />} />
-              <Route path="/EmpanadaQueso" element={<ProductoEmpanadaQueso />} />
-              <Route path="/AnticuchoVerdura" element={<ProductoAnticuchoVeg />} />
-              <Route path="/PastelChocloVegano" element={<ProductoPastelChocloVeg />} />
-              <Route path="/Terremoto" element={<ProductoTerremoto />} />
-              <Route path="/TerremotoNinos" element={<ProductoTerremotoNinos />} />
-              <Route path="/CocaCola" element={<ProductoCocaCola />} />
-              <Route path="/Agua" element={<ProductoAgua />} />
+              <Route path="/choripan" element={<ProductoChoripan />} />
+              <Route path="/completo" element={<ProductoCompleto />} />
+              <Route path="/anticucho" element={<ProductoAnticucho />} />
+              <Route path="/pastelChoclo" element={<ProductoPastelChoclo />} />
+              <Route path="/empanada" element={<ProductoEmpanada />} />
+              <Route path="/choripanVegano" element={<ProductoChoripanVeg />} />
+              <Route path="/completoVegano" element={<ProductoCompletoVeg />} />
+              <Route path="/empanadaVegana" element={<ProductoEmpanadaVeg />} />
+              <Route path="/empanadaQueso" element={<ProductoEmpanadaQueso />} />
+              <Route path="/anticuchoVerdura" element={<ProductoAnticuchoVeg />} />
+              <Route path="/pastelChocloVegano" element={<ProductoPastelChocloVeg />} />
+              <Route path="/terremoto" element={<ProductoTerremoto />} />
+              <Route path="/terremotoNinos" element={<ProductoTerremotoNinos />} />
+              <Route path="/aocaCola" element={<ProductoCocaCola />} />
+              <Route path="/agua" element={<ProductoAgua />} />
               <Route path="/nosotros" element={<Nosotros />} />
-              <Route path="/Carrito" element={<Carrito />} />
+              <Route path="/carrito" element={<Carrito />} />
               <Route path="/iniciarSesion" element={<IniciarSesion />} />
               {/* Esta es la ruta 404 para el sitio público */}
               <Route path="*" element={<h1>404 - Página no encontrada</h1>} />

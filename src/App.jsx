@@ -20,6 +20,8 @@ import AdminVerProducto from './pages/admin/AdminVerProducto';
 import AdminEditarProducto from './pages/admin/AdminEditarProducto';
 import AdminProductosCriticos from './pages/admin/AdminProductosCriticos';
 import AdminReportesProductos from './pages/admin/AdminReportesProductos';
+import AdminCategorias from './pages/admin/AdminCategorias';
+import AdminCrearCategoria from './pages/admin/AdminCrearCategoria';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import './styles/styles.css';
@@ -75,6 +77,9 @@ export default function App() {
         <Route path="productos/editar/:id" element={<AdminEditarProducto />} />
         <Route path="productos/criticos" element={<AdminProductosCriticos />} />
         <Route path="productos/reportes" element={<AdminReportesProductos />} />
+
+        <Route path="categorias" element={<AdminCategorias />} />
+        <Route path="categorias/crear" element={<AdminCrearCategoria />} />
       </Route>
 
     </Routes>

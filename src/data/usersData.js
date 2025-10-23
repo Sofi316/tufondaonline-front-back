@@ -1,10 +1,8 @@
-// src/data/usersData.js
 
-// 1. IMPORTAMOS LOS PRODUCTOS REALES DESDE SU ARCHIVO
-import { productos as allProducts } from './productosData.js'; // Asegúrate que la ruta './productosData.js' es correcta
+import { productos as allProducts } from './productosData.js'; 
 
 
-// --- 2. DATOS DE USUARIOS (CRUD COMPLETO) ---
+// ---  DATOS DE USUARIOS  ---
 
 const USERS_DEFAULT = [
   {
@@ -29,15 +27,12 @@ const USERS_DEFAULT = [
   },
 ];
 
-// Cargamos usuarios desde localStorage o usamos la lista por defecto
 let users = JSON.parse(localStorage.getItem('fondaUsers')) || USERS_DEFAULT;
 
-// Función interna para guardar usuarios en localStorage
 function saveUsers() {
     localStorage.setItem('fondaUsers', JSON.stringify(users));
 }
 
-// --- TU FUNCIÓN DE LOGIN (Se mantiene) ---
 export const loginUser = (email, password) => {
   const user = users.find(u => u.email === email);
   if (user && user.password === password) {
@@ -46,33 +41,23 @@ export const loginUser = (email, password) => {
   return null;
 };
 
-// --- FUNCIONES CRUD DE USUARIOS (Requeridas por la rúbrica) ---
+// --- FUNCIONES CRUD DE USUARIOS ---
 
-// LEER (Todos)
 export function getUsuarios() {
-    return [...users]; // Devuelve una copia para evitar mutaciones accidentales
+    return [...users];
 }
 
-// LEER (Uno por ID)
 export function getUsuario(id) {
     return users.find(u => u.id === Number(id));
 }
 
-// CREAR
 export function createUsuario(data) {
     const newId = users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1;
     const newUser = {
-        id: newId,
-        email: data.email,
-        password: data.contraseña,
-        nombre: `${data.nombre} ${data.apellidos}`,
-        role: data.tipo,
-        rut: data.rut,
-        region: data.region,
-        comuna: data.comuna,
-        fechaNac: data.fechaNac,
-        direccion: data.direccion,
-        activo: true,
+        id: newId, email: data.email, password: data.contraseña,
+        nombre: `${data.nombre} ${data.apellidos}`, role: data.tipo, rut: data.rut,
+        region: data.region, comuna: data.comuna, fechaNac: data.fechaNac,
+        direccion: data.direccion, activo: true,
         fechaRegistro: new Date().toISOString().split('T')[0]
     };
     users.push(newUser);
@@ -82,11 +67,9 @@ export function createUsuario(data) {
     return newUser;
 }
 
-// ACTUALIZAR
 export function updateUsuario(id, updatedData) {
     const index = users.findIndex(u => u.id === Number(id));
     if (index !== -1) {
-        // Asegura que 'activo' sea booleano
         if (updatedData.activo !== undefined) {
            updatedData.activo = updatedData.activo === 'true' || updatedData.activo === true;
         }
@@ -97,7 +80,6 @@ export function updateUsuario(id, updatedData) {
     return null;
 }
 
-// ELIMINAR
 export function deleteUsuario(id) {
     const index = users.findIndex(u => u.id === Number(id));
     if (index !== -1) {
@@ -109,10 +91,8 @@ export function deleteUsuario(id) {
 }
 
 
-// --- 3. DATOS DE ÓRDENES (Corregido y Completo) ---
 
-// Orden 1: 1x Choripan (3000) + 4x Completo (14000) + 1x Anticucho (10000) = 27000
-// Orden 2: 4x Choripan (12000) = 12000
+
 const ORDENES_DEFAULT = [
   {
     id: 20240705, userId: 2, clienteNombre: "Sofía Homazábal", clienteEmail: "sofia@duoc.cl",
@@ -125,40 +105,40 @@ const ORDENES_DEFAULT = [
     fecha: "2025-10-21", estado: "Procesando", total: 12000,
     direccion: "Calle Falsa 456, Santiago", region: "Región Metropolitana", comuna: "Maipú",
     items: [ { productId: 1, cantidad: 4 } ]
+  },
+
+   {
+    id: 20240707, userId: 2, clienteNombre: "Sofía Homazábal", clienteEmail: "sofia@duoc.cl",
+    fecha: "2025-10-22", estado: "Cancelado", total: 10000, // 2x Empanada Pino
+    direccion: "Av. Siempre Viva 123, Springfield", region: "Región Metropolitana", comuna: "Santiago",
+    items: [ { productId: 5, cantidad: 2 } ]
   }
 ];
 
-// Cargamos órdenes desde localStorage o usamos la lista por defecto
 let ordenes = JSON.parse(localStorage.getItem('fondaOrdenes')) || ORDENES_DEFAULT;
 
-// Función interna para guardar órdenes en localStorage
 function saveOrdenes() {
   localStorage.setItem('fondaOrdenes', JSON.stringify(ordenes));
 }
 
-// --- FUNCIONES CRUD (Read) para Órdenes ---
 
-// LEER (Todas)
 export function getOrdenes() {
-  return [...ordenes]; // Devuelve una copia
+  return [...ordenes];
 }
 
-// LEER (Una por ID, con productos populados)
 export function getOrden(id) {
   const orden = ordenes.find(o => o.id === Number(id));
   if (!orden) return null;
 
-  // "POPULAMOS" LOS ITEMS DE LA ORDEN
   const populatedItems = orden.items.map(item => {
-    // Buscamos el producto completo en nuestra lista importada
     const producto = allProducts.find(p => p.id === item.productId);
-    // Devolvemos un objeto fusionado con detalles del producto + cantidad
-    return {
-      ...producto, // Trae {id, nombre, precio, img, ...}
-      cantidad: item.cantidad // Añade la cantidad
-    };
-  }).filter(item => item.id); // Filtra por si algún producto no fue encontrado
+    return { ...producto, cantidad: item.cantidad };
+  }).filter(item => item.id); // Evita errores si un producto no se encuentra
 
-  // Devolvemos la orden completa con los items "populados"
   return { ...orden, items: populatedItems };
+}
+
+export function getOrdenesPorUsuario(userId) {
+  // Filtra la lista de todas las órdenes
+  return ordenes.filter(o => o.userId === Number(userId));
 }

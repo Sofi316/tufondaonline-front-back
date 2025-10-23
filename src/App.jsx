@@ -15,6 +15,11 @@ import AdminUsuarios from './pages/admin/AdminUsuarios';
 import Registro from './pages/Registro';
 import AdminOrdenes from './pages/admin/AdminOrdenes';
 import AdminVerOrden from './pages/admin/AdminVerOrden';
+import AdminCrearProducto from './pages/admin/AdminCrearProducto';
+import AdminVerProducto from './pages/admin/AdminVerProducto';
+import AdminEditarProducto from './pages/admin/AdminEditarProducto';
+import AdminProductosCriticos from './pages/admin/AdminProductosCriticos';
+import AdminReportesProductos from './pages/admin/AdminReportesProductos';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import './styles/styles.css';
@@ -64,7 +69,12 @@ export default function App() {
         <Route path="ordenes" element={<AdminOrdenes />} />
         <Route path="ordenes/:id" element={<AdminVerOrden />} /> {/* Ruta de detalle */}
 
-         <Route path="productos" element={<AdminProductos />} />
+        <Route path="productos" element={<AdminProductos />} />
+        <Route path="productos/crear" element={<AdminCrearProducto />} />
+        <Route path="productos/:id" element={<AdminVerProducto />} />
+        <Route path="productos/editar/:id" element={<AdminEditarProducto />} />
+        <Route path="productos/criticos" element={<AdminProductosCriticos />} />
+        <Route path="productos/reportes" element={<AdminReportesProductos />} />
       </Route>
 
     </Routes>

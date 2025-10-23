@@ -8,7 +8,7 @@ function Productos() {
   const { agregarAlCarrito } = useCarrito();
   const [categoriaFiltro, setCategoriaFiltro] = useState('Todas');
 
-  const productosFiltrados = categoriaFiltro === 'Todas' 
+  const productosFiltrados = categoriaFiltro === 'Todos los productos' 
     ? productos 
     : productos.filter(producto => producto.categoria === categoriaFiltro);
 

@@ -1,25 +1,29 @@
 import React from "react";
+import todos from "../assets/productos/todos.jpg"
+import anticucho from "../assets/productos/anticucho.jpg";
+import anticuchoverdura from "../assets/productos/anticuchoverdura.jpg";
+import agua from "../assets/productos/agua.jpg";
 
 const FiltroCategorias = ({ onFiltroChange }) => {
   const categorias = [
     {
-      nombre: "Todas",
-      imagen: "https://via.placeholder.com/100x100?text=Todas",
+      nombre: "Todos los productos",
+      imagen: todos,
       activa: true
     },
     {
       nombre: "Plato con Carne",
-      imagen: "https://via.placeholder.com/100x100?text=Carne",
+      imagen: anticucho,
       activa: true
     },
     {
       nombre: "Plato sin carne",
-      imagen: "https://via.placeholder.com/100x100?text=Vegano",
+      imagen: anticuchoverdura,
       activa: true
     },
     {
       nombre: "Bebestible",
-      imagen: "https://via.placeholder.com/100x100?text=Bebidas",
+      imagen: agua,
       activa: true
     }
   ];

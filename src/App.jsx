@@ -19,6 +19,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import './styles/styles.css';
 import AdminCrearUsuario from './pages/admin/AdminCrearUsuario';
+import AdminProductos from './pages/admin/AdminProductos';
 
 
 export default function App() {
@@ -62,6 +63,8 @@ export default function App() {
 
         <Route path="ordenes" element={<AdminOrdenes />} />
         <Route path="ordenes/:id" element={<AdminVerOrden />} /> {/* Ruta de detalle */}
+
+         <Route path="productos" element={<AdminProductos />} />
       </Route>
 
     </Routes>

@@ -34,9 +34,9 @@ const ProductoCocaCola = () => {
 
   // 🔹 Productos relacionados
   const productosRelacionados = [
-    { nombre: "Terremoto", img: terremoto, detalle: "/Terremoto" },
-    { nombre: "Terremoto para Niños", img: terremotoNinos, detalle: "/TerremotoNinos" },
-    { nombre: "Agua", img: agua, detalle: "/Agua" },
+    { nombre: "Terremoto", img: terremoto, detalle: "/terremoto" },
+    { nombre: "Terremoto para Niños", img: terremotoNinos, detalle: "/terremotoninos" },
+    { nombre: "Agua", img: agua, detalle: "/agua" },
   ];
 
   return (

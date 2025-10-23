@@ -34,9 +34,9 @@ const ProductoEmpanada = () => {
 
   // 🔹 Productos relacionados
   const productosRelacionados = [
-    { nombre: "Anticucho", img: anticucho, detalle: "/Anticucho" },
-    { nombre: "Choripan", img: choripan, detalle: "/Choripan" },
-    { nombre: "Completo Italiano", img: completo, detalle: "/Completo" },
+    { nombre: "Anticucho", img: anticucho, detalle: "/anticucho" },
+    { nombre: "Choripan", img: choripan, detalle: "/choripan" },
+    { nombre: "Completo Italiano", img: completo, detalle: "/completo" },
   ];
 
   return (

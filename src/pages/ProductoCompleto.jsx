@@ -34,9 +34,9 @@ const ProductoCompleto = () => {
 
   // 🔹 Productos relacionados
   const productosRelacionados = [
-    { nombre: "Anticucho", img: anticucho, detalle: "/Anticucho" },
-    { nombre: "Choripán", img: choripan, detalle: "/Choripan" },
-    { nombre: "Pastel de Choclo", img: pastelChoclo, detalle: "/PastelChoclo" },
+    { nombre: "Anticucho", img: anticucho, detalle: "/anticucho" },
+    { nombre: "Choripán", img: choripan, detalle: "/choripan" },
+    { nombre: "Pastel de Choclo", img: pastelChoclo, detalle: "/pastelchoclo" },
   ];
 
   return (

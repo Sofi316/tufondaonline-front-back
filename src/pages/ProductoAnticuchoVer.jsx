@@ -34,9 +34,9 @@ const ProductoAnticuchoVeg = () => {
 
   // 🔹 Productos relacionados
   const productosRelacionados = [
-    { nombre: "Completo Italiano Vegano", img: completoveg, detalle: "/CompletoVegano" },
-    { nombre: "Choripán Vegano", img: choripanveg, detalle: "/ChoripanVegano" },
-    { nombre: "Pastel de Choclo Vegano", img: pastelchocloveg, detalle: "/PastelChocloVegano" },
+    { nombre: "Completo Italiano Vegano", img: completoveg, detalle: "/completovegano" },
+    { nombre: "Choripán Vegano", img: choripanveg, detalle: "/choripanvegano" },
+    { nombre: "Pastel de Choclo Vegano", img: pastelchocloveg, detalle: "/pastelchoclovegano" },
   ];
 
   return (

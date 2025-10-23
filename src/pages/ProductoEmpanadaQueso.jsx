@@ -34,9 +34,9 @@ const ProductoEmpanadaQueso = () => {
 
   // 🔹 Productos relacionados
   const productosRelacionados = [
-    { nombre: "Anticucho de Verduras", img: anticuchoverdura, detalle: "/AnticuchoVerdura" },
-    { nombre: "Choripan Vegano", img: choripanveg, detalle: "/ChoripanVegano" },
-    { nombre: "Pastel de Choclo Vegano", img: pastelchocloveg, detalle: "/PastelChocloVegano" },
+    { nombre: "Anticucho de Verduras", img: anticuchoverdura, detalle: "/anticuchoverdura" },
+    { nombre: "Choripan Vegano", img: choripanveg, detalle: "/choripanvegano" },
+    { nombre: "Pastel de Choclo Vegano", img: pastelchocloveg, detalle: "/pastelchoclovegano" },
   ];
 
   return (

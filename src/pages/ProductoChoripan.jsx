@@ -32,9 +32,9 @@ const ProductoChoripan = () => {
   const miniaturas = [choripan2, choripan3, choripan4];
 
   const productosRelacionados = [
-    { nombre: "Completo Italiano", img: completo, detalle: "/Completo" },
-    { nombre: "Anticucho", img: anticucho, detalle: "/Anticucho" },
-    { nombre: "Pastel de Choclo", img: pastelChoclo, detalle: "/PastelChoclo" },
+    { nombre: "Completo Italiano", img: completo, detalle: "/completo" },
+    { nombre: "Anticucho", img: anticucho, detalle: "/anticucho" },
+    { nombre: "Pastel de Choclo", img: pastelChoclo, detalle: "/pastelchoclo" },
   ];
 
   return (

@@ -16,21 +16,21 @@ import cocaCola from "../assets/productos/coca-cola.jpg"
 import agua from "../assets/productos/agua.jpg"
 
 export const productos = [
-    { nombre: "Choripán", precio: 3000, img: choripan, detalle: "/Choripan", categoria: "Plato con Carne" },
-    { nombre: "Completo Italiano", precio: 3500, img: completo, detalle: "/Completo", categoria: "Plato con Carne" },
-    { nombre: "Anticucho", precio: 10000, img: anticucho, detalle: "/Anticucho", categoria: "Plato con Carne" },
-    { nombre: "Pastel de Choclo", precio: 17000, img: pastelChoclo, detalle: "/PastelChoclo", categoria: "Plato con Carne" },
-    { nombre: "Empanada de Pino", precio: 5000, img: empanada, detalle: "/Empanada", categoria: "Plato con Carne" },
-    { nombre: "Choripán Vegano", precio: 3000, img: choripanVeg, detalle: "/ChoripanVegano", categoria: "Plato sin carne" },
-    { nombre: "Completo Italiano Vegano", precio: 3500, img: completoVeg, detalle: "/CompletoVegano", categoria: "Plato sin carne" },
-    { nombre: "Empanada Vegana", precio: 5000, img: empanadaVeg, detalle: "/EmpanadaVegana", categoria: "Plato sin carne" },
-    { nombre: "Empanada de Queso", precio: 5000, img: empanadaQueso, detalle: "/EmpanadaQueso", categoria: "Plato sin carne" },
-    { nombre: "Anticucho de Verduras", precio: 8000, img: anticuchoVer, detalle: "/AnticuchoVerdura", categoria: "Plato sin carne" },
-    { nombre: "Pastel de Choclo Vegano", precio: 17000, img: pastelChocloVeg, detalle: "/PastelChocloVegano", categoria: "Plato sin carne" },
-    { nombre: "Terremoto", precio: 3500, img: terremoto, detalle: "/Terremoto", categoria: "Bebestible" },
-    { nombre: "Terremoto para Niños", precio: 3000, img: terremotoNinos, detalle: "/TerremotoNinos", categoria: "Bebestible" },
-    { nombre: "Bebida Coca Cola", precio: 2500, img: cocaCola, detalle: "/CocaCola", categoria: "Bebestible" },
-    { nombre: "Agua", precio: 1800, img: agua, detalle: "/Agua", categoria: "Bebestible" },
+    { nombre: "Choripán", precio: 3000, img: choripan, detalle: "/choripan", categoria: "Plato con Carne" },
+    { nombre: "Completo Italiano", precio: 3500, img: completo, detalle: "/completo", categoria: "Plato con Carne" },
+    { nombre: "Anticucho", precio: 10000, img: anticucho, detalle: "/anticucho", categoria: "Plato con Carne" },
+    { nombre: "Pastel de Choclo", precio: 17000, img: pastelChoclo, detalle: "/pastelchoclo", categoria: "Plato con Carne" },
+    { nombre: "Empanada de Pino", precio: 5000, img: empanada, detalle: "/empanada", categoria: "Plato con Carne" },
+    { nombre: "Choripán Vegano", precio: 3000, img: choripanVeg, detalle: "/choripanvegano", categoria: "Plato sin carne" },
+    { nombre: "Completo Italiano Vegano", precio: 3500, img: completoVeg, detalle: "/completovegano", categoria: "Plato sin carne" },
+    { nombre: "Empanada Vegana", precio: 5000, img: empanadaVeg, detalle: "/empanadavegana", categoria: "Plato sin carne" },
+    { nombre: "Empanada de Queso", precio: 5000, img: empanadaQueso, detalle: "/empanadaqueso", categoria: "Plato sin carne" },
+    { nombre: "Anticucho de Verduras", precio: 8000, img: anticuchoVer, detalle: "/anticuchoverdura", categoria: "Plato sin carne" },
+    { nombre: "Pastel de Choclo Vegano", precio: 17000, img: pastelChocloVeg, detalle: "/pastelchoclovegano", categoria: "Plato sin carne" },
+    { nombre: "Terremoto", precio: 3500, img: terremoto, detalle: "/terremoto", categoria: "Bebestible" },
+    { nombre: "Terremoto para Niños", precio: 3000, img: terremotoNinos, detalle: "/terremotoninos", categoria: "Bebestible" },
+    { nombre: "Bebida Coca Cola", precio: 2500, img: cocaCola, detalle: "/cocacola", categoria: "Bebestible" },
+    { nombre: "Agua", precio: 1800, img: agua, detalle: "/agua", categoria: "Bebestible" },
   ];
 
   // Crear

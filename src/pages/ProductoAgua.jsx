@@ -34,9 +34,9 @@ const ProductoAgua = () => {
 
   // 🔹 Productos relacionados
   const productosRelacionados = [
-    { nombre: "Terremoto", img: terremoto, detalle: "/Terremoto" },
-    { nombre: "Terremoto para Niños", img: terremotoNinos, detalle: "/TerremotoNinos" },
-    { nombre: "Bebida Coca Cola", img: cocaCola, detalle: "/CocaCola" },
+    { nombre: "Terremoto", img: terremoto, detalle: "/terremoto" },
+    { nombre: "Terremoto para Niños", img: terremotoNinos, detalle: "/terremotoninos" },
+    { nombre: "Bebida Coca Cola", img: cocaCola, detalle: "/cocacola" },
   ];
 
   return (

@@ -22,7 +22,7 @@ export default function Bienvenida() {
           
           <ul className="mb-0">
             <li>Mayores de 50 años tienen 50% de descuento.</li>
-            <li>Código <strong>FELICES18</strong> para un 18% de descuento en todos nuestros productos.</li>
+            <li>Código <strong>FELICES8</strong> para un 10% de descuento en todos nuestros productos.</li>
             <li>Estudiantes DUOC: <i className="bi bi-balloon"></i>¡Choripan gratis en el día de tu cumpleaños!<i className="bi bi-balloon-fill"></i></li>
           </ul>
         </div>

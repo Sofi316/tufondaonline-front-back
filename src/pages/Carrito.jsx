@@ -22,7 +22,7 @@ function Carrito() {
       {carrito.length === 0 ? (
         <div className="text-center py-5">
           <p>Tu carrito está vacío</p>
-          <Link to="/productos" className="btn btn-primary">
+          <Link to="/categorias" className="btn btn-primary">
             Ver Productos
           </Link>
         </div>
@@ -105,9 +105,9 @@ function Carrito() {
             <div className="col-md-6 text-end">
               {/* Usamos montoTotal del contexto */}
               <h4 className="mb-3">Total: ${montoTotal.toLocaleString('es-CL')}</h4>
-              <button className="btn btn-success btn-lg"> {/* btn-lg */}
+             <Link to="/comprar" className="btn btn-success btn-lg"> 
                 Proceder al Pago
-              </button>
+              </Link>
             </div>
           </div>
         </>

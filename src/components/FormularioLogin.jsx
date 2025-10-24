@@ -1,54 +1,48 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-// 1. Importa la función de login desde tu archivo de datos
-import { loginUser } from '../data/usersData'; 
+// 1. YA NO necesitas importar 'loginUser' de usersData aquí
+// import { loginUser } from '../data/usersData';
+
+// 2. IMPORTA useAuth para acceder al contexto
+import { useAuth } from '../context/AuthContext'; // Asegúrate que la ruta sea correcta
 
 export default function FormularioLogin() {
-  // Estados para guardar los valores de los inputs
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  
-  // Estado para manejar el error
   const [error, setError] = useState('');
-
-  // 2. Hook de React Router para poder redirigir al usuario
   const navigate = useNavigate();
 
+  // 3. OBTÉN la función 'iniciarSesion' del contexto
+  const { iniciarSesion } = useAuth();
+
   const handleSubmit = (e) => {
-    e.preventDefault(); // Previene que la página se recargue
-    setError(''); // Limpia errores anteriores
+    e.preventDefault();
+    setError('');
 
-    // 3. Llama a la función de login que importamos
-    const loggedInUser = loginUser(email, password);
+    // 4. LLAMA a la función 'iniciarSesion' DEL CONTEXTO
+    const loggedInUser = iniciarSesion(email, password); // Esta función actualiza el estado global
 
-    // 4. Comprueba el resultado
+    // 5. Comprueba el resultado (devuelto por la función del contexto)
     if (loggedInUser) {
       // ¡Inicio de sesión exitoso!
-      console.log('¡Inicio de sesión exitoso!', loggedInUser);
-      
-      // (En un futuro, aquí guardarías al usuario en un estado global)
-      
-      // 5. Redirige al usuario según su rol
+      console.log('¡Inicio de sesión exitoso via Context!', loggedInUser);
+
+      // Redirige según el rol (igual que antes)
       if (loggedInUser.role === 'administrador') {
-        // Si es admin, lo mandas al dashboard (ajusta la ruta si es necesario)
-        navigate('/admin'); 
+        navigate('/admin');
       } else {
-        // Si es comprador, lo mandas a la página principal
-        navigate('/'); 
+        navigate('/'); // O a donde quieras redirigir al cliente
       }
 
     } else {
-      // Login fallido
+      // Login fallido (la función del contexto devuelve null)
       setError('Correo o contraseña incorrectos.');
     }
   };
 
   return (
-    // 'noValidate' previene la validación HTML por defecto
     <form onSubmit={handleSubmit} noValidate>
-      
-      {/* Mensaje de error (si existe) */}
       {error && (
         <div className="alert alert-danger" role="alert">
           {error}
@@ -62,8 +56,6 @@ export default function FormularioLogin() {
           type="email"
           id="loginEmail"
           name="email"
-          // 'form-control' es la clase de Bootstrap
-          // 'is-invalid' se añade si hay un error
           className={`form-control ${error ? 'is-invalid' : ''}`}
           placeholder="@duoc.cl, @profesor.duoc.cl..."
           required
@@ -83,13 +75,13 @@ export default function FormularioLogin() {
           placeholder="******"
           required
           minLength="4"
-          maxLength="10"
+          maxLength="10" // Considera quitar este maxlength si las contraseñas pueden ser más largas
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
 
-      {/* Botones de acción */}
+      {/* Botones */}
       <div className="d-grid gap-2 d-md-flex justify-content-md-start">
         <button type="submit" className="btn btn-danger me-md-2">
           Ingresar

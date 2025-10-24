@@ -3,6 +3,7 @@ import { Carousel } from 'react-bootstrap';
 import terremoto from '../assets/terremoto-1.jpg';
 import choripan from '../assets/choripan-1.jpg';
 import sopaipa from "../assets/sopaipa-1.jpg";
+import empanada from "../assets/productos/empanada2.jpg"
 
 export default function Destacados() {
   return (
@@ -40,12 +41,12 @@ export default function Destacados() {
       <Carousel.Item>
         <img
           className="d-block w-100"
-          src={sopaipa} 
-          alt="sopaipilla"
+          src={empanada} 
+          alt="empanada"
         />
         <Carousel.Caption>
-          <h3>Sopaipilla</h3>
-          <p>Pruebala con pebre!</p>
+          <h3>Empanada de pino</h3>
+          <p>Pruebala sin pasas!</p>
         </Carousel.Caption>
       </Carousel.Item>
 

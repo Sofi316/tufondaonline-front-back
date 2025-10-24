@@ -258,7 +258,7 @@ function Registro() {
                     {/* Acciones */}
                     <div className="col-12 acciones">
                         <button className="btn btn-danger rojo" type="submit">Registrarse</button>
-                        <Link to="/iniciar-sesion">¿Ya tienes una cuenta?</Link>
+                        <Link to="/iniciarSesion">¿Ya tienes una cuenta?</Link>
                     </div>
                     <div className="col-12"><p className="muted">Registrate con el código FELICES8 y tendrás 10% de descuento!</p></div>
                 </div>

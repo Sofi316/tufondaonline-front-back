@@ -1,4 +1,5 @@
 import './App.css';
+import { AuthProvider } from './context/AuthContext';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import { CarritoProvider } from './components/CarritoContext';
 import ScrollToTop from './components/ScrollToTop';
@@ -48,15 +49,19 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import './styles/styles.css';
 import AdminCrearUsuario from './pages/admin/AdminCrearUsuario';
 import AdminProductos from './pages/admin/AdminProductos';
+import Comprar from './pages/Comprar';
+import PagoExitoso from './pages/PagoExitoso';
+import PagoFallido from './pages/PagoFallido';
 
 export default function App() {
   return (
-    <Routes>
-      {/* --- GRUPO 1: RUTAS PÚBLICAS --- */}
-      {/* Usamos 'path="/*"' para agrupar todas las rutas públicas */}
-      <Route
-        path="/*"
-        element={
+    <AuthProvider>
+      <Routes>
+        {/* --- GRUPO 1: RUTAS PÚBLICAS --- */}
+        {/* Usamos 'path="/*"' para agrupar todas las rutas públicas */}
+        <Route
+          path="/*"
+          element={
           <>
           <CarritoProvider>
             <ScrollToTop />
@@ -88,11 +93,17 @@ export default function App() {
               <Route path="/nosotros" element={<Nosotros />} />
               <Route path="/carrito" element={<Carrito />} />
               <Route path="/iniciarSesion" element={<IniciarSesion />} />
+           
+              <Route path="/comprar" element={<Comprar />} />
+              <Route path="/pago-exitoso" element={<PagoExitoso />} />
+              <Route path="/pago-fallido" element={<PagoFallido />} />
+             
               {/* Esta es la ruta 404 para el sitio público */}
               <Route path="*" element={<h1>404 - Página no encontrada</h1>} />
             </Routes>
             <Footer />
             </CarritoProvider>
+            
           </>
         }
       />
@@ -125,5 +136,6 @@ export default function App() {
       </Route>
 
     </Routes>
+    </AuthProvider>
   );
 }

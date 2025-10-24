@@ -1,21 +1,17 @@
-// src/pages/admin/AdminCrearUsuario.jsx
-
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap';
 import { createUsuario } from '../../data/usersData.js'; 
 import { getRegiones, getComunas } from '../../data/datos.js'; 
 
-// --- FUNCIONES HELPER DE TU formulario.js ---
 function validarRUT(rut) {
     rut = rut.replace(/[.-]/g, '').toUpperCase();
     return /^[0-9]{7,8}[0-9K]$/.test(rut);
 }
-// --- FIN FUNCIONES HELPER ---
+
 
 
 export default function AdminCrearUsuario() {
   
-  // Estado inicial del formulario
   const initialState = {
     rut: '', email: '', nombre: '', apellidos: '', fechaNac: '',
     direccion: '', region: '', comuna: '', contraseña: '', 
@@ -51,12 +47,11 @@ export default function AdminCrearUsuario() {
     }));
   };
 
-  // --- MANEJADOR ACTUALIZADO CON VALIDACIONES DE formulario.js ---
   const handleSubmit = (e) => {
     e.preventDefault();
     setMensaje(""); 
 
-    // --- INICIO DE VALIDACIONES ---
+    // --- VALIDACIONES ---
     const { rut, email, nombre, apellidos, fechaNac, direccion, contraseña, contraseñaCon } = formData;
 
     // 1. RUT
@@ -66,8 +61,7 @@ export default function AdminCrearUsuario() {
         return;
     }
     
-    // 2. Email (Validación CORREGIDA)
-    // Ahora usa la misma regla que tu formulario.js
+    // 2. Email 
     if (!email || !/^[^\s@]+@(duoc\.cl|profesor\.duoc\.cl|gmail\.com)$/.test(email)) {
         setTipoMensaje("danger");
         setMensaje("Correo requerido con dominio @duoc.cl, @profesor.duoc.cl o @gmail.com");
@@ -116,13 +110,13 @@ export default function AdminCrearUsuario() {
         return;
     }
     
-    // --- FIN DE VALIDACIONES ---
+
     
     try {
       createUsuario(formData); 
       setTipoMensaje("success");
       setMensaje("¡Usuario creado exitosamente!");
-      setFormData(initialState); // Limpiamos el formulario
+      setFormData(initialState); 
 
     } catch (error) {
       setTipoMensaje("danger");
@@ -139,7 +133,6 @@ export default function AdminCrearUsuario() {
         </Col>
       </Row>
 
-      {/* Renderiza el Alert (solo si hay mensaje) */}
       {mensaje && (
         <Row>
           <Col lg={10} className="mx-auto">
@@ -155,7 +148,7 @@ export default function AdminCrearUsuario() {
           <Card className="shadow-sm">
             <Card.Body>
               <Form onSubmit={handleSubmit} noValidate>
-                 {/* Fila para RUT y Email */}
+
                 <Row className="mb-3">
                   <Form.Group as={Col} md={6} controlId="formRut">
                     <Form.Label>RUT</Form.Label>
@@ -166,7 +159,7 @@ export default function AdminCrearUsuario() {
                     <Form.Control type="email" placeholder="Ingrese correo" name="email" value={formData.email} onChange={handleChange} />
                   </Form.Group>
                 </Row>
-                {/* Fila para Nombre y Apellidos */}
+       
                 <Row className="mb-3">
                   <Form.Group as={Col} md={6} controlId="formNombre">
                     <Form.Label>Nombre</Form.Label>
@@ -177,7 +170,7 @@ export default function AdminCrearUsuario() {
                     <Form.Control type="text" placeholder="Ingrese apellidos" name="apellidos" value={formData.apellidos} onChange={handleChange} />
                   </Form.Group>
                 </Row>
-                {/* Fila para Fecha Nacimiento y Dirección */}
+ 
                 <Row className="mb-3">
                   <Form.Group as={Col} md={6} controlId="formFechaNac">
                     <Form.Label>Fecha de nacimiento</Form.Label>
@@ -188,7 +181,7 @@ export default function AdminCrearUsuario() {
                     <Form.Control type="text" placeholder="Ingrese dirección" name="direccion" value={formData.direccion} onChange={handleChange} />
                   </Form.Group>
                 </Row>
-                {/* Fila para Región y Comuna */}
+
                 <Row className="mb-3">
                   <Form.Group as={Col} md={6} controlId="formRegion">
                     <Form.Label>Región</Form.Label>
@@ -205,7 +198,7 @@ export default function AdminCrearUsuario() {
                     </Form.Select>
                   </Form.Group>
                 </Row>
-                {/* Fila para Contraseñas y Tipo de Usuario */}
+
                 <Row className="mb-3">
                   <Form.Group as={Col} md={4} controlId="formPass1">
                     <Form.Label>Contraseña</Form.Label>
@@ -224,7 +217,7 @@ export default function AdminCrearUsuario() {
                     </Form.Select>
                   </Form.Group>
                 </Row>
-                {/* Botón de envío */}
+
                 <div className="text-end">
                   <Button variant="primary" type="submit">Crear Usuario</Button>
                 </div>

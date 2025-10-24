@@ -1,21 +1,16 @@
-// src/pages/admin/AdminOrdenes.jsx
-
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Table, Button, Badge } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-// Importamos la nueva función desde tu archivo de datos
 import { getOrdenes } from '../../data/usersData.js'; 
 
 export default function AdminOrdenes() {
   
   const [ordenes, setOrdenes] = useState([]);
 
-  // Carga las órdenes cuando el componente se monta
   useEffect(() => {
     setOrdenes(getOrdenes());
   }, []);
 
-  // Función helper para dar color al estado (Badge)
   const getBadgeVariant = (estado) => {
     switch (estado) {
       case 'Completado': return 'success';
@@ -25,7 +20,6 @@ export default function AdminOrdenes() {
     }
   };
   
-  // Formatear como moneda chilena
   const formatPesoChileno = (valor) => {
     return new Intl.NumberFormat('es-CL', {
       style: 'currency',
@@ -35,7 +29,6 @@ export default function AdminOrdenes() {
 
   return (
     <Container fluid>
-      {/* --- Cabecera --- */}
       <Row className="align-items-center mb-3">
         <Col>
           <h2>Órdenes y Boletas</h2>
@@ -43,7 +36,6 @@ export default function AdminOrdenes() {
         </Col>
       </Row>
 
-      {/* --- Tabla de Órdenes --- */}
       <Table striped bordered hover responsive>
         <thead className="table-dark">
           <tr>
@@ -68,7 +60,6 @@ export default function AdminOrdenes() {
               </td>
               <td>{formatPesoChileno(orden.total)}</td>
               <td>
-                {/* Este botón cumple con "MOSTRAR BOLETA" de la Figura 10 */}
                 <Button 
                   as={Link} 
                   to={`/admin/ordenes/${orden.id}`} 

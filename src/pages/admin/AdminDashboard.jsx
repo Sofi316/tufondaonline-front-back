@@ -1,8 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Container, Row, Col, Card } from 'react-bootstrap';
+import { Container, Row, Col, Card } from 'react-bootstrap'; 
+import { obtenerProductos } from '../../data/productosData.js'; 
 
 export default function AdminDashboard() {
+
+  const [totalProductos, setTotalProductos] = useState(0);
+
+  useEffect(() => {
+    setTotalProductos(obtenerProductos().length); 
+  }, []);
+
+
   return (
     <Container fluid>
       <Row>
@@ -12,50 +21,48 @@ export default function AdminDashboard() {
         </Col>
       </Row>
 
-      {/* --- Fila de Estadísticas (Figura 9) --- */}
       <Row className="my-3">
-        <Col md={4}>
+         <Col md={4}>
           <Card className="text-white bg-primary shadow-sm">
             <Card.Body className="d-flex justify-content-between align-items-center">
               <div>
                 <h4>Compras</h4>
-                <h3>1,234</h3>
+                <h3>1,234</h3> 
                 <span>+20% que el mes pasado</span>
               </div>
               <i className="bi bi-cart4" style={{ fontSize: '3rem', opacity: 0.5 }}></i>
             </Card.Body>
           </Card>
         </Col>
+
         <Col md={4}>
           <Card className="text-white bg-success shadow-sm">
             <Card.Body className="d-flex justify-content-between align-items-center">
               <div>
                 <h4>Productos</h4>
-                <h3>400</h3>
-                <span>Inventario total</span>
+                <h3>{totalProductos}</h3>
+                <span>Variedad de productos</span>
               </div>
               <i className="bi bi-box-seam" style={{ fontSize: '3rem', opacity: 0.5 }}></i>
             </Card.Body>
           </Card>
         </Col>
-        <Col md={4}>
+         <Col md={4}>
           <Card className="text-white bg-warning shadow-sm">
             <Card.Body className="d-flex justify-content-between align-items-center">
               <div>
                 <h4>Usuarios</h4>
-                <h3>890</h3>
+                <h3>890</h3> 
                 <span>Usuarios registrados</span>
               </div>
               <i className="bi bi-people" style={{ fontSize: '3rem', opacity: 0.5 }}></i>
             </Card.Body>
           </Card>
         </Col>
-      </Row>
 
-      {/* --- Fila de Accesos Directos (Figura 9) --- */}
+      </Row>
       <h3 className="mt-4">Accesos Directos</h3>
-      <Row>
-        {/* Fila 1 de Accesos */}
+       <Row>
         <Col md={3} className="mb-3">
           <Link to="/admin/ordenes" className="text-decoration-none">
             <Card className="shortcut-card">
@@ -101,7 +108,6 @@ export default function AdminDashboard() {
           </Link>
         </Col>
       </Row>
-      {/* (Puedes añadir la segunda fila de accesos (Reportes, Perfil, Tienda) aquí) */}
 
     </Container>
   );

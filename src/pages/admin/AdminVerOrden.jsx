@@ -3,21 +3,19 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Table, Button, Badge } from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom';
-// Importamos la nueva función de tu archivo de datos
 import { getOrden } from '../../data/usersData.js'; 
 
 export default function AdminVerOrden() {
   
-  // useParams() obtiene el ':id' de la URL (ver App.jsx)
+
   const { id } = useParams(); 
   const [orden, setOrden] = useState(null);
 
   useEffect(() => {
     // Carga la orden específica usando el ID de la URL
     setOrden(getOrden(id)); 
-  }, [id]); // Se ejecuta cada vez que el ID cambia
+  }, [id]); 
 
-  // Función helper para dar color al estado (Badge)
   const getBadgeVariant = (estado) => {
     switch (estado) {
       case 'Completado': return 'success';
@@ -27,7 +25,6 @@ export default function AdminVerOrden() {
     }
   };
 
-  // Formatear como moneda chilena
   const formatPesoChileno = (valor) => {
     return new Intl.NumberFormat('es-CL', {
       style: 'currency',
@@ -35,7 +32,6 @@ export default function AdminVerOrden() {
     }).format(valor);
   };
 
-  // Mostrar "Cargando..." si la orden aún no se encuentra
   if (!orden) {
     return <Container fluid><p>Cargando detalle de la orden...</p></Container>;
   }

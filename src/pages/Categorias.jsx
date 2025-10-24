@@ -42,7 +42,7 @@ function Productos() {
           <h3>
             {categoriaFiltro === 'Todos los productos' 
               ? 'Productos para su mesa' 
-              : `Categoría: ${categoriaFiltro}`
+              : `${categoriaFiltro}`
             }
           </h3>
         </center>

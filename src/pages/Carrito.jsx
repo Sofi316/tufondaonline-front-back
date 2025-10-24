@@ -1,19 +1,24 @@
 import React from "react";
 import { useCarrito } from "../components/CarritoContext";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Carrito() {
   const { carrito, eliminarDelCarrito, actualizarCantidad, vaciarCarrito, totalProductos } = useCarrito();
+  const navigate = useNavigate();
 
   const calcularTotal = () => {
     return carrito.reduce((total, item) => total + (item.precio * item.cantidad), 0);
+  };
+
+  const handleProceedToCheckout = () => {
+    navigate('/checkout');
   };
 
   return (
     <div className="container mt-4">
         {/* Breadcrumb */}
         <div className="breadcrumb">
-        <Link to="/">Inicio</Link> /<Link to="/categorias">Categorias</Link> /
+          <Link to="/">Inicio</Link> /<Link to="/categorias">Categorias</Link> /
         </div>
       <h2>Carrito de Compras</h2>
       
@@ -28,15 +33,7 @@ function Carrito() {
         <>
           <div className="table-responsive">
             <table className="table">
-              <thead>
-                <tr>
-                  <th>Producto</th>
-                  <th>Precio</th>
-                  <th>Cantidad</th>
-                  <th>Subtotal</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
+              {/* ... resto del código de la tabla ... */}
               <tbody>
                 {carrito.map((item, index) => (
                   <tr key={index}>
@@ -97,7 +94,7 @@ function Carrito() {
             </div>
             <div className="col-md-6 text-end">
               <h4>Total: ${calcularTotal().toLocaleString('es-CL')}</h4>
-              <button className="btn btn-success mt-2">
+              <button className="btn btn-success mt-2" onClick={handleProceedToCheckout}>
                 Proceder al Pago
               </button>
             </div>

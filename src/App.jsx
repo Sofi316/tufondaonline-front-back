@@ -27,13 +27,16 @@ import ProductoCocaCola from './pages/ProductoCoca';
 import ProductoAgua from './pages/ProductoAgua';
 import Nosotros from './pages/Nosotros';
 import Carrito from './pages/Carrito';
+import Checkout from './pages/Checkout';
+import CompraExitosa from './pages/CompraExitosa';
+import PagoFallido from './pages/PagoFallido';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import './styles/styles.css'
 
 export default function App() {
     return (
-      <CarritoProvider> {/* Envuelve toda tu aplicación con el Provider */}
+      <CarritoProvider>
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -60,6 +63,9 @@ export default function App() {
           <Route path="/agua" element={<ProductoAgua />} />
           <Route path="/nosotros" element={<Nosotros />} />
           <Route path="/carrito" element={<Carrito />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/compraexitosa" element={<CompraExitosa />} />
+          <Route path="/pagofallido" element={<PagoFallido />} />
           <Route path="*" element={<h1>404 - Página no encontrada</h1>} />
         </Routes>
         <Footer />

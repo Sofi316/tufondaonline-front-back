@@ -1,6 +1,6 @@
 // src/data/datos.js
 
-const regionesYComunas = {
+export const regionesYComunas = {
     "Región Metropolitana": [
         "Santiago", "Puente Alto", "Maipú", "La Florida", "Las Condes",
         "Providencia", "Ñuñoa", "San Bernardo", "Peñalolén", "La Pintana"

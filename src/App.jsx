@@ -1,10 +1,10 @@
 import './App.css';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import { CarritoProvider } from './components/CarritoContext';
+import ScrollToTop from './components/ScrollToTop';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Registro from './pages/Registro';
-import Productos from './pages/Productos';
 import Blogs from './pages/Blogs';
 import Blog1 from './pages/Blog1'; 
 import Blog2 from './pages/Blog2'; 
@@ -19,7 +19,7 @@ import AdminUsuarios from './pages/admin/AdminUsuarios';
 import AdminOrdenes from './pages/admin/AdminOrdenes';
 import AdminVerOrden from './pages/admin/AdminVerOrden';
 import AdminCrearUsuario from './pages/admin/AdminCrearUsuario';
-
+import Categorias from './pages/Categorias';
 import ProductoChoripan from './pages/ProductoChoripan';
 import ProductoCompleto from './pages/ProductoCompleto';
 import ProductoAnticucho from './pages/ProductoAnticucho';
@@ -50,15 +50,16 @@ export default function App() {
         element={
           <>
           <CarritoProvider>
+            <ScrollToTop />
             <Navbar />
             <Routes> {/* Rutas anidadas para las páginas públicas */}
               <Route path="/" element={<Home />} />
               <Route path="/registro" element={<Registro />} />
-              <Route path="/productos" element={<Productos />} />
               <Route path="/blogs" element={<Blogs />} />
               <Route path="/blog1" element={<Blog1 />} />
               <Route path="/blog2" element={<Blog2 />} />
               <Route path="/ofertas" element={<Ofertas />} /> 
+              <Route path="/categorias" element={<Categorias />} />
               <Route path="/contacto" element={<Contacto />} />
               <Route path="/choripan" element={<ProductoChoripan />} />
               <Route path="/completo" element={<ProductoCompleto />} />

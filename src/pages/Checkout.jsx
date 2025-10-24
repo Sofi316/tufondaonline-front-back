@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useCarrito } from "../components/CarritoContext";
 import { Link, useNavigate } from 'react-router-dom';
-import { regionesYComunas } from '../data/datos'; // Importar solo regionesYComunas
+import { regionesYComunas } from '../data/datos';
 
 function Checkout() {
   const { carrito, vaciarCarrito } = useCarrito();

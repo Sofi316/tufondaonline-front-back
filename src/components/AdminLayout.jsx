@@ -50,7 +50,7 @@ export default function AdminLayout() {
             </NavLink>
           </li>
           <li className="nav-item">
-            <NavLink className="nav-link" to="/admin/reportes">
+            <NavLink className="nav-link" to="/admin/productos/reportes">
               <i className="bi bi-file-earmark-bar-graph-fill me-2"></i> Reportes
             </NavLink>
           </li>

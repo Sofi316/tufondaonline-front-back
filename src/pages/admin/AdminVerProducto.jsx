@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Button, Badge } from 'react-bootstrap';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { obtenerProducto } from '../../data/productosData.js'; 
+import { getProductById } from '../../data/productosData.js'; 
 
 export default function AdminVerProducto() {
   
@@ -11,7 +11,7 @@ export default function AdminVerProducto() {
   const [producto, setProducto] = useState(null);
 
   useEffect(() => {
-    const data = obtenerProducto(id);
+    const data = getProductById (id);
     if (data) {
       setProducto(data);
     } else {

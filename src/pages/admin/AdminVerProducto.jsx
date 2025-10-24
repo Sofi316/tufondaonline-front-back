@@ -1,9 +1,8 @@
-// src/pages/admin/AdminVerProducto.jsx
 
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Button, Badge } from 'react-bootstrap';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { obtenerProducto } from '../../data/productosData.js'; // Ajusta ruta
+import { obtenerProducto } from '../../data/productosData.js'; 
 
 export default function AdminVerProducto() {
   
@@ -49,7 +48,6 @@ export default function AdminVerProducto() {
       <Card className="shadow-sm">
         <Row className="g-0">
           <Col md={4}>
-            {/* Si 'img' es un import, necesita manejo diferente, asumimos URL */}
             <Card.Img 
               variant="top" 
               src={producto.img || 'https://via.placeholder.com/300x200?text=Sin+Imagen'} 

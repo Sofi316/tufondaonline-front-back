@@ -22,6 +22,7 @@ import AdminProductosCriticos from './pages/admin/AdminProductosCriticos';
 import AdminReportesProductos from './pages/admin/AdminReportesProductos';
 import AdminCategorias from './pages/admin/AdminCategorias';
 import AdminCrearCategoria from './pages/admin/AdminCrearCategoria';
+import AdminPerfil from './pages/admin/AdminPerfil';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import './styles/styles.css';
@@ -80,6 +81,8 @@ export default function App() {
 
         <Route path="categorias" element={<AdminCategorias />} />
         <Route path="categorias/crear" element={<AdminCrearCategoria />} />
+
+        <Route path="perfil" element={<AdminPerfil />} />
       </Route>
 
     </Routes>

@@ -1,9 +1,7 @@
-// src/pages/admin/AdminEditarProducto.jsx
-
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
-import { obtenerProducto, actualizarProducto, obtenerCategorias } from '../../data/productosData.js'; // Ajusta ruta
+import { obtenerProducto, actualizarProducto, obtenerCategorias } from '../../data/productosData.js'; 
 
 export default function AdminEditarProducto() {
   
@@ -20,7 +18,7 @@ export default function AdminEditarProducto() {
     if (productoExistente) {
       setFormData(productoExistente);
     } else {
-      navigate('/admin/productos'); // Si no existe, vuelve a la lista
+      navigate('/admin/productos'); //Si no existe, vuelve a la lista
     }
     setCategorias(obtenerCategorias());
   }, [id, navigate]);
@@ -35,7 +33,6 @@ export default function AdminEditarProducto() {
     e.preventDefault();
     setMensaje("");
 
-    // Validación simple
     if (!formData.nombre || !formData.precio || !formData.categoria || !formData.stock) {
         setTipoMensaje("danger");
         setMensaje("Error: Nombre, Precio, Categoría y Stock son obligatorios.");
@@ -51,7 +48,7 @@ export default function AdminEditarProducto() {
       actualizarProducto(id, formData);
       setTipoMensaje("success");
       setMensaje("¡Producto actualizado exitosamente!");
-      setTimeout(() => navigate(`/admin/productos/${id}`), 1500); // Vuelve al detalle
+      setTimeout(() => navigate(`/admin/productos/${id}`), 1500); 
 
     } catch (error) {
       setTipoMensaje("danger");
@@ -59,7 +56,7 @@ export default function AdminEditarProducto() {
     }
   };
 
-   if (!formData.id) { // Mientras carga los datos
+   if (!formData.id) { 
     return <Container fluid><p>Cargando datos del producto...</p></Container>;
   }
 

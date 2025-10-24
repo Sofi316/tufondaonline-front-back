@@ -1,10 +1,6 @@
-// src/pages/admin/AdminProductosCriticos.jsx
-
 import React, { useState, useEffect } from 'react';
-// 1. IMPORTA 'Alert' JUNTO CON LOS DEMÁS COMPONENTES DE REACT-BOOTSTRAP
 import { Container, Row, Col, Table, Button, Badge, Alert } from 'react-bootstrap'; 
 import { Link, useNavigate } from 'react-router-dom';
-// Asegúrate que la ruta sea correcta
 import { obtenerProductosCriticos } from '../../data/productosData.js'; 
 
 export default function AdminProductosCriticos() {
@@ -34,7 +30,6 @@ export default function AdminProductosCriticos() {
         </Col>
       </Row>
 
-      {/* 2. AHORA <Alert> ESTÁ DEFINIDO Y FUNCIONARÁ */}
       {productosCriticos.length > 0 ? (
         <Table striped bordered hover responsive>
           <thead className="table-dark">

@@ -1,9 +1,7 @@
-// src/pages/admin/AdminCrearProducto.jsx
-
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { agregarProducto, obtenerCategorias } from '../../data/productosData.js'; // Ajusta ruta
+import { agregarProducto, obtenerCategorias } from '../../data/productosData.js'; 
 
 export default function AdminCrearProducto() {
   
@@ -13,8 +11,8 @@ export default function AdminCrearProducto() {
     precio: '',
     categoria: '',
     stock: '',
-    img: '', // Por ahora, manejaremos la imagen como una URL
-    detalle: '' // URL slug para la página de detalle
+    img: '', 
+    detalle: '' 
   };
   const [formData, setFormData] = useState(initialState);
   const [categorias, setCategorias] = useState([]);
@@ -35,7 +33,6 @@ export default function AdminCrearProducto() {
     e.preventDefault();
     setMensaje("");
 
-    // Validación simple (puedes añadir más)
     if (!formData.nombre || !formData.precio || !formData.categoria || !formData.stock) {
         setTipoMensaje("danger");
         setMensaje("Error: Nombre, Precio, Categoría y Stock son obligatorios.");
@@ -51,9 +48,8 @@ export default function AdminCrearProducto() {
       agregarProducto(formData);
       setTipoMensaje("success");
       setMensaje("¡Producto creado exitosamente!");
-      // Limpiamos y redirigimos después de un breve momento
       setFormData(initialState);
-      setTimeout(() => navigate('/admin/productos'), 1500); // Vuelve a la lista
+      setTimeout(() => navigate('/admin/productos'), 1500); 
 
     } catch (error) {
       setTipoMensaje("danger");
@@ -97,10 +93,8 @@ export default function AdminCrearProducto() {
                 <Form.Select name="categoria" value={formData.categoria} onChange={handleChange} required>
                   <option value="">Seleccione una categoría</option>
                   {categorias.map(cat => <option key={cat} value={cat}>{cat}</option>)}
-                  {/* Podrías añadir opción para crear categoría nueva */}
+
                 </Form.Select>
-                {/* Opcional: Input para categoría nueva */}
-                {/* <Form.Control type="text" placeholder="O ingrese nueva categoría" className="mt-2" /> */}
               </Form.Group>
               <Form.Group as={Col} md={6} controlId="formStock">
                 <Form.Label>Stock Inicial</Form.Label>
@@ -111,7 +105,6 @@ export default function AdminCrearProducto() {
               <Form.Group as={Col} md={6} controlId="formImg">
                 <Form.Label>URL Imagen</Form.Label>
                 <Form.Control type="text" name="img" placeholder="http://ejemplo.com/imagen.jpg" value={formData.img} onChange={handleChange} />
-                 {/* Nota: Manejar subida de archivos es más complejo */}
               </Form.Group>
               <Form.Group as={Col} md={6} controlId="formDetalle">
                 <Form.Label>URL Detalle (Slug)</Form.Label>

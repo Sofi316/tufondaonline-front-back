@@ -1,5 +1,3 @@
-// src/data/productosData.js
-
 import choripan from "../assets/productos/choripan.jpg"
 import completo from "../assets/productos/completo.jpg"
 import anticucho from "../assets/productos/anticucho.jpg"
@@ -16,7 +14,6 @@ import terremotoNinos from "../assets/productos/terremotoniños.jpg"
 import cocaCola from "../assets/productos/coca-cola.jpg"
 import agua from "../assets/productos/agua.jpg"
 
-// 1. CAMBIADO A 'let' Y AÑADIDOS IDs Y STOCK
 export let productos = [
     { id: 1, nombre: "Choripán", precio: 3000, img: choripan, detalle: "/choripan", categoria: "Plato con Carne", stock: 50 },
     { id: 2, nombre: "Completo Italiano", precio: 3500, img: completo, detalle: "/completo", categoria: "Plato con Carne", stock: 40 },
@@ -35,31 +32,25 @@ export let productos = [
     { id: 15, nombre: "Agua", precio: 1800, img: agua, detalle: "/agua", categoria: "Bebestible", stock: 150 },
   ];
 
-// --- FUNCIONES CRUD DE PRODUCTOS ---
 
-// Crear
 export const agregarProducto = (nuevoProducto) => {
     const newId = productos.length ? Math.max(...productos.map(p => p.id)) + 1 : 1;
     const productoConId = {
         ...nuevoProducto,
         id: newId,
-        precio: Number(nuevoProducto.precio) || 0, // Asegura que sea número
-        stock: Number(nuevoProducto.stock) || 0 // Asegura que sea número
+        precio: Number(nuevoProducto.precio) || 0, 
+        stock: Number(nuevoProducto.stock) || 0
     };
     productos.push(productoConId);
-    // Nota: Aquí podrías guardar 'productos' en localStorage para persistencia
     return productoConId;
 };
 
-// Leer (Todos)
-export const obtenerProductos = () => [...productos]; // Devuelve copia
+export const obtenerProductos = () => [...productos]; 
 
-// Leer (Uno por ID)
 export const obtenerProducto = (id) => {
     return productos.find(p => p.id === Number(id));
 }
 
-// Actualizar
 export const actualizarProducto = (id, datosActualizados) => {
     let productoActualizado = null;
     productos = productos.map((p) => {
@@ -67,31 +58,26 @@ export const actualizarProducto = (id, datosActualizados) => {
             productoActualizado = {
                 ...p,
                 ...datosActualizados,
-                precio: Number(datosActualizados.precio) || p.precio, // Asegura número
-                stock: Number(datosActualizados.stock) || p.stock // Asegura número
+                precio: Number(datosActualizados.precio) || p.precio, 
+                stock: Number(datosActualizados.stock) || p.stock 
             };
             return productoActualizado;
         }
         return p;
     });
-    // Nota: Aquí podrías guardar 'productos' en localStorage
     return productoActualizado;
 };
 
-// Eliminar
 export const eliminarProducto = (id) => {
     productos = productos.filter((p) => p.id !== Number(id));
-    // Nota: Aquí podrías guardar 'productos' en localStorage
     return productos;
 };
 
-// --- FUNCIÓN PARA PRODUCTOS CRÍTICOS ---
 export const obtenerProductosCriticos = (umbral = 10) => {
     return productos.filter(p => p.stock <= umbral);
 };
 
-// --- FUNCIÓN PARA OBTENER CATEGORÍAS ---
 export const obtenerCategorias = () => {
     const categorias = productos.map(p => p.categoria);
-    return [...new Set(categorias)].sort(); // Devuelve categorías únicas y ordenadas
+    return [...new Set(categorias)].sort(); 
 };

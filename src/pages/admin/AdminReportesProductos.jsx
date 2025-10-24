@@ -1,17 +1,15 @@
-// src/pages/admin/AdminReportesProductos.jsx
-
 import React from 'react';
 import { Container, Row, Col, Card, ProgressBar, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
 // --- DATOS SIMULADOS PARA EL GRÁFICO ---
-// En un caso real, estos datos vendrían de un cálculo o de la base de datos
+
 const ventasPorCategoria = [
   { nombre: 'Plato con Carne', ventas: 75, color: 'primary' },
   { nombre: 'Plato sin carne', ventas: 50, color: 'success' },
   { nombre: 'Bebestible', ventas: 90, color: 'info' },
 ];
-// --- FIN DATOS SIMULADOS ---
+
 
 
 export default function AdminReportesProductos() {
@@ -30,9 +28,9 @@ export default function AdminReportesProductos() {
         </Col>
       </Row>
 
-      {/* --- GRÁFICO SIMULADO: Ventas por Categoría --- */}
+  
       <Row>
-        <Col md={8} className="mx-auto"> {/* Centramos el gráfico */}
+        <Col md={8} className="mx-auto"> 
           <Card className="shadow-sm">
             <Card.Header>
               <Card.Title as="h5">Ventas Estimadas por Categoría (Último Mes)</Card.Title>
@@ -41,7 +39,6 @@ export default function AdminReportesProductos() {
               {ventasPorCategoria.map((categoria, index) => (
                 <div key={index} className="mb-3">
                   <strong>{categoria.nombre}</strong>
-                  {/* Usamos ProgressBar de react-bootstrap */}
                   <ProgressBar 
                     now={categoria.ventas} 
                     label={`${categoria.ventas}%`} 

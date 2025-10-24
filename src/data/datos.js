@@ -1,5 +1,3 @@
-// src/data/datos.js
-
 const regionesYComunas = {
     "Región Metropolitana": [
         "Santiago", "Puente Alto", "Maipú", "La Florida", "Las Condes",
@@ -23,22 +21,11 @@ const regionesYComunas = {
     ]
 };
 
-// --- FUNCIONES CRUD (Leer) ---
-// Esto cumple con el requisito de la rúbrica de un archivo de datos simulado.
 
-/**
- * Lee y devuelve todas las regiones.
- * @returns {string[]} Un arreglo con los nombres de las regiones.
- */
 export function getRegiones() {
     return Object.keys(regionesYComunas);
 }
 
-/**
- * Lee y devuelve las comunas de una región específica.
- * @param {string} region - El nombre de la región.
- * @returns {string[]} Un arreglo con los nombres de las comunas.
- */
 export function getComunas(region) {
     return regionesYComunas[region] || [];
 }

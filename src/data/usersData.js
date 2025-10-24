@@ -2,8 +2,6 @@
 import { productos as allProducts } from './productosData.js'; 
 
 
-// ---  DATOS DE USUARIOS  ---
-
 const USERS_DEFAULT = [
   {
     id: 1, email: 'admin@fonda.cl', password: 'admin123', nombre: 'Admin Fonda',
@@ -41,7 +39,7 @@ export const loginUser = (email, password) => {
   return null;
 };
 
-// --- FUNCIONES CRUD DE USUARIOS ---
+// --- FUNCIONES CRUD  ---
 
 export function getUsuarios() {
     return [...users];

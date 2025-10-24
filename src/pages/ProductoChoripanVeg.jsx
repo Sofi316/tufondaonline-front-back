@@ -1,38 +1,45 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import choripanveg from "../assets/productos/choripanveg.jpg";
+// src/pages/ProductoChoripanVeg.jsx
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { getProductById } from '../data/productosData';
+import { useCarrito } from "../components/CarritoContext";
+
+// Miniatures and Relacionados
 import choripanveg2 from "../assets/productos/choripanveg2.jpg";
 import choripanveg3 from "../assets/productos/choripanveg3.jpg";
 import choripanveg4 from "../assets/productos/choripanveg4.jpg";
 import anticuchoverdura from "../assets/productos/anticuchoverdura.jpg";
 import completoveg from "../assets/productos/completoveg.jpg";
 import pastelchocloveg from "../assets/productos/pastelchocloveg.jpg";
-import { useCarrito } from "../components/CarritoContext";
 
 const ProductoChoripanVeg = () => {
+  const productoId = 6; // <<<--- ID for Choripan Vegano
+  const producto = getProductById(productoId);
+
   const [cantidad, setCantidad] = useState(1);
-  const [imagenPrincipal, setImagenPrincipal] = useState(choripanveg);
+  const [imagenPrincipal, setImagenPrincipal] = useState('');
   const { agregarAlCarrito } = useCarrito();
 
-  const handleAgregarAlCarrito = () => {
-    // Agregar la cantidad seleccionada al carrito
-    for (let i = 0; i < cantidad; i++) {
-      agregarAlCarrito("Choripán Vegano", 3000, choripanveg);
+  useEffect(() => {
+    if (producto && producto.img) {
+      setImagenPrincipal(producto.img);
     }
-    
-    console.log(`✅ ${cantidad} ${cantidad === 1 ? 'choripán vegano' : 'choripanes veganos'} agregado${cantidad === 1 ? '' : 's'} al carrito`);
-    
-    // Mostrar mensaje de confirmación
-    alert(`✅ ${cantidad} ${cantidad === 1 ? 'choripán vegano' : 'choripanes veganos'} agregado${cantidad === 1 ? '' : 's'} al carrito`);
-    
-    // Opcional: Resetear la cantidad a 1 después de agregar
+  }, [producto]);
+
+  if (!producto) {
+    return <main className="container text-center my-5"><h2>Producto no encontrado</h2><Link to="/productos" className="btn btn-primary">Volver</Link></main>;
+  }
+
+  const handleAgregarAlCarrito = () => {
+    const precioAAgregar = producto.enOferta ? producto.precioOferta : producto.precio;
+    for (let i = 0; i < cantidad; i++) {
+        agregarAlCarrito(producto.id, producto.nombre, precioAAgregar, producto.img);
+    }
+    alert(`✅ ${cantidad} ${producto.nombre.toLowerCase()}${cantidad > 1 ? 's' : ''} agregado${cantidad > 1 ? 's' : ''} al carrito`);
     setCantidad(1);
   };
 
-  // 🔹 Miniaturas disponibles
-  const miniaturas = [choripanveg2, choripanveg3, choripanveg4];
-
-  // 🔹 Productos relacionados
+  const miniaturas = [producto?.img, choripanveg2, choripanveg3, choripanveg4].filter(Boolean);
   const productosRelacionados = [
     { nombre: "Anticucho de Verduras", img: anticuchoverdura, detalle: "/AnticuchoVerdura" },
     { nombre: "Completo Italiano Vegano", img: completoveg, detalle: "/CompletoVegano" },
@@ -40,90 +47,72 @@ const ProductoChoripanVeg = () => {
   ];
 
   return (
-    <main>
+    <main className="contenedor">
       {/* Breadcrumb */}
-      <div className="breadcrumb">
-        <Link to="/">Inicio</Link> /<Link to="/productos">Productos</Link> /
-      </div>
+      <div className="breadcrumb mb-4">
+            <Link to="/" className="text-decoration-none text-muted">Inicio</Link>
+            <span className="mx-2">/</span>
+            <Link to="/productos" className="text-decoration-none text-muted">Productos</Link>
+            <span className="mx-2">/</span>
+            <span className="fw-bold">{producto.nombre}</span>
+        </div>
 
-      {/* Producto principal */}
       <section className="producto">
         <div className="producto-imagen">
-          {/* 🔹 Imagen principal (cambia al hacer clic en una miniatura) */}
-          <img src={imagenPrincipal} alt="Choripán Vegano" />
-
-          {/* 🔹 Miniaturas clickeables */}
+          <img src={imagenPrincipal} alt={producto.nombre} className="img-fluid"/>
           <div className="miniaturas">
             {miniaturas.map((mini, index) => (
               <img
-                key={index}
-                src={mini}
-                alt={`Vista ${index + 1} del Choripán Vegano`}
+                key={index} src={mini} alt={`Vista ${index + 1} de ${producto.nombre}`}
                 onClick={() => setImagenPrincipal(mini)}
-                style={{ cursor: "pointer" }}
+                style={{ cursor: "pointer", width: '80px', height:'80px', objectFit:'cover', border: imagenPrincipal === mini ? '2px solid #4c4eaf' : '1px solid #ccc', margin:'2px', borderRadius:'4px' }}
               />
             ))}
           </div>
         </div>
 
         <div className="producto-info">
-          <h1>CHORIPÁN VEGANO</h1>
-          <p className="precio">$3.000</p>
-          <p className="descripcion">
-            El tradicional choripán chileno, ahora en su versión vegana. Disfruta de un delicioso chorizo vegetal libre de carne.
-          </p>
-
-          <label htmlFor="cantidad">Cantidad:</label>
-          <input
-            type="number"
-            id="cantidad"
-            value={cantidad}
-            min="1"
-            onChange={(e) => setCantidad(parseInt(e.target.value) || 1)}
-          />
-          <br />
-          <br />
-          <button
-            className="btn btn-danger"
-            onClick={handleAgregarAlCarrito}
-          >
-            AGREGAR {cantidad > 1 ? `${cantidad} AL ` : ''}CARRITO
+          <h1>{producto.nombre.toUpperCase()}</h1>
+          {producto.enOferta ? (
+              <p className="precio">
+                <span style={{color: 'red', fontWeight: 'bold', marginRight: '10px'}}>
+                  ${producto.precioOferta.toLocaleString("es-CL")}
+                </span>
+                <del style={{color: '#666', fontSize: '0.9em'}}>
+                  ${producto.precio.toLocaleString("es-CL")}
+                </del>
+              </p>
+            ) : (
+              <p className="precio">${producto.precio.toLocaleString("es-CL")}</p>
+            )}
+          <p className="descripcion">{producto.descripcion || "Descripción no disponible."}</p>
+          <div className="d-flex align-items-center mb-3">
+             <label htmlFor="cantidad">Cantidad:</label>
+             <input
+               type="number" id="cantidad" value={cantidad} min="1"
+               onChange={(e) => setCantidad(parseInt(e.target.value) || 1)}
+               style={{ width: '70px', padding:'4px', marginLeft:'5px' }}
+             />
+          </div>
+          <br /> <br />
+          <button className="btn btn-danger" onClick={handleAgregarAlCarrito}>
+             <i className="bi bi-cart-plus me-2"></i>
+            AGREGAR {cantidad > 1 ? `(${cantidad}) AL ` : ''}CARRITO
           </button>
         </div>
       </section>
 
       {/* Productos relacionados */}
       <section style={{ marginTop: "40px" }}>
-        <center>
-          <h1>PRODUCTOS RELACIONADOS</h1>
-        </center>
-        <div
-          className="productos-relacionados"
-          style={{
-            display: "flex",
-            gap: "20px",
-            justifyContent: "center",
-            flexWrap: "wrap",
-          }}
-        >
-          {productosRelacionados.map((producto, index) => (
-            <div key={index} className="recuadro" data-categoria={producto.categoria}>
-              <Link to={producto.detalle}>
-                <img
-                  src={producto.img}
-                  alt={producto.nombre}
-                  style={{
-                    width: "150px",
-                    height: "150px",
-                    objectFit: "cover",
-                    borderRadius: "4px",
-                  }}
-                />
+        <center><h1>PRODUCTOS RELACIONADOS</h1></center>
+        <div className="productos-relacionados" style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap' }}>
+          {productosRelacionados.map((relacionado, index) => (
+            <div key={index} className="recuadro">
+              <Link to={relacionado.detalle}>
+                <img src={relacionado.img} alt={relacionado.nombre} style={{ width: '150px', height: '150px', objectFit: 'cover', borderRadius: '4px' }} />
               </Link>
-              <Link to={producto.detalle}>
-                <h2 style={{ marginTop: "10px", fontSize: "16px" }}>
-                  {producto.nombre.toUpperCase()}
-                </h2>
+              <Link to={relacionado.detalle} className="link-detalle">
+                <h2 style={{ marginTop: '10px', fontSize: '16px' }}>{relacionado.nombre.toUpperCase()}</h2>
               </Link>
             </div>
           ))}

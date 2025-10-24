@@ -34,7 +34,7 @@ function Productos() {
             <img src={producto.img} alt={producto.nombre} />
           </Link>
           <h2>
-            <Link to={producto.detalle}>{producto.nombre}</Link>
+            <Link to={producto.detalle} className="link-detalle">{producto.nombre}</Link>
           </h2>
           {/* Muestra el precio (normal u oferta con tachado) */}
           {producto.enOferta ? (

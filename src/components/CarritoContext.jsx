@@ -8,7 +8,7 @@ export const useCarrito = () => {
   if (!context) {
     throw new Error('useCarrito debe ser usado dentro de un CarritoProvider');
   }
-  return contsext;
+  return context;
 };
 
 export const CarritoProvider = ({ children }) => {

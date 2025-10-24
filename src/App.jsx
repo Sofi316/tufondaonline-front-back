@@ -73,7 +73,7 @@ export default function App() {
               <Route path="/pastelChocloVegano" element={<ProductoPastelChocloVeg />} />
               <Route path="/terremoto" element={<ProductoTerremoto />} />
               <Route path="/terremotoNinos" element={<ProductoTerremotoNinos />} />
-              <Route path="/aocaCola" element={<ProductoCocaCola />} />
+              <Route path="/cocaCola" element={<ProductoCocaCola />} />
               <Route path="/agua" element={<ProductoAgua />} />
               <Route path="/nosotros" element={<Nosotros />} />
               <Route path="/carrito" element={<Carrito />} />

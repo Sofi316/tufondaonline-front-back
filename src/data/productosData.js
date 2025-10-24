@@ -17,49 +17,180 @@ import terremotoNinos from "../assets/productos/terremotoniños.jpg" // Asegúra
 import cocaCola from "../assets/productos/coca-cola.jpg"
 import agua from "../assets/productos/agua.jpg"
 
-// --- LISTA DE PRODUCTOS (con campos de oferta añadidos) ---
+// --- LISTA DE PRODUCTOS (con detalle estático, descripción y categoría) ---
 export let productos = [
     // Productos SIN oferta
-    { id: 1, nombre: "Choripán", precio: 3000, img: choripan, detalle: "/Choripan", categoria: "Plato con Carne", stock: 50, enOferta: false },
-    { id: 2, nombre: "Completo Italiano", precio: 3500, img: completo, detalle: "/Completo", categoria: "Plato con Carne", stock: 40, enOferta: false },
-    { id: 3, nombre: "Anticucho", precio: 10000, img: anticucho, detalle: "/Anticucho", categoria: "Plato con Carne", stock: 15, enOferta: false },
-    { id: 4, nombre: "Pastel de Choclo", precio: 17000, img: pastelChoclo, detalle: "/PastelChoclo", categoria: "Plato con Carne", stock: 10, enOferta: false },
-    { id: 6, nombre: "Choripán Vegano", precio: 3000, img: choripanVeg, detalle: "/ChoripanVegano", categoria: "Plato sin carne", stock: 20, enOferta: false },
-    { id: 7, nombre: "Completo Italiano Vegano", precio: 3500, img: completoVeg, detalle: "/CompletoVegano", categoria: "Plato sin carne", stock: 18, enOferta: false },
-    { id: 8, nombre: "Empanada Vegana", precio: 5000, img: empanadaVeg, detalle: "/EmpanadaVegana", categoria: "Plato sin carne", stock: 12, enOferta: false },
-    { id: 9, nombre: "Empanada de Queso", precio: 5000, img: empanadaQueso, detalle: "/EmpanadaQueso", categoria: "Plato sin carne", stock: 25, enOferta: false },
-    { id: 10, nombre: "Anticucho de Verduras", precio: 8000, img: anticuchoVer, detalle: "/AnticuchoVerdura", categoria: "Plato sin carne", stock: 8, enOferta: false },
-    { id: 11, nombre: "Pastel de Choclo Vegano", precio: 17000, img: pastelChocloVeg, detalle: "/PastelChocloVegano", categoria: "Plato sin carne", stock: 5, enOferta: false },
-    { id: 13, nombre: "Terremoto para Niños", precio: 3000, img: terremotoNinos, detalle: "/TerremotoNinos", categoria: "Bebestible", stock: 80, enOferta: false },
-    { id: 14, nombre: "Bebida Coca Cola", precio: 2500, img: cocaCola, detalle: "/CocaCola", categoria: "Bebestible", stock: 200, enOferta: false },
-    { id: 15, nombre: "Agua", precio: 1800, img: agua, detalle: "/Agua", categoria: "Bebestible", stock: 150, enOferta: false },
-
-    // Productos CON oferta
     {
-      id: 5, // ID coincide con el producto original
-      nombre: "Empanada de Pino",
-      precio: 5000, // Precio original
-      img: empanada,
-      detalle: "/Empanada",
-      categoria: "Plato con Carne",
-      stock: 30,
-      enOferta: true,     // Marcado como oferta
-      precioOferta: 4000  // Nuevo precio
+        id: 1,
+        nombre: "Choripán",
+        precio: 3000,
+        img: choripan,
+        detalle: "/Choripan", // <-- RUTA ESTÁTICA
+        categoria: "Plato con Carne",
+        stock: 50,
+        enOferta: false,
+        descripcion: "Delicioso chorizo de Chillán asado a la parrilla dentro de un crujiente pan marraqueta."
     },
     {
-      id: 12, // ID coincide con el producto original
+        id: 2,
+        nombre: "Completo Italiano",
+        precio: 3500,
+        img: completo,
+        detalle: "/Completo", // <-- RUTA ESTÁTICA
+        categoria: "Plato con Carne",
+        stock: 40,
+        enOferta: false,
+        descripcion: "Tradicional completo chileno con vienesa, palta fresca, tomate picado y mayonesa casera."
+    },
+    {
+        id: 3,
+        nombre: "Anticucho",
+        precio: 10000,
+        img: anticucho,
+        detalle: "/Anticucho", // <-- RUTA ESTÁTICA
+        categoria: "Plato con Carne",
+        stock: 15,
+        enOferta: false,
+        descripcion: "Trozos jugosos de carne de vacuno, longaniza, cebolla y pimentón asados a la parrilla en brocheta."
+    },
+    {
+        id: 4,
+        nombre: "Pastel de Choclo",
+        precio: 17000,
+        img: pastelChoclo,
+        detalle: "/PastelChoclo", // <-- RUTA ESTÁTICA
+        categoria: "Plato con Carne",
+        stock: 10,
+        enOferta: false,
+        descripcion: "Clásico plato chileno con pino de carne, pollo, huevo duro y aceitunas, cubierto con pasta de choclo dulce."
+    },
+    {
+        id: 6,
+        nombre: "Choripán Vegano",
+        precio: 3000,
+        img: choripanVeg,
+        detalle: "/ChoripanVegano", // <-- RUTA ESTÁTICA
+        categoria: "Plato sin carne",
+        stock: 20,
+        enOferta: false,
+        descripcion: "Versión vegana del clásico choripán, con chorizo a base de plantas en pan marraqueta."
+    },
+    {
+        id: 7,
+        nombre: "Completo Italiano Vegano",
+        precio: 3500,
+        img: completoVeg,
+        detalle: "/CompletoVegano", // <-- RUTA ESTÁTICA
+        categoria: "Plato sin carne",
+        stock: 18,
+        enOferta: false,
+        descripcion: "Completo italiano 100% vegano, con salchicha vegetal, palta, tomate y mayonesa vegana."
+    },
+    {
+        id: 8,
+        nombre: "Empanada Vegana",
+        precio: 5000,
+        img: empanadaVeg,
+        detalle: "/EmpanadaVegana", // <-- RUTA ESTÁTICA
+        categoria: "Plato sin carne",
+        stock: 12,
+        enOferta: false,
+        descripcion: "Empanada horneada rellena de un sabroso pino de champiñones, cebolla y especias."
+    },
+    {
+        id: 9,
+        nombre: "Empanada de Queso",
+        precio: 5000,
+        img: empanadaQueso,
+        detalle: "/EmpanadaQueso", // <-- RUTA ESTÁTICA
+        categoria: "Plato sin carne",
+        stock: 25,
+        enOferta: false,
+        descripcion: "Empanada frita rellena de abundante queso derretido."
+    },
+    {
+        id: 10,
+        nombre: "Anticucho de Verduras",
+        precio: 8000,
+        img: anticuchoVer,
+        detalle: "/AnticuchoVerdura", // <-- RUTA ESTÁTICA
+        categoria: "Plato sin carne",
+        stock: 8,
+        enOferta: false,
+        descripcion: "Brocheta de verduras de temporada (pimentón, cebolla, zapallo italiano, champiñón) asadas a la parrilla."
+    },
+    {
+        id: 11,
+        nombre: "Pastel de Choclo Vegano",
+        precio: 17000,
+        img: pastelChocloVeg,
+        detalle: "/PastelChocloVegano", // <-- RUTA ESTÁTICA
+        categoria: "Plato sin carne",
+        stock: 5,
+        enOferta: false,
+        descripcion: "Versión vegana del pastel de choclo, con pino a base de soya texturizada y verduras, cubierto de pasta de choclo."
+    },
+    {
+        id: 13,
+        nombre: "Terremoto para Niños",
+        precio: 3000,
+        img: terremotoNinos,
+        detalle: "/TerremotoNinos", // <-- RUTA ESTÁTICA
+        categoria: "Bebestible",
+        stock: 80,
+        enOferta: false,
+        descripcion: "Versión sin alcohol del terremoto, preparada con helado de piña y granadina."
+    },
+    {
+        id: 14,
+        nombre: "Bebida Coca Cola",
+        precio: 2500,
+        img: cocaCola,
+        detalle: "/CocaCola", // <-- RUTA ESTÁTICA
+        categoria: "Bebestible",
+        stock: 200,
+        enOferta: false,
+        descripcion: "Clásica bebida Coca-Cola en formato lata o botella."
+    },
+    {
+        id: 15,
+        nombre: "Agua",
+        precio: 1800,
+        img: agua,
+        detalle: "/Agua", // <-- RUTA ESTÁTICA
+        categoria: "Bebestible",
+        stock: 150,
+        enOferta: false,
+        descripcion: "Agua mineral sin gas, botella de 500cc."
+    },
+    // Productos CON oferta
+    {
+      id: 5,
+      nombre: "Empanada de Pino",
+      precio: 5000,
+      img: empanada,
+      detalle: "/Empanada", // <-- RUTA ESTÁTICA
+      categoria: "Plato con Carne",
+      stock: 30,
+      enOferta: true,
+      precioOferta: 4000,
+      descripcion: "Masa rellena de carne picada, cebolla, aceitunas, pasas y huevo duro."
+    },
+    {
+      id: 12,
       nombre: "Terremoto",
-      precio: 3500, // Precio original
+      precio: 3500,
       img: terremoto,
-      detalle: "/Terremoto",
+      detalle: "/Terremoto", // <-- RUTA ESTÁTICA
       categoria: "Bebestible",
       stock: 100,
-      enOferta: true,     // Marcado como oferta
-      precioOferta: 3000  // Nuevo precio
+      enOferta: true,
+      precioOferta: 3000,
+      descripcion: "Tradicional trago chileno con vino pipeño blanco, helado de piña y granadina."
     },
 ];
 
-// --- FUNCIONES CRUD DE PRODUCTOS (Se mantienen igual que tu archivo) ---
+// --- FUNCIONES CRUD DE PRODUCTOS ---
 export const agregarProducto = (nuevoProducto) => {
     const newId = productos.length ? Math.max(...productos.map(p => p.id)) + 1 : 1;
     const productoConId = {
@@ -67,15 +198,23 @@ export const agregarProducto = (nuevoProducto) => {
         id: newId,
         precio: Number(nuevoProducto.precio) || 0,
         stock: Number(nuevoProducto.stock) || 0,
-        enOferta: nuevoProducto.enOferta || false // Asegura que tenga valor
+        enOferta: nuevoProducto.enOferta || false,
+        // Asigna el detalle basado en el nombre (si es un producto nuevo) o lo mantiene
+        detalle: nuevoProducto.detalle || `/${nuevoProducto.nombre.replace(/\s+/g, '')}`, // Simplificación, ajusta si es necesario
+        descripcion: nuevoProducto.descripcion || "",
+        categoria: nuevoProducto.categoria || "Sin categoría"
     };
     productos.push(productoConId);
     return productoConId;
 };
 export const obtenerProductos = () => [...productos];
-export const obtenerProducto = (id) => {
-    return productos.find(p => p.id === Number(id));
+
+// --- FUNCIÓN getProductById (para usar en detalles individuales) ---
+// La dejamos aunque no usemos rutas dinámicas, por si la necesitas
+export const getProductById = (id) => {
+  return productos.find((p) => p.id == id);
 }
+
 export const actualizarProducto = (id, datosActualizados) => {
     let productoActualizado = null;
     productos = productos.map((p) => {
@@ -86,7 +225,10 @@ export const actualizarProducto = (id, datosActualizados) => {
                 precio: Number(datosActualizados.precio) || p.precio,
                 stock: Number(datosActualizados.stock) || p.stock,
                 enOferta: datosActualizados.enOferta !== undefined ? datosActualizados.enOferta : p.enOferta,
-                precioOferta: Number(datosActualizados.precioOferta) || p.precioOferta
+                precioOferta: Number(datosActualizados.precioOferta) || p.precioOferta,
+                detalle: datosActualizados.detalle || p.detalle, // Mantiene la ruta estática si no se cambia
+                descripcion: datosActualizados.descripcion || p.descripcion,
+                categoria: datosActualizados.categoria || p.categoria
             };
             return productoActualizado;
         }
@@ -99,7 +241,7 @@ export const eliminarProducto = (id) => {
     return productos;
 };
 
-// --- FUNCIONES AUXILIARES (Se mantienen igual) ---
+// --- FUNCIONES AUXILIARES ---
 export const obtenerProductosCriticos = (umbral = 10) => {
     return productos.filter(p => p.stock <= umbral);
 };

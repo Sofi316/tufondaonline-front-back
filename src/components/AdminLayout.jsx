@@ -1,9 +1,6 @@
 import React from 'react';
-// Asegúrate de tener bootstrap-icons (npm install bootstrap-icons)
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
-// Importa tus estilos donde añadirás las clases de admin
-
 
 export default function AdminLayout() {
   const navigate = useNavigate();
@@ -16,7 +13,6 @@ export default function AdminLayout() {
 
   return (
     <div className="admin-layout">
-      {/* --- SIDEBAR --- */}
       <nav className="admin-sidebar">
         <div className="sidebar-header">
           <h3>FondaOnline</h3>
@@ -73,8 +69,6 @@ export default function AdminLayout() {
 
       {/* --- CONTENIDO PRINCIPAL --- */}
       <main className="admin-content">
-        {/* 'Outlet' es el espacio donde React Router renderizará 
-            el componente de la ruta actual (ej. AdminDashboard) */}
         <Outlet />
       </main>
     </div>

@@ -1,53 +1,50 @@
+// src/components/BotonDescargarBoleta.jsx
+
+// 1. Importa el archivo de lógica (ajusta la ruta si es necesario)
+import '../utils/BotonDescargarBoleta.logic.js'; 
 import React from 'react';
 import { Button } from 'react-bootstrap';
 
 // Recibe los detalles de la orden como prop
 const BotonDescargarBoleta = ({ orderDetails }) => {
 
-  const formatPesoChileno = (valor) => {
-    if (typeof valor !== 'number') return '$NaN';
-    return new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' }).format(valor);
-  };
+  // 2. Ya NO necesitamos formatPesoChileno aquí, está en el .logic.js
 
+  // 3. Modifica handleDownload para usar la lógica externa
   const handleDownload = () => {
-    if (!orderDetails) return;
+    // Validar que orderDetails exista
+    if (!orderDetails) {
+        console.error("handleDownload: orderDetails no proporcionado.");
+        alert("Error: No hay detalles de la orden para descargar."); // Informa al usuario
+        return;
+    }
 
-    const { orderNumber, customerInfo, items, total } = orderDetails;
+    // Llamar a la función de lógica externa para generar el contenido
+    // Accede a la función a través del objeto global 'window'
+    const boletaContent = window.BotonDescargarBoletaLogic.generarContenidoBoleta(orderDetails);
 
-    // Genera el contenido del archivo de texto
-    let boletaContent = `========================================\n`;
-    boletaContent += `       BOLETA FONDAONLINE\n`;
-    boletaContent += `========================================\n\n`;
-    boletaContent += `Número de Orden: #${orderNumber}\n`;
-    boletaContent += `Fecha: ${new Date().toLocaleString('es-CL')}\n\n`;
-    boletaContent += `--- Datos del Cliente ---\n`;
-    boletaContent += `Nombre: ${customerInfo.nombre} ${customerInfo.apellidos}\n`;
-    boletaContent += `Correo: ${customerInfo.correo}\n\n`;
-    boletaContent += `--- Dirección de Entrega ---\n`;
-    boletaContent += `Dirección: ${customerInfo.calle}${customerInfo.departamento ? `, Depto ${customerInfo.departamento}` : ''}\n`;
-    boletaContent += `Comuna: ${customerInfo.comuna}\n`;
-    boletaContent += `Región: ${customerInfo.region}\n`;
-    if(customerInfo.indicaciones) boletaContent += `Indicaciones: ${customerInfo.indicaciones}\n`;
-    boletaContent += `\n--- Productos ---\n`;
-    items.forEach(item => {
-      const subtotal = item.precio * item.cantidad;
-      boletaContent += `- ${item.nombre} (x${item.cantidad}) - ${formatPesoChileno(item.precio)} c/u = ${formatPesoChileno(subtotal)}\n`;
-    });
-    boletaContent += `\n----------------------------------------\n`;
-    boletaContent += `TOTAL PAGADO: ${formatPesoChileno(total)}\n`;
-    boletaContent += `----------------------------------------\n\n`;
-    boletaContent += `¡Gracias por tu compra!\n`;
-    boletaContent += `========================================\n`;
+    // Verificar si la lógica devolvió un error
+    if (boletaContent.startsWith("Error:")) {
+        console.error("Error al generar boleta:", boletaContent);
+        alert(boletaContent); // Muestra el error si la generación falló
+        return;
+    }
 
-    // Lógica de descarga (igual que antes)
-    const blob = new Blob([boletaContent], { type: 'text/plain;charset=utf-8' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = `boleta_fondaonline_${orderNumber}.txt`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(link.href);
+    // Lógica de descarga (se mantiene igual)
+    try {
+        const blob = new Blob([boletaContent], { type: 'text/plain;charset=utf-8' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        const orderNumber = orderDetails.orderNumber || 'boleta';
+        link.download = `boleta_fondaonline_${orderNumber}.txt`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(link.href);
+    } catch (error) {
+        console.error("Error al intentar descargar la boleta:", error);
+        alert("Ocurrió un error al intentar descargar el archivo.");
+    }
   };
 
   return (

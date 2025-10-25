@@ -421,7 +421,7 @@ input, textarea { width: 100%; padding: 8px; }
 }
 
 .admin-sidebar .sidebar-footer {
-  margin-top: auto; /* Empuja el footer al fondo */
+  
   padding: 1rem;
   border-top: 1px solid #495057;
 }

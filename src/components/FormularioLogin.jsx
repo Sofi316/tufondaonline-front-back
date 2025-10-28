@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
-// 1. YA NO necesitas importar 'loginUser' de usersData aquí
-// import { loginUser } from '../data/usersData';
-
-// 2. IMPORTA useAuth para acceder al contexto
-import { useAuth } from '../context/AuthContext'; // Asegúrate que la ruta sea correcta
+import { useAuth } from '../context/AuthContext'; 
 
 export default function FormularioLogin() {
   const [email, setEmail] = useState('');
@@ -13,26 +8,21 @@ export default function FormularioLogin() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  // 3. OBTÉN la función 'iniciarSesion' del contexto
   const { iniciarSesion } = useAuth();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setError('');
 
-    // 4. LLAMA a la función 'iniciarSesion' DEL CONTEXTO
-    const loggedInUser = iniciarSesion(email, password); // Esta función actualiza el estado global
+    const loggedInUser = iniciarSesion(email, password); 
 
-    // 5. Comprueba el resultado (devuelto por la función del contexto)
     if (loggedInUser) {
-      // ¡Inicio de sesión exitoso!
       console.log('¡Inicio de sesión exitoso via Context!', loggedInUser);
 
-      // Redirige según el rol (igual que antes)
       if (loggedInUser.role === 'administrador') {
         navigate('/admin');
       } else {
-        navigate('/'); // O a donde quieras redirigir al cliente
+        navigate('/');
       }
 
     } else {
@@ -49,7 +39,7 @@ export default function FormularioLogin() {
         </div>
       )}
 
-      {/* Campo Correo */}
+  
       <div className="mb-3">
         <label htmlFor="loginEmail" className="form-label">Correo</label>
         <input
@@ -64,7 +54,7 @@ export default function FormularioLogin() {
         />
       </div>
 
-      {/* Campo Contraseña */}
+
       <div className="mb-3">
         <label htmlFor="loginPassword" className="form-label">Contraseña</label>
         <input
@@ -75,13 +65,12 @@ export default function FormularioLogin() {
           placeholder="******"
           required
           minLength="4"
-          maxLength="10" // Considera quitar este maxlength si las contraseñas pueden ser más largas
+          maxLength="10" 
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
 
-      {/* Botones */}
       <div className="d-grid gap-2 d-md-flex justify-content-md-start">
         <button type="submit" className="btn btn-danger me-md-2">
           Ingresar

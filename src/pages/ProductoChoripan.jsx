@@ -70,7 +70,7 @@ const ProductoChoripan = () => {
     <main className="contenedor"> {/* O la clase que usaras */}
       {/* Breadcrumb original */}
       <div className="breadcrumb">
-        <Link to="/">Inicio</Link> /<Link to="/productos">Productos</Link> /
+        <Link to="/">Inicio</Link> /<Link to="/categorias">Categorias</Link> /
       </div>
 
       {/* Producto principal - CLASES ORIGINALES */}

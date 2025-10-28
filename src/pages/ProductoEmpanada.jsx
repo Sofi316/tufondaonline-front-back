@@ -30,7 +30,7 @@ const ProductoEmpanada = () => {
 
   // Handle case where product is not found
   if (!producto) {
-    return <main className="container text-center my-5"><h2>Producto no encontrado</h2><Link to="/productos" className="btn btn-primary">Volver</Link></main>;
+    return <main className="container text-center my-5"><h2>Producto no encontrado</h2><Link to="/categorias" className="btn btn-primary">Volver</Link></main>;
   }
 
   // Handle adding to cart

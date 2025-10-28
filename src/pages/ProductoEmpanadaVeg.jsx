@@ -27,7 +27,7 @@ const ProductoEmpanadaVeg = () => {
   }, [producto]);
 
   if (!producto) {
-    return <main className="container text-center my-5"><h2>Producto no encontrado</h2><Link to="/productos" className="btn btn-primary">Volver</Link></main>;
+    return <main className="container text-center my-5"><h2>Producto no encontrado</h2><Link to="/categorias" className="btn btn-primary">Volver</Link></main>;
   }
 
   const handleAgregarAlCarrito = () => {

@@ -61,7 +61,7 @@ const ProductoEmpanada = () => {
       <div className="breadcrumb mb-4">
         <Link to="/" className="text-decoration-none text-muted">Inicio</Link>
         <span className="mx-2">/</span>
-        <Link to="/productos" className="text-decoration-none text-muted">Productos</Link>
+        <Link to="/categorias" className="text-decoration-none text-muted">Categorias</Link>
         <span className="mx-2">/</span>
         <span className="fw-bold">{producto.nombre}</span>
       </div>

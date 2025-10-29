@@ -1,7 +1,8 @@
 
-import '../utils/BotonDescargarBoleta.logic.js'; 
 import React from 'react';
 import { Button } from 'react-bootstrap';
+import '../utils/BotonDescargarBoleta.logic.js'; 
+
 
 const BotonDescargarBoleta = ({ orderDetails }) => {
 

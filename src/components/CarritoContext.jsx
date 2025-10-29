@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext'; 
+import '../utils/CarritoContext.logic.js'; 
+
 
 const CarritoContext = createContext();
 
@@ -20,56 +22,32 @@ export const CarritoProvider = ({ children }) => {
     localStorage.setItem('carrito', JSON.stringify(carrito));
   }, [carrito]);
 
-  const agregarAlCarrito = (id, nombre, precio, img) => {
-    setCarrito(prevCarrito => {
-      const productoExistente = prevCarrito.find(item => item.nombre === nombre);
+ const agregarAlCarrito = (id, nombre, precio, img) => {
+  setCarrito(prevCarrito =>
+    window.CarritoLogic.agregarAlCarrito(prevCarrito, id, nombre, precio, img)
+  );
+};
 
-      if (productoExistente) {
-        return prevCarrito.map(item =>
-          item.nombre === nombre
-            ? { ...item, cantidad: item.cantidad + 1, precio: precio } 
-            : item
-        );
-      } else {
-        return [...prevCarrito, {
-          id, 
-          nombre,
-          precio, 
-          img,
-          cantidad: 1
-        }];
-      }
-    });
-  };
+const eliminarDelCarrito = (nombre) => {
+  setCarrito(prevCarrito =>
+    window.CarritoLogic.eliminarDelCarrito(prevCarrito, nombre)
+  );
+};
 
-  const eliminarDelCarrito = (nombre) => {
-    setCarrito(prevCarrito => prevCarrito.filter(item => item.nombre !== nombre));
-  };
+const actualizarCantidad = (nombre, nuevaCantidad) => {
+  setCarrito(prevCarrito =>
+    window.CarritoLogic.actualizarCantidad(prevCarrito, nombre, nuevaCantidad)
+  );
+};
 
-  const actualizarCantidad = (nombre, nuevaCantidad) => {
-    if (nuevaCantidad <= 0) {
-      eliminarDelCarrito(nombre); 
-    } else {
-      setCarrito(prevCarrito =>
-        prevCarrito.map(item =>
-          item.nombre === nombre
-            ? { ...item, cantidad: nuevaCantidad }
-            : item
-        )
-      );
-    }
-  };
-
-  const vaciarCarrito = () => {
-    setCarrito([]); 
-  };
+const vaciarCarrito = () => {
+  setCarrito(window.CarritoLogic.vaciarCarrito());
+};
 
 
-  const totalProductos = carrito.reduce((total, item) => total + (Number(item.cantidad) || 0), 0);
-  const montoSubtotal = carrito.reduce((total, item) => total + ((Number(item.precio) || 0) * (Number(item.cantidad) || 0)), 0);
-  const descuentoReal = Number(descuentoAplicado) || 0;
-  const montoDescuento = montoSubtotal * descuentoReal;
-  const montoTotal = montoSubtotal - montoDescuento;
+  const { totalProductos, montoSubtotal, montoDescuento, montoTotal } =
+  window.CarritoLogic.calcularTotales(carrito, descuentoAplicado);
+
 
   const valor = {
     carrito,            

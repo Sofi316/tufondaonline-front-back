@@ -6,6 +6,7 @@ import { agregarOrden } from '../data/usersData';
 import { useAuth } from '../context/AuthContext';
 import { getRegiones, getComunas } from '../data/datos';
 
+
 export default function Comprar() {
   const { carrito, montoSubtotal, montoDescuento, montoTotal, vaciarCarrito } = useCarrito();
   const { usuarioLogueado, codigoDescuentoUsado } = useAuth();

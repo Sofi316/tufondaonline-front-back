@@ -1,12 +1,26 @@
+// karma.conf.js
 module.exports = function (config) {
   config.set({
     frameworks: ['jasmine'],
     files: [
-      'src/utils/**/*.js',   // Incluye la lógica primero
+      'src/utils/**/*.logic.js',
+      'src/utils/**/*.logic.spec.js'
     ],
-    reporters: ['spec'],     // Reporter legible
-    browsers: ['ChromeHeadless'], // Ejecuta en modo invisible
-    singleRun: true,         // Corre una vez y termina
-    concurrency: Infinity
+    browsers: ['ChromeHeadless'],
+    // 👇 Cambiamos los reporters
+    reporters: ['spec'],
+    plugins: [
+      'karma-jasmine',
+      'karma-chrome-launcher',
+      'karma-spec-reporter'
+    ],
+    specReporter: {
+      suppressErrorSummary: false,
+      suppressFailed: false,
+      suppressPassed: false,
+      showSpecTiming: true
+    },
+    colors: true,
+    singleRun: true
   });
 };

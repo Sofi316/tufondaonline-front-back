@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import '../utils/FormularioContacto.logic.js'; 
+
 
 export default function FormularioContacto() {
   const [nombre, setNombre] = useState('');
@@ -11,41 +13,31 @@ export default function FormularioContacto() {
   const [exito, setExito] = useState(false);
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    setExito(false);
+  e.preventDefault();
+  setExito(false);
 
-    let valido = true;
+  const resultado = window.FormularioContactoLogic.enviarFormulario(nombre, correo, contenido);
 
-    if (nombre.trim() === '' || nombre.length > 100) {
-      setErrorNombre('El nombre es requerido (máx. 100 caracteres).');
-      valido = false;
-    } else {
-      setErrorNombre('');
-    }
+  // Limpia los errores previos
+  setErrorNombre('');
+  setErrorCorreo('');
+  setErrorContenido('');
 
-    const regexCorreo = /^[a-zA-Z0-9._%+-]+@(duoc\.cl|profesor\.duoc\.cl|gmail\.com)$/;
-    if (!regexCorreo.test(correo) || correo.length > 100) {
-      setErrorCorreo('Ingresa un correo válido (@duoc.cl, @profesor.duoc.cl o @gmail.com).');
-      valido = false;
-    } else {
-      setErrorCorreo('');
-    }
+  if (!resultado.exito) {
+    // Muestra los mensajes de error
+    setErrorNombre(resultado.errores.errorNombre);
+    setErrorCorreo(resultado.errores.errorCorreo);
+    setErrorContenido(resultado.errores.errorContenido);
+    return;
+  }
 
-    if (contenido.trim() === '' || contenido.length > 500) {
-      setErrorContenido('El comentario es requerido (máx. 500 caracteres).');
-      valido = false;
-    } else {
-      setErrorContenido('');
-    }
+  // Si todo salió bien, muestra el mensaje de éxito y limpia el formulario
+  setExito(true);
+  setNombre('');
+  setCorreo('');
+  setContenido('');
+};
 
-    if (valido) {
-      console.log('Formulario enviado:', { nombre, correo, contenido });
-      setExito(true);
-      setNombre('');
-      setCorreo('');
-      setContenido('');
-    }
-  };
 
   return (
     <form onSubmit={handleSubmit} noValidate>

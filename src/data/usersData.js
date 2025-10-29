@@ -8,7 +8,7 @@ import { productos as allProducts } from './productosData.js';
  
 const USERS_DEFAULT = [
   {
-    id: 1, email: 'admin@fonda.cl', password: 'admin123', nombre: 'Admin Fonda',
+    id: 1, email: 'admin@duoc.cl', password: 'admin123', nombre: 'Admin Fonda',
     role: 'administrador', rut: '1-9', region: 'Región Metropolitana', comuna: 'Santiago',
     direccion: 'Calle Falsa 123', activo: true, fechaRegistro: '2024-01-01', fechaNac: '1990-01-01'  
   },
@@ -258,7 +258,6 @@ export const agregarOrden = (detallesOrden) => {
     console.log("Nueva orden guardada:", nuevaOrden);
 };
 
- 
 export function getOrdenesPorUsuario(userId) {
    
   return getOrdenes().filter(o => o.userId === Number(userId));

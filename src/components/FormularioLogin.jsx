@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext'; 
+import '../utils/FormularioLogin.logic.js'; 
 
 export default function FormularioLogin() {
   const [email, setEmail] = useState('');
@@ -11,22 +12,24 @@ export default function FormularioLogin() {
   const { iniciarSesion } = useAuth();
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    setError('');
+  e.preventDefault();
+  setError('');
 
-    const loggedInUser = iniciarSesion(email, password); 
+  const resultado = window.FormularioLoginLogic.procesarLogin(email, password, iniciarSesion);
 
-    if (loggedInUser) {
-      console.log('¡Inicio de sesión exitoso via Context!', loggedInUser);
-      if (loggedInUser.role === 'administrador') {
-        navigate('/admin');
-      } else {
-        navigate('/');
-      }
+  if (resultado.exito) {
+    console.log('¡Inicio de sesión exitoso via lógica externa!', resultado.usuario);
+
+    if (resultado.usuario.role === 'administrador') {
+      navigate('/admin');
     } else {
-      setError('Correo o contraseña incorrectos.');
+      navigate('/');
     }
-  };
+  } else {
+    setError(resultado.mensaje);
+  }
+};
+
 
   return (
     <form onSubmit={handleSubmit} noValidate>

@@ -1,10 +1,8 @@
-// src/pages/ProductoPastelChoclo.jsx
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getProductById } from '../data/productosData';
 import { useCarrito } from "../components/CarritoContext";
 
-// Miniaturas y Relacionados
 import pastelChoclo2 from "../assets/productos/pastelchoclo2.jpg";
 import pastelChoclo3 from "../assets/productos/pastelchoclo3.jpg";
 import pastelChoclo4 from "../assets/productos/pastelchoclo4.jpg";
@@ -13,7 +11,7 @@ import completo from "../assets/productos/completo.jpg";
 import choripan from "../assets/productos/choripan.jpg";
 
 const ProductoPastelChoclo = () => {
-  const productoId = 4; // <<<--- ID for Pastel de Choclo
+  const productoId = 4;
   const producto = getProductById(productoId);
 
   const [cantidad, setCantidad] = useState(1);
@@ -48,7 +46,6 @@ const ProductoPastelChoclo = () => {
 
   return (
     <main className="contenedor">
-      {/* Breadcrumb */}
       <div className="breadcrumb mb-4">
             <Link to="/" className="text-decoration-none text-muted">Inicio</Link>
             <span className="mx-2">/</span>
@@ -102,7 +99,6 @@ const ProductoPastelChoclo = () => {
         </div>
       </section>
 
-      {/* Productos relacionados */}
       <section style={{ marginTop: '40px' }}>
         <center><h1>PRODUCTOS RELACIONADOS</h1></center>
         <div className="productos-relacionados" style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap' }}>

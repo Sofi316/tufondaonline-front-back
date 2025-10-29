@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Row, Col, Card, ProgressBar, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
-// --- DATOS SIMULADOS PARA EL GRÁFICO ---
+
 
 const ventasPorCategoria = [
   { nombre: 'Plato con Carne', ventas: 75, color: 'primary' },

@@ -1,6 +1,6 @@
 import imgBlog1 from '../assets/blog1.jpg'; 
 import imgBlog2 from '../assets/blog2.jpg';
-// Datos de blogs
+ 
 export const BLOGS = [
     {
         id: 1,

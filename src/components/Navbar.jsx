@@ -14,13 +14,10 @@ export default function Navbar() {
             <nav className="navbar navbar-expand-lg navbar-dark navbar-custom">
                 <div className="container ps-0">
 
-        {/* Logo */}
         <NavLink to="/" className="navbar-brand">
           <img src={logoFonda} alt="Logo de TuFondaOnline" className="logoFonda" />
         </NavLink>
 
-        {/* BOTÓN HAMBURGUESA */}
-        {/* Este es el botón que aparece en móviles */}
         <button
           className="navbar-toggler"
           type="button"
@@ -32,12 +29,9 @@ export default function Navbar() {
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        {/* CONTENEDOR COLAPSABLE */}
-        {/* Añade la clase 'show' SÓLO si isExpanded es true */}
         <div className={`collapse navbar-collapse ${isExpanded ? 'show' : ''}`} 
           id="mainNavbar">
 
-          {/* ENLACES */}
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
               <NavLink to="/" className="nav-link"
@@ -78,22 +72,19 @@ export default function Navbar() {
                   Crear cuenta
               </Link>
             </li>
-             {/* CARRITO DE COMPRAS - ACTUALIZADO */}
             <li className="nav-item">
               <NavLink to="/Carrito" className="nav-link" 
               onClick={() => setIsExpanded(false)}>
                 
-                {/* 1. Envolvemos el icono en un span */}
-                <span className="position-relative d-inline-block "> {/* Lo hacemos relativo y en línea */}
-                  <i className="bi bi-cart3 fs-5"></i> {/* Icono */}
+                <span className="position-relative d-inline-block ">  
+                  <i className="bi bi-cart3 fs-5"></i>  
                   
-                  {/* 2. El badge ahora se posiciona relativo AL SPAN */}
                   {totalProductos > 0 && (
                       <span className="position-absolute top-1 start-100 ms-2 badge bg-danger rounded-pill"> 
                           {totalProductos}
                       </span>
                   )}
-                </span> {/* Cerramos el span contenedor */}
+                </span>  
               </NavLink>
             </li>
 

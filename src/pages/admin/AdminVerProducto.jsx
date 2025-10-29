@@ -15,7 +15,7 @@ export default function AdminVerProducto() {
     if (data) {
       setProducto(data);
     } else {
-      // Si no se encuentra el producto, redirigir o mostrar error
+      
       navigate('/admin/productos'); 
     }
   }, [id, navigate]);

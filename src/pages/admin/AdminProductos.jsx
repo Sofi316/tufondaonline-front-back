@@ -14,8 +14,8 @@ export default function AdminProductos() {
 
   const handleEliminar = (id) => {
     if (window.confirm("¿Estás seguro de que quieres eliminar este producto?")) {
-      eliminarProducto(id); // Llama a la función de tu archivo de datos
-      setProductos(obtenerProductos()); // Actualiza la lista que se muestra en la tabla
+      eliminarProducto(id); 
+      setProductos(obtenerProductos()); 
     }
   };
   
@@ -30,8 +30,8 @@ export default function AdminProductos() {
   };
 
   return (
-    <Container fluid> {/* Usa todo el ancho disponible */}
-      <Row className="align-items-center mb-3"> {/* mb-3 añade margen inferior */}
+  <Container fluid>
+  <Row className="align-items-center mb-3">
         <Col> 
           <h2>Gestión de Productos</h2>
           <p className="text-muted">Administra el inventario de la tienda.</p>
@@ -56,7 +56,7 @@ export default function AdminProductos() {
         </Col>
       </Row>
 
-      {/* --- Tabla de Productos --- */}
+      
       <Table striped bordered hover responsive> 
         <thead className="table-dark"> 
           <tr>

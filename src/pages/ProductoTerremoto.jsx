@@ -1,10 +1,8 @@
-// src/pages/ProductoTerremoto.jsx
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getProductById } from '../data/productosData';
 import { useCarrito } from "../components/CarritoContext";
 
-// Miniaturas y Relacionados
 import terremoto2 from "../assets/productos/terremoto2.jpg";
 import terremoto3 from "../assets/productos/terremoto3.jpg";
 import terremoto4 from "../assets/productos/terremoto4.jpg";
@@ -13,7 +11,7 @@ import cocaCola from "../assets/productos/coca-cola.jpg";
 import agua from "../assets/productos/agua.jpg";
 
 const ProductoTerremoto = () => {
-  const productoId = 12; // <<<--- ID for Terremoto
+  const productoId = 12; 
   const producto = getProductById(productoId);
 
   const [cantidad, setCantidad] = useState(1);
@@ -48,7 +46,7 @@ const ProductoTerremoto = () => {
 
   return (
     <main className="contenedor">
-      {/* Breadcrumb */}
+      
        <div className="breadcrumb mb-4">
             <Link to="/" className="text-decoration-none text-muted">Inicio</Link>
             <span className="mx-2">/</span>
@@ -102,7 +100,7 @@ const ProductoTerremoto = () => {
         </div>
       </section>
 
-      {/* Productos relacionados */}
+      
        <section style={{ marginTop: '40px' }}>
         <center><h1>PRODUCTOS RELACIONADOS</h1></center>
         <div className="productos-relacionados" style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap' }}>

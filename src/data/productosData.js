@@ -1,6 +1,6 @@
-// src/data/productosData.js
+ 
 
-// --- IMPORTS DE IMÁGENES (Asegúrate que estas rutas sean correctas) ---
+ 
 import choripan from "../assets/productos/choripan.jpg"
 import completo from "../assets/productos/completo.jpg"
 import anticucho from "../assets/productos/anticucho.jpg"
@@ -10,22 +10,22 @@ import choripanVeg from "../assets/productos/choripanveg.jpg"
 import completoVeg from "../assets/productos/completoveg.jpg"
 import empanadaVeg from "../assets/productos/empanadaveg.jpg"
 import empanadaQueso from "../assets/productos/empanadaqueso.jpg"
-import anticuchoVer from "../assets/productos/anticuchoverdura.jpg" // Asegúrate que el nombre de archivo coincida
+import anticuchoVer from "../assets/productos/anticuchoverdura.jpg"  
 import pastelChocloVeg from "../assets/productos/pastelchocloveg.jpg"
 import terremoto from "../assets/productos/terremoto.jpg"
-import terremotoNinos from "../assets/productos/terremotoniños.jpg" // Asegúrate que el nombre de archivo coincida
+import terremotoNinos from "../assets/productos/terremotoniños.jpg"  
 import cocaCola from "../assets/productos/coca-cola.jpg"
 import agua from "../assets/productos/agua.jpg"
 
-// --- LISTA DE PRODUCTOS (con detalle estático, descripción y categoría) ---
+ 
 export let productos = [
-    // Productos SIN oferta
+     
     {
         id: 1,
         nombre: "Choripán",
         precio: 3000,
         img: choripan,
-        detalle: "/Choripan", // <-- RUTA ESTÁTICA
+        detalle: "/Choripan",  
         categoria: "Plato con Carne",
         stock: 50,
         enOferta: false,
@@ -36,7 +36,7 @@ export let productos = [
         nombre: "Completo Italiano",
         precio: 3500,
         img: completo,
-        detalle: "/Completo", // <-- RUTA ESTÁTICA
+        detalle: "/Completo",  
         categoria: "Plato con Carne",
         stock: 40,
         enOferta: false,
@@ -47,7 +47,7 @@ export let productos = [
         nombre: "Anticucho",
         precio: 10000,
         img: anticucho,
-        detalle: "/Anticucho", // <-- RUTA ESTÁTICA
+        detalle: "/Anticucho",  
         categoria: "Plato con Carne",
         stock: 15,
         enOferta: false,
@@ -58,7 +58,7 @@ export let productos = [
         nombre: "Pastel de Choclo",
         precio: 17000,
         img: pastelChoclo,
-        detalle: "/PastelChoclo", // <-- RUTA ESTÁTICA
+        detalle: "/PastelChoclo",  
         categoria: "Plato con Carne",
         stock: 10,
         enOferta: false,
@@ -69,7 +69,7 @@ export let productos = [
         nombre: "Choripán Vegano",
         precio: 3000,
         img: choripanVeg,
-        detalle: "/ChoripanVegano", // <-- RUTA ESTÁTICA
+        detalle: "/ChoripanVegano",  
         categoria: "Plato sin carne",
         stock: 20,
         enOferta: false,
@@ -80,7 +80,7 @@ export let productos = [
         nombre: "Completo Italiano Vegano",
         precio: 3500,
         img: completoVeg,
-        detalle: "/CompletoVegano", // <-- RUTA ESTÁTICA
+        detalle: "/CompletoVegano",  
         categoria: "Plato sin carne",
         stock: 18,
         enOferta: false,
@@ -91,7 +91,7 @@ export let productos = [
         nombre: "Empanada Vegana",
         precio: 5000,
         img: empanadaVeg,
-        detalle: "/EmpanadaVegana", // <-- RUTA ESTÁTICA
+        detalle: "/EmpanadaVegana",  
         categoria: "Plato sin carne",
         stock: 12,
         enOferta: false,
@@ -102,7 +102,7 @@ export let productos = [
         nombre: "Empanada de Queso",
         precio: 5000,
         img: empanadaQueso,
-        detalle: "/EmpanadaQueso", // <-- RUTA ESTÁTICA
+        detalle: "/EmpanadaQueso",  
         categoria: "Plato sin carne",
         stock: 25,
         enOferta: false,
@@ -113,7 +113,7 @@ export let productos = [
         nombre: "Anticucho de Verduras",
         precio: 8000,
         img: anticuchoVer,
-        detalle: "/AnticuchoVerdura", // <-- RUTA ESTÁTICA
+        detalle: "/AnticuchoVerdura",  
         categoria: "Plato sin carne",
         stock: 8,
         enOferta: false,
@@ -124,7 +124,7 @@ export let productos = [
         nombre: "Pastel de Choclo Vegano",
         precio: 17000,
         img: pastelChocloVeg,
-        detalle: "/PastelChocloVegano", // <-- RUTA ESTÁTICA
+        detalle: "/PastelChocloVegano",  
         categoria: "Plato sin carne",
         stock: 5,
         enOferta: false,
@@ -135,7 +135,7 @@ export let productos = [
         nombre: "Terremoto para Niños",
         precio: 3000,
         img: terremotoNinos,
-        detalle: "/TerremotoNinos", // <-- RUTA ESTÁTICA
+        detalle: "/TerremotoNinos",  
         categoria: "Bebestible",
         stock: 80,
         enOferta: false,
@@ -146,7 +146,7 @@ export let productos = [
         nombre: "Bebida Coca Cola",
         precio: 2500,
         img: cocaCola,
-        detalle: "/CocaCola", // <-- RUTA ESTÁTICA
+        detalle: "/CocaCola",  
         categoria: "Bebestible",
         stock: 200,
         enOferta: false,
@@ -157,19 +157,19 @@ export let productos = [
         nombre: "Agua",
         precio: 1800,
         img: agua,
-        detalle: "/Agua", // <-- RUTA ESTÁTICA
+        detalle: "/Agua",  
         categoria: "Bebestible",
         stock: 150,
         enOferta: false,
         descripcion: "Agua mineral sin gas, botella de 500cc."
     },
-    // Productos CON oferta
+     
     {
       id: 5,
       nombre: "Empanada de Pino",
       precio: 5000,
       img: empanada,
-      detalle: "/Empanada", // <-- RUTA ESTÁTICA
+      detalle: "/Empanada",  
       categoria: "Plato con Carne",
       stock: 30,
       enOferta: true,
@@ -181,7 +181,7 @@ export let productos = [
       nombre: "Terremoto",
       precio: 3500,
       img: terremoto,
-      detalle: "/Terremoto", // <-- RUTA ESTÁTICA
+      detalle: "/Terremoto",  
       categoria: "Bebestible",
       stock: 100,
       enOferta: true,
@@ -190,7 +190,7 @@ export let productos = [
     },
 ];
 
-// --- FUNCIONES CRUD DE PRODUCTOS ---
+ 
 export const agregarProducto = (nuevoProducto) => {
     const newId = productos.length ? Math.max(...productos.map(p => p.id)) + 1 : 1;
     const productoConId = {
@@ -199,8 +199,8 @@ export const agregarProducto = (nuevoProducto) => {
         precio: Number(nuevoProducto.precio) || 0,
         stock: Number(nuevoProducto.stock) || 0,
         enOferta: nuevoProducto.enOferta || false,
-        // Asigna el detalle basado en el nombre (si es un producto nuevo) o lo mantiene
-        detalle: nuevoProducto.detalle || `/${nuevoProducto.nombre.replace(/\s+/g, '')}`, // Simplificación, ajusta si es necesario
+         
+        detalle: nuevoProducto.detalle || `/${nuevoProducto.nombre.replace(/\s+/g, '')}`,  
         descripcion: nuevoProducto.descripcion || "",
         categoria: nuevoProducto.categoria || "Sin categoría"
     };
@@ -209,8 +209,8 @@ export const agregarProducto = (nuevoProducto) => {
 };
 export const obtenerProductos = () => [...productos];
 
-// --- FUNCIÓN getProductById (para usar en detalles individuales) ---
-// La dejamos aunque no usemos rutas dinámicas, por si la necesitas
+ 
+ 
 export const getProductById = (id) => {
   return productos.find((p) => p.id == id);
 }
@@ -226,7 +226,7 @@ export const actualizarProducto = (id, datosActualizados) => {
                 stock: Number(datosActualizados.stock) || p.stock,
                 enOferta: datosActualizados.enOferta !== undefined ? datosActualizados.enOferta : p.enOferta,
                 precioOferta: Number(datosActualizados.precioOferta) || p.precioOferta,
-                detalle: datosActualizados.detalle || p.detalle, // Mantiene la ruta estática si no se cambia
+                detalle: datosActualizados.detalle || p.detalle,  
                 descripcion: datosActualizados.descripcion || p.descripcion,
                 categoria: datosActualizados.categoria || p.categoria
             };
@@ -241,7 +241,7 @@ export const eliminarProducto = (id) => {
     return productos;
 };
 
-// --- FUNCIONES AUXILIARES ---
+ 
 export const obtenerProductosCriticos = (umbral = 10) => {
     return productos.filter(p => p.stock <= umbral);
 };
@@ -250,7 +250,7 @@ export const obtenerCategorias = () => {
     return [...new Set(categorias)].sort();
 };
 
-// --- FUNCIÓN PARA OBTENER OFERTAS ---
+ 
 export const obtenerProductosEnOferta = () => {
     return obtenerProductos().filter(p => p.enOferta === true);
 };

@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Coiny&family=Lato:wght@300;400;700&display=swap');
 
-/* Estilos para carrusel, BlogCard, NavBar, FormularioContacto, Destacados y TarjetaBienvenida */
+ 
 ul,nav,p,div{font-family: 'Lato', sans-serif;}
 h1,h2,h3{font-family: 'Coiny', sans-serif;color: rgb(12, 43, 83);padding-top: 15px;}
 .carousel-caption h3{font-family: 'Coiny', sans-serif;color: rgb(255, 255, 255);padding-top: 15px;}
@@ -18,7 +18,7 @@ input, textarea { width: 100%; padding: 8px; }
 .logoFonda { height: 80px;width: 85px;border-radius: 50%;}
 .texto-azul { color: rgb(12, 43, 83); }
 
-/* FOOTER COMIENZO */
+ 
 .main-footer{
     border-top:1px solid #e5e7eb;
     padding:3rem;
@@ -29,7 +29,7 @@ input, textarea { width: 100%; padding: 8px; }
 .main-footer p{
     color: #ffff;
     font-size: 15px;
-    padding-bottom: 0.5rem; /* Reduce el espacio inferior */
+    padding-bottom: 0.5rem;  
     margin-top: 10px;
     margin-bottom: 4px;
 }
@@ -46,9 +46,9 @@ input, textarea { width: 100%; padding: 8px; }
    color: #ffff;
    text-decoration: none;
    font-weight: 200;
-   display: block; /* Hace que el elemento ocupe toda la línea */
+   display: block;  
    border-bottom: 0.5px solid rgba(255,255,255,0.3); 
-   padding-bottom: 0.3em;       /* Espacio entre el texto y la línea */
+   padding-bottom: 0.3em;        
 }
 .footer-contenido a{
    color: #ffff;
@@ -68,21 +68,21 @@ input, textarea { width: 100%; padding: 8px; }
 .main-footer .copy{
    font-size: 0.80em;
 }
-.copy{ /*Agregué clase que alinea texto de copyright*/
+.copy{  
    margin: 0;
-   padding: 2rem 0 0 0; /* Espacio solo arriba si quieres separar del contenido del footer */
+   padding: 2rem 0 0 0;  
    text-align: center;
 }
 .icono-red{
    width:18px;
    height:18px;
-   vertical-align: middle; /*Alinea la imagen verticalmente en el medio del texto*/
-   margin-right: 6px; /*Espacio entre la imagen y el texto*/
+   vertical-align: middle;  
+   margin-right: 6px;  
 }
-/* FOOTER FIN */
+ 
 
-/* FORMULARIO COMIENZO */
-/* Estilos base de tu HTML original*/
+ 
+ 
 .contenedor {
    max-width: 1100px;
    margin: 0 auto;
@@ -99,12 +99,12 @@ input, textarea { width: 100%; padding: 8px; }
  * Define la "caja" del formulario.
  */
 .formulario {
-   max-width: 520px; /* Define el ancho de la caja */
+   max-width: 520px;  
    font-family: Arial, sans-serif;
-   border: 2px solid rgb(12, 43, 83); /* Tu borde original */
-   border-radius: 8px; /* Tus esquinas redondeadas */
-   padding: 20px;    /* Tu relleno interno */
-   margin: 30px auto; /* Centra la caja */
+   border: 2px solid rgb(12, 43, 83);  
+   border-radius: 8px;  
+   padding: 20px;     
+   margin: 30px auto;  
    color: rgb(12, 43, 83);
    width: 100%;
 
@@ -119,7 +119,7 @@ input, textarea { width: 100%; padding: 8px; }
    font-family: Arial, sans-serif;
 }
 
-/* Estilo para los botones y enlaces de acción */
+ 
 .formulario .acciones{
    display: flex;
    gap: .5rem;
@@ -127,26 +127,26 @@ input, textarea { width: 100%; padding: 8px; }
    font-family: Arial, sans-serif;
 }
 
-/* Estilo para el texto de ayuda */
+ 
 .muted{
    color: #6b7280;
    font-size: .9rem;
    font-family: Arial, sans-serif;
 }
-/* FORMULARIO FIN */
-/* Recuadros para los productos */
-/* CONTENEDOR GENERAL DE LOS PRODUCTOS */
+ 
+ 
+ 
 .contenedor-productos {
    display: grid;
-   grid-template-columns: repeat(3, 1fr); /* 3 columnas iguales */
-   gap: 30px; /* espacio entre las tarjetas */
-   justify-content: center; /* centra el grid horizontalmente */
+   grid-template-columns: repeat(3, 1fr);  
+   gap: 30px;  
+   justify-content: center;  
    padding: 40px;
-   max-width: 1200px; /* limita el ancho total */
-   margin: 0 auto; /* centra el contenedor en la página */
+   max-width: 1200px;  
+   margin: 0 auto;  
 }
 
-/* TARJETA DE PRODUCTO */
+ 
 .recuadro {
    border: 2px solid #4c4eaf;
    border-radius: 12px;
@@ -157,38 +157,38 @@ input, textarea { width: 100%; padding: 8px; }
    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* EFECTO AL PASAR EL MOUSE */
+ 
 .recuadro:hover {
    transform: translateY(-5px);
    box-shadow: 4px 8px 12px rgba(0,0,0,0.25);
 }
 
-/* IMÁGENES DENTRO DE LA TARJETA */
+ 
 .recuadro img {
    max-width: 100%;
    border-radius: 8px;
 }
 
-/* TEXTO */
+ 
 .recuadro p {
    margin-top: 10px;
    font-size: 16px;
    color: #333;
 }
 
-/* RESPONSIVE (ajuste automático en pantallas pequeñas) */
+ 
 @media (max-width: 900px) {
    .contenedor-productos {
-      grid-template-columns: repeat(2, 1fr); /* 2 por fila */
+      grid-template-columns: repeat(2, 1fr);  
    }
 }
 
 @media (max-width: 600px) {
    .contenedor-productos {
-      grid-template-columns: 1fr; /* 1 por fila */
+      grid-template-columns: 1fr;  
    }
 }
-/*Fin de los recuadros de los productos*/
+ 
 
 .carousel-fijo {
    margin: 0 auto;
@@ -198,7 +198,7 @@ input, textarea { width: 100%; padding: 8px; }
     height: 300px; background-color: #333;
 }
 
-/*Detalle productos*/
+ 
 .producto {
   display: flex;
   justify-content: space-between;
@@ -208,27 +208,27 @@ input, textarea { width: 100%; padding: 8px; }
 .producto-imagen {
   flex: 1;
     display: inline-block;
-    width: 300px; /* ancho del recuadro */
-    border: 2px solid #4c4eaf; /* borde azul*/
-    border-radius: 12px; /* esquinas redondeadas */
-    padding: 15px; /* espacio interno */
-    box-shadow: 2px 4px 8px rgba(0,0,0,0.2); /* sombra */
-    text-align: center; /* centrar contenido */
-    background-color: #f9f9f9; /* color de fondo */
-    margin: 20px auto; /* centrar horizontalmente */
+    width: 300px;  
+    border: 2px solid #4c4eaf;  
+    border-radius: 12px;  
+    padding: 15px;  
+    box-shadow: 2px 4px 8px rgba(0,0,0,0.2);  
+    text-align: center;  
+    background-color: #f9f9f9;  
+    margin: 20px auto;  
     vertical-align: top;
 }
 .producto-imagen {
   flex: 1;
     display: inline-block;
-    width: 300px; /* ancho del recuadro */
-    border: 2px solid #4c4eaf; /* borde verde */
-    border-radius: 12px; /* esquinas redondeadas */
-    padding: 15px; /* espacio interno */
-    box-shadow: 2px 4px 8px rgba(0,0,0,0.2); /* sombra */
-    text-align: center; /* centrar contenido */
-    background-color: #f9f9f9; /* color de fondo */
-    margin: 20px auto; /* centrar horizontalmente */
+    width: 300px;  
+    border: 2px solid #4c4eaf;  
+    border-radius: 12px;  
+    padding: 15px;  
+    box-shadow: 2px 4px 8px rgba(0,0,0,0.2);  
+    text-align: center;  
+    background-color: #f9f9f9;  
+    margin: 20px auto;  
     vertical-align: top;
 }
 .producto-imagen img {
@@ -277,9 +277,9 @@ input, textarea { width: 100%; padding: 8px; }
   width: 60px;
   margin: 10px 0;
 }
-/*Fin detalle productos*/
+ 
 
-/*Inicio / Productos*/
+ 
 .breadcrumb {
   margin: 20px;
   font-size: 14px;
@@ -287,9 +287,9 @@ input, textarea { width: 100%; padding: 8px; }
   display: flex;
   justify-content: flex-start;
 }
-/* FIN Inicio / Productos*/
+ 
 
-/*Filtro de categorias*/
+ 
 .filtro-categorias {
   width: 100%;
   padding: 20px 0;
@@ -345,7 +345,7 @@ input, textarea { width: 100%; padding: 8px; }
   font-size: 14px;
 }
 
-/* Responsive */
+ 
 @media (max-width: 768px) {
   .categorias-container {
     gap: 20px;
@@ -371,11 +371,11 @@ input, textarea { width: 100%; padding: 8px; }
     height: 60px;
   }
 }
-/*Fin filtro de categorias*/
+ 
 .nosotros{font-family: 'Coiny', sans-serif; color: #FF3131;font-size: 40px;}
-/* Fin de estilos para carrusel, BlogCard, NavBar, FormularioContacto, Destacados y TarjetaBienvenida */
+ 
 
-/* --- Estilos del Layout del Admin --- */
+ 
 
 .admin-layout {
     display: flex;
@@ -383,12 +383,12 @@ input, textarea { width: 100%; padding: 8px; }
 }
 
 .admin-sidebar {
-    width: 260px; /* Ancho del sidebar */
-    flex-shrink: 0; /* Evita que se encoja */
+    width: 260px;  
+    flex-shrink: 0;  
     background-color: rgb(12, 43, 83); 
     color: #adb5bd;
     display: flex;
-    flex-direction: column; /* Organiza header, nav y footer verticalmente */
+    flex-direction: column;  
 }
 
 .admin-sidebar .sidebar-header {
@@ -398,7 +398,7 @@ input, textarea { width: 100%; padding: 8px; }
 }
 .admin-sidebar .sidebar-header h3 {
   color: #fff;
-  font-family: 'Coiny', sans-serif; /* Tu fuente de títulos */
+  font-family: 'Coiny', sans-serif;  
   margin: 0;
 }
 
@@ -413,11 +413,11 @@ input, textarea { width: 100%; padding: 8px; }
   background-color: #343a40;
 }
 
-/* Estilo para el enlace ACTIVO */
+ 
 .admin-sidebar .nav-link.active {
   color: #fff;
   font-weight: bold;
-  background-color: rgb(12, 43, 83); /* Tu color 'navbar-custom' */
+  background-color: rgb(12, 43, 83);  
 }
 
 .admin-sidebar .sidebar-footer {
@@ -435,27 +435,27 @@ input, textarea { width: 100%; padding: 8px; }
   text-align: left;
 }
 
-/* --- Contenido Principal --- */
+ 
 .admin-content {
-  flex-grow: 1; /* Ocupa el resto del espacio */
+  flex-grow: 1;  
   padding: 2rem;
-  background-color: #f8f9fa; /* Fondo gris claro */
+  background-color: #f8f9fa;  
 }
 
-/* --- Tarjetas de Acceso Directo --- */
+ 
 .shortcut-card {
   transition: all 0.2s ease-in-out;
   border: 1px solid #e0e0e0;
 }
 .shortcut-card:hover {
-  transform: translateY(-5px); /* Efecto de 'levantar' */
+  transform: translateY(-5px);  
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  border-color: rgb(12, 43, 83); /* Tu color primario */
+  border-color: rgb(12, 43, 83);  
 }
 .shortcut-card .card-body i {
-  color: rgb(12, 43, 83); /* Tu color primario */
+  color: rgb(12, 43, 83);  
 }
-/*Detalle productos*/
+ 
 .producto {
   display: flex;
   justify-content: space-between;
@@ -465,14 +465,14 @@ input, textarea { width: 100%; padding: 8px; }
 .producto-imagen {
     flex: 1;
     display: inline-block;
-    width: 300px; /* ancho del recuadro */
-    border: 2px solid #4c4eaf; /* borde azul*/
-    border-radius: 12px; /* esquinas redondeadas */
-    padding: 15px; /* espacio interno */
-    box-shadow: 2px 4px 8px rgba(0,0,0,0.2); /* sombra */
-    text-align: center; /* centrar contenido */
-    background-color: #f9f9f9; /* color de fondo */
-    margin: 20px auto; /* centrar horizontalmente */
+    width: 300px;  
+    border: 2px solid #4c4eaf;  
+    border-radius: 12px;  
+    padding: 15px;  
+    box-shadow: 2px 4px 8px rgba(0,0,0,0.2);  
+    text-align: center;  
+    background-color: #f9f9f9;  
+    margin: 20px auto;  
     vertical-align: top;
 }
 .producto-imagen img {
@@ -525,9 +525,9 @@ input, textarea { width: 100%; padding: 8px; }
   text-decoration: none;
   color: rgb(12, 43, 83);
 }
-/*Fin detalle productos*/
+ 
 
-/*Inicio / Productos*/
+ 
 .breadcrumb {
   margin: 20px;
   font-size: 14px;
@@ -535,4 +535,4 @@ input, textarea { width: 100%; padding: 8px; }
   display: flex;
   justify-content: flex-start;
 }
-/* FIN Inicio / Productos*/
+ 

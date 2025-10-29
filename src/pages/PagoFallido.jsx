@@ -1,4 +1,3 @@
-// src/pages/PagoFallido.jsx
 import React from 'react';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Card, Alert, Button, ListGroup } from 'react-bootstrap';
@@ -6,18 +5,15 @@ import { Container, Row, Col, Card, Alert, Button, ListGroup } from 'react-boots
 export default function PagoFallido() {
   const location = useLocation();
   const navigate = useNavigate();
-  // Get order details passed via state, provide defaults
   const { orderDetails } = location.state || { orderDetails: null };
 
-  // Format currency
   const formatPesoChileno = (valor) => {
     if (typeof valor !== 'number') return '$NaN';
     return new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' }).format(valor);
   };
 
-  // Function to navigate back to checkout, potentially passing state back
   const handleRetry = () => {
-    navigate('/comprar', { state: { retryOrderDetails: orderDetails } }); // Pass back details if needed for prefill
+    navigate('/comprar', { state: { retryOrderDetails: orderDetails } }); 
   };
 
   if (!orderDetails) {
@@ -45,7 +41,7 @@ export default function PagoFallido() {
 
       <p className="text-center text-muted">Detalle de la compra:</p>
 
-      {/* Re-display info similar to success page */}
+       
       <Row>
         <Col md={6} className="mb-4">
           <Card>

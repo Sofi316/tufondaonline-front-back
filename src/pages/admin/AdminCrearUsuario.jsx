@@ -39,7 +39,7 @@ export default function AdminCrearUsuario() {
 
   
   const handleChange = (e) => {
-    setMensaje(""); // Limpia el mensaje al escribir
+    setMensaje("");
     const { name, value } = e.target;
     setFormData(prevData => ({
       ...prevData,
@@ -51,59 +51,53 @@ export default function AdminCrearUsuario() {
     e.preventDefault();
     setMensaje(""); 
 
-    // --- VALIDACIONES ---
     const { rut, email, nombre, apellidos, fechaNac, direccion, contraseña, contraseñaCon } = formData;
 
-    // 1. RUT
+  
     if (!rut || !validarRUT(rut)) {
         setTipoMensaje("danger");
         setMensaje("El RUT es requerido y debe ser válido (ej: 12345678-K)");
         return;
     }
     
-    // 2. Email 
+    
     if (!email || !/^[^\s@]+@(duoc\.cl|profesor\.duoc\.cl|gmail\.com)$/.test(email)) {
         setTipoMensaje("danger");
         setMensaje("Correo requerido con dominio @duoc.cl, @profesor.duoc.cl o @gmail.com");
         return;
     }
 
-    // 3. Nombre
+  
     if (!nombre || nombre.length > 50) {
         setTipoMensaje("danger");
         setMensaje("Nombre requerido (máx. 50 caracteres)");
         return;
     }
     
-    // 4. Apellidos
     if (!apellidos || apellidos.length > 100) {
         setTipoMensaje("danger");
         setMensaje("Apellidos requeridos (máx. 100 caracteres)");
         return;
     }
 
-    // 5. Fecha de nacimiento
     if (!fechaNac) {
         setTipoMensaje("danger");
         setMensaje("Fecha de nacimiento requerida");
         return;
     }
 
-    // 6. Dirección
     if (!direccion || direccion.length > 300) {
         setTipoMensaje("danger");
         setMensaje("Dirección requerida (máx. 300 caracteres)");
         return;
     }
 
-    // 7. Contraseña
     if (!contraseña || contraseña.length < 4 || contraseña.length > 10) {
         setTipoMensaje("danger");
         setMensaje("Contraseña requerida (debe tener entre 4 y 10 caracteres)");
         return;
     }
 
-    // 8. Confirmar Contraseña
     if (contraseña !== contraseñaCon) {
         setTipoMensaje("danger");
         setMensaje("Error: Las contraseñas no coinciden.");

@@ -1,19 +1,17 @@
-// src/pages/ProductoTerremotoNinos.jsx
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getProductById } from '../data/productosData';
 import { useCarrito } from "../components/CarritoContext";
 
-// Miniaturas y Relacionados
 import terremoto2 from "../assets/productos/terremoto2.jpg";
 import terremoto3 from "../assets/productos/terremoto3.jpg";
 import terremoto4 from "../assets/productos/terremoto4.jpg";
-import terremoto from "../assets/productos/terremoto.jpg"; // Renombrado para evitar conflicto
+import terremoto from "../assets/productos/terremoto.jpg"; 
 import cocaCola from "../assets/productos/coca-cola.jpg";
 import agua from "../assets/productos/agua.jpg";
 
 const ProductoTerremotoNinos = () => {
-  const productoId = 13; // <<<--- ID for Terremoto Niños
+  const productoId = 13; 
   const producto = getProductById(productoId);
 
   const [cantidad, setCantidad] = useState(1);
@@ -39,7 +37,7 @@ const ProductoTerremotoNinos = () => {
     setCantidad(1);
   };
 
-  const miniaturas = [producto?.img, terremoto2, terremoto3, terremoto4].filter(Boolean); // Mismas miniaturas que terremoto adulto
+  const miniaturas = [producto?.img, terremoto2, terremoto3, terremoto4].filter(Boolean);
   const productosRelacionados = [
     { nombre: "Terremoto", img: terremoto, detalle: "/Terremoto" },
     { nombre: "Bebida Coca Cola", img: cocaCola, detalle: "/CocaCola" },
@@ -48,7 +46,7 @@ const ProductoTerremotoNinos = () => {
 
   return (
     <main className="contenedor">
-      {/* Breadcrumb */}
+      
       <div className="breadcrumb mb-4">
             <Link to="/" className="text-decoration-none text-muted">Inicio</Link>
             <span className="mx-2">/</span>
@@ -102,7 +100,7 @@ const ProductoTerremotoNinos = () => {
         </div>
       </section>
 
-      {/* Productos relacionados */}
+      
       <section style={{ marginTop: '40px' }}>
         <center><h1>PRODUCTOS RELACIONADOS</h1></center>
         <div className="productos-relacionados" style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap' }}>

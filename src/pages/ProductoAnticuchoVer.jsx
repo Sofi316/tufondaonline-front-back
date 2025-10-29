@@ -1,10 +1,8 @@
-// src/pages/ProductoAnticuchoVer.jsx
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getProductById } from '../data/productosData';
 import { useCarrito } from "../components/CarritoContext";
 
-// Miniaturas y Relacionados
 import anticuchoverdura2 from "../assets/productos/anticuchoverdura2.jpg";
 import anticuchoverdura3 from "../assets/productos/anticuchoverdura3.jpg";
 import anticuchoverdura4 from "../assets/productos/anticuchoverdura4.jpg";
@@ -12,8 +10,8 @@ import completoveg from "../assets/productos/completoveg.jpg";
 import choripanveg from "../assets/productos/choripanveg.jpg";
 import pastelchocloveg from "../assets/productos/pastelchocloveg.jpg";
 
-const ProductoAnticuchoVeg = () => { // Mantenemos nombre original del componente
-  const productoId = 10; // <<<--- ID para Anticucho Verduras
+const ProductoAnticuchoVeg = () => { 
+  const productoId = 10;
   const producto = getProductById(productoId);
 
   const [cantidad, setCantidad] = useState(1);
@@ -48,7 +46,7 @@ const ProductoAnticuchoVeg = () => { // Mantenemos nombre original del component
 
   return (
     <main className="contenedor">
-      {/* Breadcrumb */}
+       
        <div className="breadcrumb mb-4">
             <Link to="/" className="text-decoration-none text-muted">Inicio</Link>
             <span className="mx-2">/</span>
@@ -102,7 +100,7 @@ const ProductoAnticuchoVeg = () => { // Mantenemos nombre original del component
         </div>
       </section>
 
-      {/* Productos relacionados */}
+       
       <section style={{ marginTop: "40px" }}>
         <center><h1>PRODUCTOS RELACIONADOS</h1></center>
         <div className="productos-relacionados" style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap' }}>

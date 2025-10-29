@@ -1,4 +1,3 @@
-// src/pages/admin/AdminVerOrden.jsx
 
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Table, Button, Badge } from 'react-bootstrap';
@@ -12,7 +11,7 @@ export default function AdminVerOrden() {
   const [orden, setOrden] = useState(null);
 
   useEffect(() => {
-    // Carga la orden específica usando el ID de la URL
+    
     setOrden(getOrden(id)); 
   }, [id]); 
 
@@ -40,7 +39,7 @@ export default function AdminVerOrden() {
     <Container fluid>
       <Row>
         <Col>
-          {/* --- Botón para volver al listado --- */}
+          
           <Button as={Link} to="/admin/ordenes" variant="secondary" size="sm" className="mb-3">
             <i className="bi bi-arrow-left me-1"></i>
             Volver a Órdenes
@@ -51,7 +50,7 @@ export default function AdminVerOrden() {
       </Row>
 
       <Row>
-        {/* --- Columna de Información del Cliente --- */}
+        
         <Col md={4}>
           <Card className="shadow-sm mb-3">
             <Card.Header>
@@ -85,7 +84,7 @@ export default function AdminVerOrden() {
           </Card>
         </Col>
         
-        {/* --- Columna de Items del Pedido --- */}
+        
         <Col md={8}>
           <Card className="shadow-sm mb-3">
             <Card.Header>

@@ -1,11 +1,8 @@
-// src/pages/ProductoChoripan.jsx
-import React, { useState, useEffect } from 'react'; // Añadido useEffect
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getProductById } from '../data/productosData'; // Asegúrate que la ruta sea correcta
-import { useCarrito } from "../components/CarritoContext"; // Asegúrate que la ruta sea correcta
-
-// --- Imágenes específicas (Miniaturas y Relacionados - Mantenemos las originales) ---
-import choripan from "../assets/productos/choripan.jpg"; // Imagen principal original
+import { getProductById } from '../data/productosData';
+import { useCarrito } from "../components/CarritoContext";
+import choripan from "../assets/productos/choripan.jpg";
 import choripan2 from "../assets/productos/choripan2.jpg";
 import choripan3 from "../assets/productos/choripan3.jpg";
 import choripan4 from "../assets/productos/choripan4.jpg";
@@ -14,141 +11,97 @@ import anticucho from "../assets/productos/anticucho.jpg";
 import pastelChoclo from "../assets/productos/pastelchoclo.jpg";
 
 const ProductoChoripan = () => {
-  // --- Carga dinámica de datos ---
-  const productoId = 1; // ID del Choripán
-  const producto = getProductById(productoId); // Busca el producto
-  // -----------------------------
-
-  // --- Estados locales (Mantenemos los originales) ---
+  const productoId = 1;
+  const producto = getProductById(productoId);
   const [cantidad, setCantidad] = useState(1);
-  // Inicializa con la imagen estática, luego useEffect la actualiza si es necesario
   const [imagenPrincipal, setImagenPrincipal] = useState(choripan);
   const { agregarAlCarrito } = useCarrito();
-  // ------------------------------------------
 
-  // --- Efecto para actualizar imagen si cambia (Opcional, pero bueno tenerlo) ---
   useEffect(() => {
     if (producto && producto.img) {
-      setImagenPrincipal(producto.img); // Asegura usar la imagen de los datos
+      setImagenPrincipal(producto.img);
     }
   }, [producto]);
-  // ------------------------------------------------------------------------
 
-  // --- Manejo si el producto no se carga (Mantenemos) ---
   if (!producto) {
-    // Puedes mejorar este mensaje
     return <main className="contenedor text-center my-5"><h2>Cargando producto...</h2></main>;
   }
-  // ---------------------------------------------
 
-  // --- Lógica Agregar Carrito (Adaptada a datos dinámicos) ---
   const handleAgregarAlCarrito = () => {
     const precioAAgregar = producto.enOferta ? producto.precioOferta : producto.precio;
-    // Bucle original para agregar cantidad
     for (let i = 0; i < cantidad; i++) {
-        // Usa datos del 'producto' cargado
         agregarAlCarrito(producto.id, producto.nombre, precioAAgregar, producto.img);
     }
     const mensaje = `✅ ${cantidad} ${producto.nombre.toLowerCase()}${cantidad > 1 ? 'es' : ''} agregado${cantidad > 1 ? 's' : ''} al carrito`;
     alert(mensaje);
     setCantidad(1);
   };
-  // ----------------------------------------------------
 
-  // --- Miniaturas y Relacionados (Mantenemos los originales) ---
-  const miniaturas = [choripan2, choripan3, choripan4]; // Sin la imagen principal aquí
+  const miniaturas = [choripan2, choripan3, choripan4];
   const productosRelacionados = [
-    { nombre: "Completo Italiano", img: completo, detalle: "/Completo" }, // Rutas originales
-    { nombre: "Anticucho", img: anticucho, detalle: "/Anticucho" }, // Rutas originales
-    { nombre: "Pastel de Choclo", img: pastelChoclo, detalle: "/PastelChoclo" }, // Rutas originales
+    { nombre: "Completo Italiano", img: completo, detalle: "/Completo" },
+    { nombre: "Anticucho", img: anticucho, detalle: "/Anticucho" },
+    { nombre: "Pastel de Choclo", img: pastelChoclo, detalle: "/PastelChoclo" },
   ];
-  // -----------------------------------------------------
 
-  // --- Renderizado CON TUS CLASES Y ESTILOS ORIGINALES ---
   return (
-    // Contenedor principal original (si tenías uno, si no, usa <main>)
-    <main className="contenedor"> {/* O la clase que usaras */}
-      {/* Breadcrumb original */}
-      <div className="breadcrumb">
-        <Link to="/">Inicio</Link> /<Link to="/categorias">Categorias</Link> /
+   <main className="contenedor">
+      <div className="breadcrumb mb-4">
+        <Link to="/" className="text-decoration-none text-muted">Inicio</Link>
+        <span className="mx-2">/</span>
+        <Link to="/categorias" className="text-decoration-none text-muted">Categorias</Link>
+        <span className="mx-2">/</span>
+        <span className="fw-bold">{producto.nombre}</span>
       </div>
-
-      {/* Producto principal - CLASES ORIGINALES */}
       <section className="producto">
         <div className="producto-imagen">
-          {/* Imagen principal que cambia */}
-          <img src={imagenPrincipal} alt={producto.nombre} /> {/* Usa nombre dinámico */}
-
-          {/* Miniaturas - CLASES ORIGINALES */}
+          <img src={imagenPrincipal} alt={producto.nombre} className="img-fluid"/>
           <div className="miniaturas">
-             {/* Miniatura de la imagen principal */}
-             <img
-                src={producto.img} // Imagen principal del producto
-                alt={`Vista principal de ${producto.nombre}`}
-                onClick={() => setImagenPrincipal(producto.img)}
-                style={{ cursor: "pointer", border: imagenPrincipal === producto.img ? '2px solid #4c4eaf' : '1px solid #ccc' }} // Estilo original + borde activo
-              />
-            {/* Otras miniaturas */}
             {miniaturas.map((mini, index) => (
               <img
-                key={index}
-                src={mini}
-                alt={`Vista ${index + 1} de ${producto.nombre}`}
+                key={index} src={mini} alt={`Vista ${index + 1} de ${producto.nombre}`}
                 onClick={() => setImagenPrincipal(mini)}
-                style={{ cursor: "pointer", border: imagenPrincipal === mini ? '2px solid #4c4eaf' : '1px solid #ccc' }} // Estilo original + borde activo
+                style={{ cursor: "pointer", width: '80px', height:'80px', objectFit:'cover', border: imagenPrincipal === mini ? '2px solid #4c4eaf' : '1px solid #ccc', margin:'2px', borderRadius:'4px' }}
               />
             ))}
           </div>
         </div>
-
-        <div className="producto-info"> {/* CLASE ORIGINAL */}
-          <h1>{producto.nombre.toUpperCase()}</h1> {/* Nombre dinámico */}
-
-          {/* Precio Dinámico (Oferta o Normal) - CLASE ORIGINAL */}
+        <div className="producto-info">
+          <h1>{producto.nombre.toUpperCase()}</h1>
           {producto.enOferta ? (
-              <p className="precio"> {/* CLASE ORIGINAL */}
-                <span style={{color: 'red', fontWeight: 'bold', marginRight: '10px'}}> {/* Estilo oferta */}
+              <p className="precio">
+                <span style={{color: 'red', fontWeight: 'bold', marginRight: '10px'}}>
                   ${producto.precioOferta.toLocaleString("es-CL")}
                 </span>
-                <del style={{color: '#666', fontSize: '0.9em'}}> {/* Estilo tachado */}
+                <del style={{color: '#666', fontSize: '0.9em'}}>
                   ${producto.precio.toLocaleString("es-CL")}
                 </del>
               </p>
             ) : (
-              <p className="precio">${producto.precio.toLocaleString("es-CL")}</p> /* CLASE ORIGINAL */
+              <p className="precio">${producto.precio.toLocaleString("es-CL")}</p>
             )}
-
-          {/* Descripción Dinámica - CLASE ORIGINAL */}
-          <p className="descripcion">{producto.descripcion || "Descripción no disponible."}</p> {/* CLASE ORIGINAL */}
-
-          <label htmlFor="cantidad">Cantidad:</label> {/* Etiqueta original */}
-          <input
-            type="number"
-            id="cantidad" // Mantenemos ID simple si solo hay uno
-            value={cantidad}
-            min="1"
-            onChange={(e) => setCantidad(parseInt(e.target.value) || 1)}
-            // Sin clase form-control si no la usabas
-          />
-          <br /> {/* Saltos de línea originales */}
-          <br />
-          <button
-            className="btn btn-danger" // Clase original (asumo que tenías btn y rojo/danger)
-            onClick={handleAgregarAlCarrito}
-          >
-            AGREGAR {cantidad > 1 ? `(${cantidad}) AL ` : ''}CARRITO {/* Texto ajustado */}
+          <p className="descripcion">{producto.descripcion || "Descripción no disponible."}</p>
+          <div className="d-flex align-items-center mb-3">
+            <label htmlFor={`cantidad-${producto.id}`} className="me-2">Cantidad:</label>
+            <input
+              type="number" id={`cantidad-${producto.id}`} value={cantidad} min="1"
+              onChange={(e) => setCantidad(parseInt(e.target.value) || 1)}
+               style={{ width: '70px', padding:'4px' }}
+            />
+          </div>
+          <button className="btn btn-danger" onClick={handleAgregarAlCarrito}>
+             <i className="bi bi-cart-plus me-2"></i>
+            AGREGAR {cantidad > 1 ? `(${cantidad}) AL ` : ''}CARRITO
           </button>
         </div>
       </section>
-
-      {/* Productos relacionados - CLASES Y ESTILOS ORIGINALES */}
       <section style={{ marginTop: "40px" }}>
-        <center> {/* Etiqueta original */}
+        <center>
           <h1>PRODUCTOS RELACIONADOS</h1>
         </center>
         <div
-          className="productos-relacionados" // Tu clase original
-          style={{ /* Tus estilos inline originales */
+          className="productos-relacionados"
+          style={{
             display: "flex",
             gap: "20px",
             justifyContent: "center",
@@ -156,13 +109,12 @@ const ProductoChoripan = () => {
           }}
         >
           {productosRelacionados.map((relacionado, index) => (
-            // Tu clase original 'recuadro'
             <div key={index} className="recuadro">
               <Link to={relacionado.detalle}>
                 <img
                   src={relacionado.img}
                   alt={relacionado.nombre}
-                  style={{ /* Tus estilos inline originales */
+                  style={{
                     width: "150px",
                     height: "150px",
                     objectFit: "cover",
@@ -170,8 +122,8 @@ const ProductoChoripan = () => {
                   }}
                 />
               </Link>
-              <Link to={relacionado.detalle} className="link-detalle"> {/* Tu clase original */}
-                <h2 style={{ /* Tus estilos inline originales */
+              <Link to={relacionado.detalle} className="link-detalle">
+                <h2 style={{
                     marginTop: "10px",
                     fontSize: "16px"
                  }}>

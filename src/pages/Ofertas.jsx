@@ -1,14 +1,13 @@
 
 import { Link } from 'react-router-dom';
-import { obtenerProductosEnOferta } from "../data/productosData"; // Asegúrate que la ruta sea correcta
-import { useCarrito } from "../components/CarritoContext"; // Asegúrate que la ruta sea correcta
+import { obtenerProductosEnOferta } from "../data/productosData";
+import { useCarrito } from "../components/CarritoContext";
 
 function Ofertas() {
   const { agregarAlCarrito } = useCarrito();
   const productosEnOferta = obtenerProductosEnOferta();
 
   const handleAgregarAlCarrito = (producto) => {
-    // Pasa id, nombre, precio DE OFERTA, img
     agregarAlCarrito(producto.id, producto.nombre, producto.precioOferta, producto.img);
     alert(`✅ ${producto.nombre} (Oferta) agregado al carrito`);
   };
@@ -25,17 +24,15 @@ function Ofertas() {
           Actualmente no hay productos en oferta. ¡Vuelve pronto!
         </div>
       ) : (
-        <div className="contenedor-productos"> {/* Usa tu clase CSS existente */}
+        <div className="contenedor-productos">
           {productosEnOferta.map((producto) => (
-            <div className="recuadro" key={producto.id}> {/* Usa tu clase CSS existente y id como key */}
+            <div className="recuadro" key={producto.id}>
               <Link to={producto.detalle}>
                 <img src={producto.img} alt={producto.nombre} />
               </Link>
               <h2>
                 <Link to={producto.detalle} className="link-detalle">{producto.nombre}</Link>
               </h2>
-
-              {/* Muestra el precio de oferta y el original tachado */}
               <p>
                 <span className="text-danger fw-bold me-2">
                   ${producto.precioOferta.toLocaleString("es-CL")}
@@ -44,7 +41,6 @@ function Ofertas() {
                   ${producto.precio.toLocaleString("es-CL")}
                 </del>
               </p>
-
               <button
                 className="btn btn-danger"
                 onClick={() => handleAgregarAlCarrito(producto)}

@@ -1,10 +1,9 @@
-// src/pages/ProductoChoripanVeg.jsx
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getProductById } from '../data/productosData';
 import { useCarrito } from "../components/CarritoContext";
 
-// Miniatures and Relacionados
+
 import choripanveg2 from "../assets/productos/choripanveg2.jpg";
 import choripanveg3 from "../assets/productos/choripanveg3.jpg";
 import choripanveg4 from "../assets/productos/choripanveg4.jpg";
@@ -13,7 +12,7 @@ import completoveg from "../assets/productos/completoveg.jpg";
 import pastelchocloveg from "../assets/productos/pastelchocloveg.jpg";
 
 const ProductoChoripanVeg = () => {
-  const productoId = 6; // <<<--- ID for Choripan Vegano
+  const productoId = 6; 
   const producto = getProductById(productoId);
 
   const [cantidad, setCantidad] = useState(1);
@@ -48,7 +47,7 @@ const ProductoChoripanVeg = () => {
 
   return (
     <main className="contenedor">
-      {/* Breadcrumb */}
+      
       <div className="breadcrumb mb-4">
             <Link to="/" className="text-decoration-none text-muted">Inicio</Link>
             <span className="mx-2">/</span>
@@ -102,7 +101,6 @@ const ProductoChoripanVeg = () => {
         </div>
       </section>
 
-      {/* Productos relacionados */}
       <section style={{ marginTop: "40px" }}>
         <center><h1>PRODUCTOS RELACIONADOS</h1></center>
         <div className="productos-relacionados" style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap' }}>

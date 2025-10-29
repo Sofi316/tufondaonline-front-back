@@ -1,40 +1,34 @@
-// src/pages/ProductoCoca.jsx
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getProductById } from '../data/productosData';
 import { useCarrito } from "../components/CarritoContext";
-
-// Miniaturas y Relacionados
-import cocaColaImg from "../assets/productos/coca-cola.jpg"; // Renombrado import para evitar conflicto
-import cocaCola2 from "../assets/productos/coca-cola.2.jpg"; // Asegúrate que existan
-import cocaCola3 from "../assets/productos/coca-cola.3.jpg"; // Asegúrate que existan
-import cocaCola4 from "../assets/productos/coca-cola.4.jpg"; // Asegúrate que existan
+import cocaColaImg from "../assets/productos/coca-cola.jpg";
+import cocaCola2 from "../assets/productos/coca-cola.2.jpg";
+import cocaCola3 from "../assets/productos/coca-cola.3.jpg";
+import cocaCola4 from "../assets/productos/coca-cola.4.jpg";
 import terremoto from "../assets/productos/terremoto.jpg";
 import terremotoNinos from "../assets/productos/terremotoniños.jpg";
 import agua from "../assets/productos/agua.jpg";
 
-// Mantenemos el nombre original del componente
 const ProductoCoca = () => {
-  const productoId = 14; // <<<--- ID for Coca Cola
+  const productoId = 14;
   const producto = getProductById(productoId);
-
   const [cantidad, setCantidad] = useState(1);
   const [imagenPrincipal, setImagenPrincipal] = useState('');
   const { agregarAlCarrito } = useCarrito();
 
   useEffect(() => {
-    // Usa cocaColaImg si el producto no carga inicialmente
     setImagenPrincipal(producto?.img || cocaColaImg);
   }, [producto]);
 
   if (!producto) {
-     return <main className="container text-center my-5"><h2>Producto no encontrado</h2><Link to="/categorias" className="btn btn-primary">Volver</Link></main>;
+    return <main className="container text-center my-5"><h2>Producto no encontrado</h2><Link to="/categorias" className="btn btn-primary">Volver</Link></main>;
   }
 
   const handleAgregarAlCarrito = () => {
     const precioAAgregar = producto.enOferta ? producto.precioOferta : producto.precio;
     for (let i = 0; i < cantidad; i++) {
-        agregarAlCarrito(producto.id, producto.nombre, precioAAgregar, producto.img);
+      agregarAlCarrito(producto.id, producto.nombre, precioAAgregar, producto.img);
     }
     alert(`✅ ${cantidad} ${producto.nombre.toLowerCase()}${cantidad > 1 ? 's' : ''} agregado${cantidad > 1 ? 's' : ''} al carrito`);
     setCantidad(1);
@@ -49,15 +43,13 @@ const ProductoCoca = () => {
 
   return (
     <main className="contenedor">
-      {/* Breadcrumb */}
       <div className="breadcrumb mb-4">
-            <Link to="/" className="text-decoration-none text-muted">Inicio</Link>
-            <span className="mx-2">/</span>
-            <Link to="/categorias" className="text-decoration-none text-muted">Categorias</Link>
-            <span className="mx-2">/</span>
-            <span className="fw-bold">{producto.nombre}</span>
-        </div>
-
+        <Link to="/" className="text-decoration-none text-muted">Inicio</Link>
+        <span className="mx-2">/</span>
+        <Link to="/categorias" className="text-decoration-none text-muted">Categorias</Link>
+        <span className="mx-2">/</span>
+        <span className="fw-bold">{producto.nombre}</span>
+      </div>
       <section className="producto">
         <div className="producto-imagen">
           <img src={imagenPrincipal} alt={producto.nombre} className="img-fluid"/>
@@ -71,7 +63,6 @@ const ProductoCoca = () => {
             ))}
           </div>
         </div>
-
         <div className="producto-info">
           <h1>{producto.nombre.toUpperCase()}</h1>
           {producto.enOferta ? (
@@ -88,12 +79,12 @@ const ProductoCoca = () => {
             )}
           <p className="descripcion">{producto.descripcion || "Descripción no disponible."}</p>
           <div className="d-flex align-items-center mb-3">
-             <label htmlFor="cantidad">Cantidad:</label>
-             <input
-               type="number" id="cantidad" value={cantidad} min="1"
-               onChange={(e) => setCantidad(parseInt(e.target.value) || 1)}
-               style={{ width: '70px', padding:'4px', marginLeft:'5px' }}
-             />
+            <label htmlFor="cantidad">Cantidad:</label>
+            <input
+              type="number" id="cantidad" value={cantidad} min="1"
+              onChange={(e) => setCantidad(parseInt(e.target.value) || 1)}
+              style={{ width: '70px', padding:'4px', marginLeft:'5px' }}
+            />
           </div>
           <br /> <br />
           <button className="btn btn-danger" onClick={handleAgregarAlCarrito}>
@@ -102,9 +93,7 @@ const ProductoCoca = () => {
           </button>
         </div>
       </section>
-
-      {/* Productos relacionados */}
-       <section style={{ marginTop: "40px" }}>
+      <section style={{ marginTop: "40px" }}>
         <center><h1>PRODUCTOS RELACIONADOS</h1></center>
         <div className="productos-relacionados" style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap' }}>
           {productosRelacionados.map((relacionado, index) => (
@@ -123,5 +112,4 @@ const ProductoCoca = () => {
   );
 };
 
-// Mantenemos el export original
 export default ProductoCoca;

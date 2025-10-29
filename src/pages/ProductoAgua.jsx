@@ -1,10 +1,9 @@
-// src/pages/ProductoAgua.jsx
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getProductById } from '../data/productosData';
 import { useCarrito } from "../components/CarritoContext";
 
-// Miniaturas y Relacionados
+
 import agua2 from "../assets/productos/agua2.jpg";
 import agua3 from "../assets/productos/agua3.jpg";
 import agua4 from "../assets/productos/agua4.jpg";
@@ -13,7 +12,7 @@ import terremoto from "../assets/productos/terremoto.jpg";
 import terremotoNinos from "../assets/productos/terremotoniños.jpg";
 
 const ProductoAgua = () => {
-  const productoId = 15; // <<<--- ID for Agua
+  const productoId = 15;
   const producto = getProductById(productoId);
 
   const [cantidad, setCantidad] = useState(1);
@@ -48,7 +47,7 @@ const ProductoAgua = () => {
 
   return (
     <main className="contenedor">
-      {/* Breadcrumb */}
+       
        <div className="breadcrumb mb-4">
             <Link to="/" className="text-decoration-none text-muted">Inicio</Link>
             <span className="mx-2">/</span>
@@ -102,7 +101,7 @@ const ProductoAgua = () => {
         </div>
       </section>
 
-      {/* Productos relacionados */}
+       
        <section style={{ marginTop: "40px" }}>
         <center><h1>PRODUCTOS RELACIONADOS</h1></center>
         <div className="productos-relacionados" style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap' }}>

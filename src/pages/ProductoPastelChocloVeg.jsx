@@ -1,10 +1,8 @@
-// src/pages/ProductoPastelChocloVeg.jsx
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getProductById } from '../data/productosData';
 import { useCarrito } from "../components/CarritoContext";
 
-// Miniaturas y Relacionados
 import pastelchoclo2 from "../assets/productos/pastelchoclo2.jpg";
 import pastelchoclo3 from "../assets/productos/pastelchoclo3.jpg";
 import pastelchoclo4 from "../assets/productos/pastelchoclo4.jpg";
@@ -13,7 +11,7 @@ import completoveg from "../assets/productos/completoveg.jpg";
 import choripanveg from "../assets/productos/choripanveg.jpg";
 
 const ProductoPastelChocloVeg = () => {
-  const productoId = 11; // <<<--- ID for Pastel Choclo Vegano
+  const productoId = 11; 
   const producto = getProductById(productoId);
 
   const [cantidad, setCantidad] = useState(1);
@@ -39,7 +37,7 @@ const ProductoPastelChocloVeg = () => {
     setCantidad(1);
   };
 
-  const miniaturas = [producto?.img, pastelchoclo2, pastelchoclo3, pastelchoclo4].filter(Boolean); // Mismas miniaturas
+  const miniaturas = [producto?.img, pastelchoclo2, pastelchoclo3, pastelchoclo4].filter(Boolean);
   const productosRelacionados = [
     { nombre: "Anticucho de Verduras", img: anticuchoverdura, detalle: "/AnticuchoVerdura" },
     { nombre: "Choripan Vegano", img: choripanveg, detalle: "/ChoripanVegano" },
@@ -48,7 +46,7 @@ const ProductoPastelChocloVeg = () => {
 
   return (
     <main className="contenedor">
-      {/* Breadcrumb */}
+     
        <div className="breadcrumb mb-4">
             <Link to="/" className="text-decoration-none text-muted">Inicio</Link>
             <span className="mx-2">/</span>
@@ -102,7 +100,7 @@ const ProductoPastelChocloVeg = () => {
         </div>
       </section>
 
-      {/* Productos relacionados */}
+     
       <section style={{ marginTop: '40px' }}>
         <center><h1>PRODUCTOS RELACIONADOS</h1></center>
         <div className="productos-relacionados" style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap' }}>

@@ -1,23 +1,21 @@
-// src/pages/admin/AdminEditarProducto.jsx
+
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getProductById as obtenerProducto, actualizarProducto, obtenerCategorias } from '../../data/productosData.js'; // Asegúrate que la ruta sea correcta
+import { getProductById as obtenerProducto, actualizarProducto, obtenerCategorias } from '../../data/productosData.js'; 
 
 export default function AdminEditarProducto() {
 
-  const { id } = useParams(); // Obtiene el ID de la URL
+  const { id } = useParams(); 
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({}); // Empezamos vacío hasta cargar
+  const [formData, setFormData] = useState({}); 
   const [categorias, setCategorias] = useState([]);
   const [mensaje, setMensaje] = useState("");
   const [tipoMensaje, setTipoMensaje] = useState("success");
 
-  // Carga los datos del producto existente y las categorías
   useEffect(() => {
     const productoExistente = obtenerProducto(id);
     if (productoExistente) {
-      // Inicializa el estado con los datos del producto, asegurando valores iniciales
       setFormData({
         id: productoExistente.id,
         nombre: productoExistente.nombre || '',
@@ -26,21 +24,18 @@ export default function AdminEditarProducto() {
         stock: productoExistente.stock || '',
         img: productoExistente.img || '',
         detalle: productoExistente.detalle || '',
-        descripcion: productoExistente.descripcion || '', // Añadido
-        enOferta: productoExistente.enOferta || false, // Añadido
-        precioOferta: productoExistente.precioOferta || '' // Añadido
+        descripcion: productoExistente.descripcion || '', 
+        enOferta: productoExistente.enOferta || false,
+        precioOferta: productoExistente.precioOferta || '' 
       });
     } else {
-      // Si el producto no existe, muestra error o redirige
+   
       setMensaje("Error: Producto no encontrado.");
       setTipoMensaje("danger");
-      // O podrías redirigir: navigate('/admin/productos');
     }
-    // Carga las categorías disponibles
     setCategorias(obtenerCategorias());
-  }, [id, navigate]); // Depende del ID y navigate
+  }, [id, navigate]); 
 
-  // Maneja cambios en los inputs (igual que en Crear)
   const handleChange = (e) => {
     setMensaje("");
     const { name, value, type, checked } = e.target;
@@ -56,7 +51,7 @@ export default function AdminEditarProducto() {
     e.preventDefault();
     setMensaje("");
 
-    // --- VALIDACIONES (Iguales que en Crear) ---
+    
     if (!formData.nombre || formData.precio === '' || !formData.categoria || formData.stock === '') {
         setTipoMensaje("danger");
         setMensaje("Error: Nombre, Precio, Categoría y Stock son obligatorios.");
@@ -76,23 +71,19 @@ export default function AdminEditarProducto() {
         setTipoMensaje("warning");
         setMensaje("Advertencia: El Precio Oferta es igual o mayor al Precio normal.");
     }
-    // --- FIN VALIDACIONES ---
 
     try {
-       // Prepara los datos a enviar (asegura números y null para precioOferta)
       const datosParaActualizar = {
         ...formData,
         precio: Number(formData.precio),
         stock: Number(formData.stock),
-        // Si no está en oferta, asegúrate de que precioOferta sea null o undefined
-        // para que no se guarde un valor inválido.
+       
         precioOferta: formData.enOferta ? Number(formData.precioOferta) : null
       };
 
-      actualizarProducto(id, datosParaActualizar); // Llama a la función de tus datos
+      actualizarProducto(id, datosParaActualizar);
       setTipoMensaje("success");
       setMensaje("¡Producto actualizado exitosamente!");
-      // Redirige de vuelta a la lista principal de productos
       setTimeout(() => navigate('/admin/productos'), 1500);
 
     } catch (error) {
@@ -101,7 +92,6 @@ export default function AdminEditarProducto() {
     }
   };
 
-   // Muestra cargando si los datos aún no están listos y no hay error
    if (!formData.id && !mensaje.includes("Error: Producto no encontrado")) {
     return <Container fluid><p>Cargando datos del producto...</p></Container>;
   }
@@ -111,7 +101,7 @@ export default function AdminEditarProducto() {
       <Row className="mb-3">
         <Col>
           <h2>Editar Producto: {formData.nombre || 'Cargando...'}</h2>
-           {/* Botón Volver a la Lista */}
+            
           <Button variant="secondary" size="sm" onClick={() => navigate('/admin/productos')}>
             <i className="bi bi-arrow-left me-1"></i> Volver a Productos
           </Button>
@@ -124,12 +114,12 @@ export default function AdminEditarProducto() {
         </Alert>
       )}
 
-      {/* Solo muestra el formulario si el producto se cargó */}
+       
       {formData.id && (
         <Card className="shadow-sm">
           <Card.Body>
             <Form onSubmit={handleSubmit} noValidate>
-              {/* --- FILA 1: Nombre y Precio Normal --- */}
+               
               <Row className="mb-3">
                 <Form.Group as={Col} md={6} controlId="formNombre">
                   <Form.Label>Nombre Producto</Form.Label>
@@ -141,14 +131,14 @@ export default function AdminEditarProducto() {
                 </Form.Group>
               </Row>
 
-               {/* --- FILA 2: Categoría y Stock --- */}
+                
               <Row className="mb-3">
                 <Form.Group as={Col} md={6} controlId="formCategoria">
                   <Form.Label>Categoría</Form.Label>
                   <Form.Select name="categoria" value={formData.categoria || ''} onChange={handleChange} required>
                     <option value="">Seleccione una categoría</option>
                     {categorias.map(cat => <option key={cat} value={cat}>{cat}</option>)}
-                     {/* Muestra la categoría actual si no está en la lista estándar */}
+                      
                      {!categorias.includes(formData.categoria) && formData.categoria && (
                         <option value={formData.categoria}>** {formData.categoria} **</option>
                     )}
@@ -160,7 +150,7 @@ export default function AdminEditarProducto() {
                 </Form.Group>
               </Row>
 
-               {/* --- FILA 3: Oferta --- */}
+                
               <Row className="mb-3 align-items-end">
                  <Form.Group as={Col} md={6} controlId="formEnOferta">
                     <Form.Check
@@ -168,7 +158,7 @@ export default function AdminEditarProducto() {
                         id="enOfertaSwitch"
                         label="¿Producto en Oferta?"
                         name="enOferta"
-                        checked={formData.enOferta || false} // Asegura que sea boolean
+                        checked={formData.enOferta || false} 
                         onChange={handleChange}
                     />
                  </Form.Group>
@@ -178,7 +168,7 @@ export default function AdminEditarProducto() {
                         <Form.Control
                             type="number"
                             name="precioOferta"
-                            value={formData.precioOferta || ''} // Muestra vacío si es null o undefined
+                            value={formData.precioOferta || ''}  
                             onChange={handleChange}
                             required={formData.enOferta}
                             min="1"
@@ -191,7 +181,7 @@ export default function AdminEditarProducto() {
                  )}
               </Row>
 
-              {/* --- FILA 4: Imagen y Detalle URL --- */}
+               
               <Row className="mb-3">
                 <Form.Group as={Col} md={6} controlId="formImg">
                   <Form.Label>URL Imagen</Form.Label>
@@ -210,7 +200,7 @@ export default function AdminEditarProducto() {
                 </Form.Group>
               </Row>
 
-              {/* --- FILA 5: Descripción --- */}
+               
                <Row className="mb-3">
                  <Form.Group as={Col} controlId="formDescripcion">
                     <Form.Label>Descripción</Form.Label>
@@ -225,7 +215,7 @@ export default function AdminEditarProducto() {
                  </Form.Group>
                </Row>
 
-              {/* --- Botón Guardar --- */}
+               
               <div className="text-end mt-4">
                 <Button variant="primary" type="submit">Guardar Cambios</Button>
               </div>

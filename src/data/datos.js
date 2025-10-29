@@ -1,4 +1,4 @@
-// src/data/datos.js
+ 
 
 const regionesYComunas = {
     "Región Metropolitana": [
@@ -23,8 +23,8 @@ const regionesYComunas = {
     ]
 };
 
-// --- FUNCIONES CRUD (Leer) ---
-// Esto cumple con el requisito de la rúbrica de un archivo de datos simulado.
+ 
+ 
 
 /**
  * Lee y devuelve todas las regiones.

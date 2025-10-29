@@ -34,7 +34,7 @@ export default function AdminUsuarios() {
   
   const handleShowDetails = (user) => {
     setSelectedUser(user);
-    setHistorialCompras(getOrdenesPorUsuario(user.id)); // Carga historial
+    setHistorialCompras(getOrdenesPorUsuario(user.id));  
     setShowDetailsModal(true);
   };
   const handleCloseDetails = () => {
@@ -51,7 +51,6 @@ export default function AdminUsuarios() {
   };
   const handleCloseEdit = () => setShowEditModal(false);
 
-  // --- Manejadores de CRUD ---
   const handleEditFormChange = (e) => {
     const { name, value } = e.target;
     setEditFormData(prev => ({ ...prev, [name]: value }));

@@ -1,10 +1,7 @@
-// src/pages/ProductoCompleto.jsx
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getProductById } from '../data/productosData';
 import { useCarrito } from "../components/CarritoContext";
-
-// Miniaturas y Relacionados
 import completo2 from "../assets/productos/completo2.jpg";
 import completo3 from "../assets/productos/completo3.jpg";
 import completo4 from "../assets/productos/completo4.jpg";
@@ -13,9 +10,8 @@ import choripan from "../assets/productos/choripan.jpg";
 import pastelChoclo from "../assets/productos/pastelchoclo.jpg";
 
 const ProductoCompleto = () => {
-  const productoId = 2; // ID del Completo Italiano
+  const productoId = 2;
   const producto = getProductById(productoId);
-
   const [cantidad, setCantidad] = useState(1);
   const [imagenPrincipal, setImagenPrincipal] = useState('');
   const { agregarAlCarrito } = useCarrito();
@@ -33,7 +29,7 @@ const ProductoCompleto = () => {
   const handleAgregarAlCarrito = () => {
     const precioAAgregar = producto.enOferta ? producto.precioOferta : producto.precio;
     for (let i = 0; i < cantidad; i++) {
-        agregarAlCarrito(producto.id, producto.nombre, precioAAgregar, producto.img);
+      agregarAlCarrito(producto.id, producto.nombre, precioAAgregar, producto.img);
     }
     alert(`✅ ${cantidad} ${producto.nombre.toLowerCase()}${cantidad > 1 ? 's' : ''} agregado${cantidad > 1 ? 's' : ''} al carrito`);
     setCantidad(1);
@@ -48,15 +44,13 @@ const ProductoCompleto = () => {
 
   return (
     <main className="contenedor">
-      {/* Breadcrumb */}
-       <div className="breadcrumb mb-4">
-            <Link to="/" className="text-decoration-none text-muted">Inicio</Link>
-            <span className="mx-2">/</span>
-            <Link to="/categorias" className="text-decoration-none text-muted">Categorias</Link>
-            <span className="mx-2">/</span>
-            <span className="fw-bold">{producto.nombre}</span>
-        </div>
-
+      <div className="breadcrumb mb-4">
+        <Link to="/" className="text-decoration-none text-muted">Inicio</Link>
+        <span className="mx-2">/</span>
+        <Link to="/categorias" className="text-decoration-none text-muted">Categorias</Link>
+        <span className="mx-2">/</span>
+        <span className="fw-bold">{producto.nombre}</span>
+      </div>
       <section className="producto">
         <div className="producto-imagen">
           <img src={imagenPrincipal} alt={producto.nombre} className="img-fluid"/>
@@ -70,7 +64,6 @@ const ProductoCompleto = () => {
             ))}
           </div>
         </div>
-
         <div className="producto-info">
           <h1>{producto.nombre.toUpperCase()}</h1>
           {producto.enOferta ? (
@@ -100,9 +93,7 @@ const ProductoCompleto = () => {
           </button>
         </div>
       </section>
-
-      {/* Productos relacionados */}
-       <section style={{ marginTop: "40px" }}>
+      <section style={{ marginTop: "40px" }}>
         <center><h1>PRODUCTOS RELACIONADOS</h1></center>
         <div className="productos-relacionados" style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap' }}>
           {productosRelacionados.map((relacionado, index) => (

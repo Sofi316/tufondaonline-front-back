@@ -7,9 +7,9 @@ const ADMIN_ID = 1;
 export default function AdminPerfil() {
   
   const navigate = useNavigate();
-  const [adminData, setAdminData] = useState(null); // Para guardar los datos del admin
+  const [adminData, setAdminData] = useState(null); 
   const [showEditModal, setShowEditModal] = useState(false);
-  const [editFormData, setEditFormData] = useState({}); // Para el formulario de edición
+  const [editFormData, setEditFormData] = useState({}); 
   const [mensaje, setMensaje] = useState("");
   const [tipoMensaje, setTipoMensaje] = useState("success");
 
@@ -45,25 +45,24 @@ export default function AdminPerfil() {
     setEditFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  // Manejador para guardar los cambios del perfil
   const handleEditSubmit = (e) => {
     e.preventDefault();
     setMensaje("");
 
-    // Validación simple 
+    
     if (!editFormData.nombre || !editFormData.email) {
       setTipoMensaje("danger");
       setMensaje("Error: Nombre y Email son obligatorios.");
       return;
     }
-     if (!editFormData.email.includes("@")) { //Validación de email
+     if (!editFormData.email.includes("@")) { 
         setTipoMensaje("danger");
         setMensaje("Error: El formato del correo electrónico no es válido.");
         return;
     }
 
     try {
-      updateUsuario(ADMIN_ID, editFormData); // Llama a la función de actualización
+      updateUsuario(ADMIN_ID, editFormData); 
       setTipoMensaje("success");
       setMensaje("¡Perfil actualizado exitosamente!");
       cargarDatosAdmin(); 

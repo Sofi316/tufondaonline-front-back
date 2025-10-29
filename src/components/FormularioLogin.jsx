@@ -18,15 +18,12 @@ export default function FormularioLogin() {
 
     if (loggedInUser) {
       console.log('¡Inicio de sesión exitoso via Context!', loggedInUser);
-
       if (loggedInUser.role === 'administrador') {
         navigate('/admin');
       } else {
         navigate('/');
       }
-
     } else {
-      // Login fallido (la función del contexto devuelve null)
       setError('Correo o contraseña incorrectos.');
     }
   };

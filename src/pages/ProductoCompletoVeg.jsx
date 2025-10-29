@@ -1,10 +1,8 @@
-// src/pages/ProductoCompletoVeg.jsx
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getProductById } from '../data/productosData';
 import { useCarrito } from "../components/CarritoContext";
 
-// Miniaturas y Relacionados
 import completo2 from "../assets/productos/completo2.jpg";
 import completo3 from "../assets/productos/completo3.jpg";
 import completo4 from "../assets/productos/completo4.jpg";
@@ -12,8 +10,8 @@ import choripanveg from "../assets/productos/choripanveg.jpg";
 import anticuchoverdura from "../assets/productos/anticuchoverdura.jpg";
 import pastelchocloveg from "../assets/productos/pastelchocloveg.jpg";
 
-const ProductoCompletoVegano = () => { // Mantenemos nombre original del componente
-  const productoId = 7; // <<<--- ID para Completo Vegano
+const ProductoCompletoVegano = () => { 
+  const productoId = 7; 
   const producto = getProductById(productoId);
 
   const [cantidad, setCantidad] = useState(1);
@@ -39,7 +37,7 @@ const ProductoCompletoVegano = () => { // Mantenemos nombre original del compone
     setCantidad(1);
   };
 
-  const miniaturas = [producto?.img, completo2, completo3, completo4].filter(Boolean); // Usamos las mismas miniaturas del completo normal
+  const miniaturas = [producto?.img, completo2, completo3, completo4].filter(Boolean); 
   const productosRelacionados = [
     { nombre: "Anticucho de Verduras", img: anticuchoverdura, detalle: "/AnticuchoVerdura" },
     { nombre: "Choripan Vegano", img: choripanveg, detalle: "/ChoripanVegano" },
@@ -48,7 +46,6 @@ const ProductoCompletoVegano = () => { // Mantenemos nombre original del compone
 
   return (
     <main className="contenedor">
-      {/* Breadcrumb */}
       <div className="breadcrumb mb-4">
             <Link to="/" className="text-decoration-none text-muted">Inicio</Link>
             <span className="mx-2">/</span>
@@ -94,7 +91,7 @@ const ProductoCompletoVegano = () => { // Mantenemos nombre original del compone
                style={{ width: '70px', padding:'4px', marginLeft:'5px' }}
              />
           </div>
-          <br /> <br /> {/* Saltos de línea originales */}
+          <br /> <br /> 
           <button className="btn btn-danger" onClick={handleAgregarAlCarrito}>
              <i className="bi bi-cart-plus me-2"></i>
             AGREGAR {cantidad > 1 ? `(${cantidad}) AL ` : ''}CARRITO
@@ -102,7 +99,7 @@ const ProductoCompletoVegano = () => { // Mantenemos nombre original del compone
         </div>
       </section>
 
-      {/* Productos relacionados */}
+      
       <section style={{ marginTop: '40px' }}>
         <center><h1>PRODUCTOS RELACIONADOS</h1></center>
         <div className="productos-relacionados" style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap' }}>

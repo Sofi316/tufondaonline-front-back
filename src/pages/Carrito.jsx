@@ -1,70 +1,53 @@
-// src/pages/Carrito.jsx
-import React, { useState } from "react"; // Necesitas useState para el input del código
-import { useCarrito } from "../components/CarritoContext"; // Asegúrate que la ruta sea correcta
+import React, { useState } from "react";
+import { useCarrito } from "../components/CarritoContext";
 import { Link } from 'react-router-dom';
-import { Form, Button, InputGroup, Alert, Table } from 'react-bootstrap'; // Importa componentes necesarios
-// Importa useAuth para llamar a aplicarCodigoDescuento
-import { useAuth } from "../context/AuthContext"; // Asegúrate que la ruta sea correcta
+import { Form, Button, InputGroup, Alert, Table } from 'react-bootstrap';
+import { useAuth } from "../context/AuthContext";
 
 function Carrito() {
-  // Obtiene valores y funciones del CarritoContext
   const { carrito, eliminarDelCarrito, actualizarCantidad, vaciarCarrito, montoSubtotal, montoDescuento, montoTotal } = useCarrito();
-  // Obtiene la función para aplicar código y el código ya usado del AuthContext
   const { aplicarCodigoDescuento, codigoDescuentoUsado } = useAuth();
-
-  // Estado local para el valor del input del código de descuento
   const [codigoInput, setCodigoInput] = useState('');
-  // Estado local para mostrar mensajes relacionados al código (éxito/error)
   const [mensajeCodigo, setMensajeCodigo] = useState('');
-  const [tipoMensajeCodigo, setTipoMensajeCodigo] = useState('success'); // 'success' o 'danger'
+  const [tipoMensajeCodigo, setTipoMensajeCodigo] = useState('success');
 
-  // Función que se ejecuta al presionar el botón "Aplicar"
   const handleAplicarCodigo = () => {
-    // Llama a la función del AuthContext para validar y aplicar el código
     const resultado = aplicarCodigoDescuento(codigoInput);
-    setMensajeCodigo(resultado.message); // Muestra el mensaje devuelto
-    setTipoMensajeCodigo(resultado.success ? 'success' : 'danger'); // Ajusta el color del mensaje
-    // Si el código no fue válido, limpia el input para que pueda intentar de nuevo
+    setMensajeCodigo(resultado.message);
+    setTipoMensajeCodigo(resultado.success ? 'success' : 'danger');
     if (!resultado.success) {
         setCodigoInput('');
     }
   };
 
-   // Función para formatear a peso chileno (opcional, podrías tenerla global)
-   const formatPesoChileno = (valor) => {
+  const formatPesoChileno = (valor) => {
     if (typeof valor !== 'number') return '$NaN';
     return new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' }).format(valor);
   };
 
   return (
     <div className="container mt-4">
-        {/* Breadcrumb de navegación */}
         <nav aria-label="breadcrumb" className="mb-4">
             <ol className="breadcrumb">
               <li className="breadcrumb-item"><Link to="/">Inicio</Link></li>
-              {/* Ajusta esta ruta si tu página de productos ahora es /categorias */}
-              <li className="breadcrumb-item"><Link to="/categorias">Productos</Link></li>
+              <li className="breadcrumb-item"><Link to="/categorias">Categorias</Link></li>
               <li className="breadcrumb-item active" aria-current="page">Carrito</li>
             </ol>
         </nav>
       <h2>Carrito de Compras</h2>
-
-      {/* Muestra mensaje si el carrito está vacío */}
       {carrito.length === 0 ? (
         <div className="text-center py-5">
-          <i className="bi bi-cart-x" style={{fontSize: '4rem', color: '#6c757d'}}></i> {/* Icono carrito vacío */}
+          <i className="bi bi-cart-x" style={{fontSize: '4rem', color: '#6c757d'}}></i>
           <p className="lead mt-3">Tu carrito está vacío.</p>
-          <Link to="/categorias" className="btn btn-primary"> {/* Enlace a Categorías */}
+          <Link to="/categorias" className="btn btn-primary">
             <i className="bi bi-arrow-left me-2"></i> Volver a Productos
           </Link>
         </div>
       ) : (
-        // Muestra la tabla y totales si hay items
         <>
-          {/* Tabla con los productos del carrito */}
-          <div className="table-responsive shadow-sm"> {/* Añadido shadow */}
-            <Table hover className="align-middle"> {/* hover effect */}
-              <thead className="table-light"> {/* Fondo claro para header */}
+          <div className="table-responsive shadow-sm">
+            <Table hover className="align-middle">
+              <thead className="table-light">
                 <tr>
                   <th style={{width: '40%'}}>Producto</th>
                   <th className="text-end">Precio</th>
@@ -74,9 +57,8 @@ function Carrito() {
                 </tr>
               </thead>
               <tbody>
-                {/* Mapea cada item del carrito a una fila de la tabla */}
                 {carrito.map((item) => (
-                  <tr key={item.id}> {/* Usa id como key */}
+                  <tr key={item.id}>
                     <td>
                       <div className="d-flex align-items-center">
                         <img
@@ -85,17 +67,16 @@ function Carrito() {
                           style={{ width: '60px', height: '60px', objectFit: 'cover' }}
                           className="me-3 rounded"
                         />
-                        <span>{item.nombre}</span> {/* Span para mejor alineación */}
+                        <span>{item.nombre}</span>
                       </div>
                     </td>
                     <td className="text-end">{formatPesoChileno(item.precio)}</td>
                     <td className="text-center">
-                      {/* Grupo de botones para +/- cantidad */}
-                      <InputGroup size="sm" style={{ width: '100px', margin:'auto' }}> {/* size="sm", centrado */}
+                      <InputGroup size="sm" style={{ width: '100px', margin:'auto' }}>
                         <Button
                           variant="outline-secondary"
-                          onClick={() => actualizarCantidad(item.nombre, item.cantidad - 1)} // Usa nombre
-                          disabled={item.cantidad <= 1} // Deshabilita si es 1
+                          onClick={() => actualizarCantidad(item.nombre, item.cantidad - 1)}
+                          disabled={item.cantidad <= 1}
                         >
                           -
                         </Button>
@@ -108,20 +89,19 @@ function Carrito() {
                         />
                         <Button
                           variant="outline-secondary"
-                          onClick={() => actualizarCantidad(item.nombre, item.cantidad + 1)} // Usa nombre
+                          onClick={() => actualizarCantidad(item.nombre, item.cantidad + 1)}
                         >
                           +
                         </Button>
                       </InputGroup>
                     </td>
-                    <td className="text-end fw-bold">{formatPesoChileno(item.precio * item.cantidad)}</td> {/* fw-bold */}
+                    <td className="text-end fw-bold">{formatPesoChileno(item.precio * item.cantidad)}</td>
                     <td className="text-center">
-                      {/* Botón para eliminar item */}
                       <Button
-                        variant="outline-danger" // outline
+                        variant="outline-danger"
                         size="sm"
-                        onClick={() => eliminarDelCarrito(item.nombre)} // Usa nombre
-                        title="Eliminar producto" // Tooltip
+                        onClick={() => eliminarDelCarrito(item.nombre)}
+                        title="Eliminar producto"
                       >
                         <i className="bi bi-trash"></i>
                       </Button>
@@ -131,19 +111,14 @@ function Carrito() {
               </tbody>
             </Table>
           </div>
-
-          {/* --- SECCIÓN CÓDIGO DE DESCUENTO Y TOTALES --- */}
-          <div className="row mt-4 justify-content-between"> {/* justify-content-between */}
-            {/* Columna para Código de Descuento */}
+          <div className="row mt-4 justify-content-between">
             <div className="col-md-6 col-lg-5 mb-3">
               <h5>¿Tienes un código de descuento?</h5>
               {codigoDescuentoUsado ? (
-                // Muestra si ya hay un código aplicado
-                <Alert variant="info" className="py-2 px-3"> {/* Padding ajustado */}
+                <Alert variant="info" className="py-2 px-3">
                   Código <strong>"{codigoDescuentoUsado}"</strong> aplicado ({montoDescuento > 0 ? `${(montoDescuento / montoSubtotal * 100).toFixed(0)}%` : '0%'} dto).
                 </Alert>
               ) : (
-                // Muestra input para aplicar código
                 <>
                   <InputGroup>
                     <Form.Control
@@ -151,8 +126,8 @@ function Carrito() {
                       placeholder="Ej: FELICES8"
                       value={codigoInput}
                       onChange={(e) => {
-                          setCodigoInput(e.target.value.toUpperCase()); // Guarda en mayúsculas
-                          setMensajeCodigo(''); // Limpia mensaje al escribir
+                          setCodigoInput(e.target.value.toUpperCase());
+                          setMensajeCodigo('');
                       }}
                       aria-label="Código de descuento"
                     />
@@ -160,35 +135,27 @@ function Carrito() {
                       Aplicar
                     </Button>
                   </InputGroup>
-                  {/* Muestra mensaje de éxito/error al aplicar código */}
                   {mensajeCodigo && <Alert variant={tipoMensajeCodigo} className="mt-2 py-1 px-2 small">{mensajeCodigo}</Alert>}
                 </>
               )}
-               {/* Botón Vaciar Carrito (movido aquí) */}
               <Button variant="outline-danger" onClick={vaciarCarrito} className="mt-3">
                 Vaciar Carrito
               </Button>
             </div>
-
-            {/* Columna para Totales y Botón Pagar */}
             <div className="col-md-6 col-lg-5 text-end">
-              {/* Muestra desglose solo si hay descuento */}
               {montoDescuento > 0 && (
                 <>
                   <h5>Subtotal: {formatPesoChileno(montoSubtotal)}</h5>
                   <h5 className="text-success">Descuento ({codigoDescuentoUsado}): -{formatPesoChileno(montoDescuento)}</h5>
-                  <hr className="my-2"/> {/* Separador más pequeño */}
+                  <hr className="my-2"/>
                 </>
               )}
-              {/* Muestra el TOTAL FINAL */}
               <h3 className="mb-3">Total: {formatPesoChileno(montoTotal)}</h3>
-              {/* Botón Proceder al Pago */}
                  <Link to="/comprar" className="btn btn-success btn-lg">
-                    Proceder al Pago <i className="bi bi-arrow-right ms-1"></i> {/* Icono opcional */}
+                    Proceder al Pago <i className="bi bi-arrow-right ms-1"></i>
                   </Link>
             </div>
           </div>
-          {/* --- FIN SECCIÓN --- */}
         </>
       )}
     </div>

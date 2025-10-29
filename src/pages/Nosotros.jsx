@@ -3,14 +3,10 @@ import logoFonda from '../assets/Fonda_som.png';
 
 export default function Nosotros() {
   return (
-    // Usamos un <main> y un <container> de Bootstrap
     <main className="container my-4">
-      {/* Centramos el contenido */}
       <div className="row">
         <div className="col-lg-8 mx-auto text-center">
-
           <h1 className="mb-4">Sobre nosotros</h1>
-
           <p className="lead">
             Fonda Online es una tienda online, como bien dice su nombre, que ofrece los
             mejores productos gastronómicos para celebrar el 18 de septiembre como corresponde.
@@ -20,18 +16,13 @@ export default function Nosotros() {
             productos del mercado y sácale partido a tu celebración.
           </p> 
           <p className="mt-3 nosotros">¡Viva Chile!</p>
-
-          <hr className="my-4" /> {/* Un separador */}
-
+          <hr className="my-4" />
           <p>Página web hecha por estudiantes del Instituto Profesional DuocUc:</p>
-          
-         
           <ul className="list-unstyled">
             <li>Sofía Homazábal</li>
             <li>Romina Hormazábal</li>
             <li>Fabián Sanhueza</li>
           </ul>
-
           <div className="text-center mt-4">
             <img 
               src={logoFonda} 
@@ -39,7 +30,6 @@ export default function Nosotros() {
               style={{ width: '150px' }} 
             />
           </div>
-
         </div>
       </div>
     </main>

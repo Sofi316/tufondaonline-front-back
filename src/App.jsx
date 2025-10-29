@@ -57,8 +57,8 @@ export default function App() {
   return (
     <AuthProvider>
       <Routes>
-        {/* --- GRUPO 1: RUTAS PÚBLICAS --- */}
-        {/* Usamos 'path="/*"' para agrupar todas las rutas públicas */}
+         
+         
         <Route
           path="/*"
           element={
@@ -66,7 +66,7 @@ export default function App() {
           <CarritoProvider>
             <ScrollToTop />
             <Navbar />
-            <Routes> {/* Rutas anidadas para las páginas públicas */}
+            <Routes>  
               <Route path="/" element={<Home />} />
               <Route path="/registro" element={<Registro />} />
               <Route path="/blogs" element={<Blogs />} />
@@ -98,7 +98,7 @@ export default function App() {
               <Route path="/pago-exitoso" element={<PagoExitoso />} />
               <Route path="/pago-fallido" element={<PagoFallido />} />
              
-              {/* Esta es la ruta 404 para el sitio público */}
+               
               <Route path="*" element={<h1>404 - Página no encontrada</h1>} />
             </Routes>
             <Footer />
@@ -108,11 +108,11 @@ export default function App() {
         }
       />
 
-      {/* --- GRUPO 2: RUTAS DE ADMINISTRADOR --- */}
-      {/* Esta ruta carga el layout de admin */}
+       
+       
       
       <Route path="/admin" element={<AdminLayout />}>
-        {/* 'index' es la página por defecto que se muestra en /admin */}
+         
         <Route index element={<AdminDashboard />} />
         
         
@@ -120,7 +120,7 @@ export default function App() {
         { <Route path="usuarios/crearUser" element={<AdminCrearUsuario />} /> }
 
         <Route path="ordenes" element={<AdminOrdenes />} />
-        <Route path="ordenes/:id" element={<AdminVerOrden />} /> {/* Ruta de detalle */}
+        <Route path="ordenes/:id" element={<AdminVerOrden />} />  
 
         <Route path="productos" element={<AdminProductos />} />
         <Route path="productos/crear" element={<AdminCrearProducto />} />

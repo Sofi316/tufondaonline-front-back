@@ -1,36 +1,28 @@
-// src/components/BotonDescargarBoleta.jsx
 
-// 1. Importa el archivo de lógica (ajusta la ruta si es necesario)
 import '../utils/BotonDescargarBoleta.logic.js'; 
 import React from 'react';
 import { Button } from 'react-bootstrap';
 
-// Recibe los detalles de la orden como prop
 const BotonDescargarBoleta = ({ orderDetails }) => {
 
-  // 2. Ya NO necesitamos formatPesoChileno aquí, está en el .logic.js
 
-  // 3. Modifica handleDownload para usar la lógica externa
   const handleDownload = () => {
-    // Validar que orderDetails exista
     if (!orderDetails) {
         console.error("handleDownload: orderDetails no proporcionado.");
-        alert("Error: No hay detalles de la orden para descargar."); // Informa al usuario
+        alert("Error: No hay detalles de la orden para descargar.");
         return;
     }
 
-    // Llamar a la función de lógica externa para generar el contenido
-    // Accede a la función a través del objeto global 'window'
     const boletaContent = window.BotonDescargarBoletaLogic.generarContenidoBoleta(orderDetails);
 
-    // Verificar si la lógica devolvió un error
+    
     if (boletaContent.startsWith("Error:")) {
         console.error("Error al generar boleta:", boletaContent);
-        alert(boletaContent); // Muestra el error si la generación falló
+        alert(boletaContent); 
         return;
     }
 
-    // Lógica de descarga (se mantiene igual)
+
     try {
         const blob = new Blob([boletaContent], { type: 'text/plain;charset=utf-8' });
         const link = document.createElement('a');

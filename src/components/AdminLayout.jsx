@@ -5,7 +5,6 @@ import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 export default function AdminLayout() {
   const navigate = useNavigate();
   
-  // (Aquí iría la lógica para "Cerrar Sesión")
   const handleLogout = () => {
     console.log ("Cerrar sesión");
     navigate('/iniciarSesion');
@@ -67,7 +66,6 @@ export default function AdminLayout() {
         </div>
       </nav>
 
-      {/* --- CONTENIDO PRINCIPAL --- */}
       <main className="admin-content">
         <Outlet />
       </main>

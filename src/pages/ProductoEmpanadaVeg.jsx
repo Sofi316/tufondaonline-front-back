@@ -1,10 +1,8 @@
-// src/pages/ProductoEmpanadaVeg.jsx
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getProductById } from '../data/productosData';
 import { useCarrito } from "../components/CarritoContext";
 
-// Miniaturas y Relacionados
 import empanada2 from "../assets/productos/empanada2.jpg";
 import empanada3 from "../assets/productos/empanada3.jpg";
 import empanada4 from "../assets/productos/empanada4.jpg";
@@ -13,7 +11,7 @@ import anticuchoverdura from "../assets/productos/anticuchoverdura.jpg";
 import pastelchocloveg from "../assets/productos/pastelchocloveg.jpg";
 
 const ProductoEmpanadaVeg = () => {
-  const productoId = 8; // <<<--- ID for Empanada Vegana
+  const productoId = 8;
   const producto = getProductById(productoId);
 
   const [cantidad, setCantidad] = useState(1);
@@ -39,7 +37,7 @@ const ProductoEmpanadaVeg = () => {
     setCantidad(1);
   };
 
-  const miniaturas = [producto?.img, empanada2, empanada3, empanada4].filter(Boolean); // Usamos mismas miniaturas
+  const miniaturas = [producto?.img, empanada2, empanada3, empanada4].filter(Boolean);
   const productosRelacionados = [
     { nombre: "Anticucho de Verduras", img: anticuchoverdura, detalle: "/AnticuchoVerdura" },
     { nombre: "Choripan Vegano", img: choripanveg, detalle: "/ChoripanVegano" },
@@ -48,7 +46,6 @@ const ProductoEmpanadaVeg = () => {
 
   return (
     <main className="contenedor">
-      {/* Breadcrumb */}
       <div className="breadcrumb mb-4">
             <Link to="/" className="text-decoration-none text-muted">Inicio</Link>
             <span className="mx-2">/</span>
@@ -102,7 +99,7 @@ const ProductoEmpanadaVeg = () => {
         </div>
       </section>
 
-      {/* Productos relacionados */}
+      
       <section style={{ marginTop: '40px' }}>
         <center><h1>PRODUCTOS RELACIONADOS</h1></center>
         <div className="productos-relacionados" style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap' }}>

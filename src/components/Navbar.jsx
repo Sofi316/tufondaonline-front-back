@@ -1,99 +1,76 @@
-import { NavLink } from "react-router-dom";
-import logoFonda from "../assets/Fonda_som.png";
-import React, { useState } from 'react';
-import banderas from "../assets/Banderines.png";
-import { Link } from "react-router-dom";
-import { useCarrito } from "../components/CarritoContext";
+import React from 'react';
+import { Navbar, Nav, Container, Badge, NavDropdown, Button } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom';
+import { useCarrito } from '../components/CarritoContext'; 
+import { useAuth } from '../context/AuthContext';     
+function Navigation() {
+  const { cantidadTotal } = useCarrito();
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
-export default function Navbar() {
-    const [isExpanded, setIsExpanded] = useState(false);
-    const { totalProductos } = useCarrito(); 
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
-    return (
-        <>
-            <nav className="navbar navbar-expand-lg navbar-dark navbar-custom">
-                <div className="container ps-0">
+  return (
+    <Navbar bg="dark" variant="dark" expand="lg" sticky="top" className="shadow-sm">
+      <Container>
+        <Navbar.Brand as={Link} to="/" className="fw-bold text-danger">
+          <i className="bi bi-flag-fill me-2"></i>FondaOnline
+        </Navbar.Brand>
+        
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link as={Link} to="/">Inicio</Nav.Link>
+            <Nav.Link as={Link} to="/nosotros">Nosotros</Nav.Link>
+            <Nav.Link as={Link} to="/categorias">Menú</Nav.Link>
+            <Nav.Link as={Link} to="/contacto">Contacto</Nav.Link>
+          </Nav>
+          
+          <Nav className="align-items-center">
+            <Nav.Link as={Link} to="/carrito" className="position-relative me-3">
+              <i className="bi bi-cart3 fs-5"></i>
+              {cantidadTotal > 0 && (
+                <Badge pill bg="danger" className="position-absolute top-0 start-100 translate-middle">
+                  {cantidadTotal}
+                </Badge>
+              )}
+            </Nav.Link>
 
-        <NavLink to="/" className="navbar-brand">
-          <img src={logoFonda} alt="Logo de TuFondaOnline" className="logoFonda" />
-        </NavLink>
-
-        <button
-          className="navbar-toggler"
-          type="button"
-          onClick={() => setIsExpanded(!isExpanded)} 
-          aria-expanded={isExpanded} 
-          aria-controls="mainNavbar"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-
-        <div className={`collapse navbar-collapse ${isExpanded ? 'show' : ''}`} 
-          id="mainNavbar">
-
-          <ul className="navbar-nav ms-auto">
-            <li className="nav-item">
-              <NavLink to="/" className="nav-link"
-              onClick={() => setIsExpanded(false)}>Inicio</NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink to="/categorias" className="nav-link"
-              onClick={() => setIsExpanded(false)}>Categorías</NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink to="/ofertas" className="nav-link"
-              onClick={() => setIsExpanded(false)}>Ofertas</NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink to="/blogs" className="nav-link"
-              onClick={() => setIsExpanded(false)}>Blogs</NavLink>
-            </li>
-            
-           
-            <li className="nav-item">
-              <NavLink to="/nosotros" className="nav-link"
-              onClick={() => setIsExpanded(false)}>Nosotros</NavLink>
-            </li>
-            
-           
-            <li className="nav-item">
-              <NavLink to="/contacto" className="nav-link"
-              onClick={() => setIsExpanded(false)}>Contacto</NavLink>
-            </li>
-
-            <li className="nav-item me-2"> 
-              <Link to="/iniciarSesion" className="btn btn-danger">
-                  Iniciar Sesión
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/registro" className="btn btn-primary">
-                  Crear cuenta
-              </Link>
-            </li>
-            <li className="nav-item">
-              <NavLink to="/Carrito" className="nav-link" 
-              onClick={() => setIsExpanded(false)}>
+            {user ? (
+              <NavDropdown title={<span><i className="bi bi-person-circle me-1"></i> {user.nombre}</span>} id="user-nav-dropdown">
                 
-                <span className="position-relative d-inline-block ">  
-                  <i className="bi bi-cart3 fs-5"></i>  
-                  
-                  {totalProductos > 0 && (
-                      <span className="position-absolute top-1 start-100 ms-2 badge bg-danger rounded-pill"> 
-                          {totalProductos}
-                      </span>
-                  )}
-                </span>  
-              </NavLink>
-            </li>
+                {(user.rol === 'administrador' || user.rol === 'admin') && (
+                  <>
+                    <NavDropdown.Item as={Link} to="/admin/productos">
+                      <i className="bi bi-gear-fill me-2"></i>Gestionar Productos
+                    </NavDropdown.Item>
+                    <NavDropdown.Item as={Link} to="/admin/usuarios">
+                      <i className="bi bi-people-fill me-2"></i>Gestionar Usuarios
+                    </NavDropdown.Item>
+                    <NavDropdown.Divider />
+                  </>
+                )}
 
-          </ul>
-        </div>
-
-      </div>
-    </nav>
-    <img src={banderas} alt="banderines" className="img-fluid d-block mb-0" />
-    </>
+                <NavDropdown.Item onClick={handleLogout} className="text-danger">
+                  <i className="bi bi-box-arrow-right me-2"></i>Cerrar Sesión
+                </NavDropdown.Item>
+              </NavDropdown>
+            ) : (
+              // Si no está logueado
+              <div className="d-flex gap-2">
+                <Button as={Link} to="/login" variant="outline-light" size="sm">Ingresar</Button>
+                <Button as={Link} to="/registro" variant="danger" size="sm">Registrarse</Button>
+              </div>
+            )}
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 }
+
+export default Navigation;

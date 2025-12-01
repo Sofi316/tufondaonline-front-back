@@ -1,74 +1,50 @@
 import React from 'react';
-import 'bootstrap-icons/font/bootstrap-icons.css';
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { Container, Row, Col, Nav } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 export default function AdminLayout() {
-  const navigate = useNavigate();
-  
-  const handleLogout = () => {
-    console.log ("Cerrar sesión");
-    navigate('/iniciarSesion');
-  };
+  const { user, loading } = useAuth(); 
+
+  if (loading) return <div>Cargando panel...</div>;
+
+  if (!user) {
+    return <Navigate to="/login" />;
+  }
+
+  // Ajusta 'administrador' según cómo lo guardaste en tu BD (puede ser 'admin', 'ROLE_ADMIN', etc.)
+  if (user.rol !== 'administrador' && user.rol !== 'admin') {
+    return <Navigate to="/" />;
+  }
 
   return (
-    <div className="admin-layout">
-      <nav className="admin-sidebar">
-        <div className="sidebar-header">
-          <h3>FondaOnline</h3>
-          <span>Admin Panel</span>
-        </div>
-        
-        <ul className="nav flex-column">
-          <li className="nav-item">
-            <NavLink className="nav-link" to="/admin" end>
-              <i className="bi bi-grid-1x2-fill me-2"></i> Dashboard
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <NavLink className="nav-link" to="/admin/ordenes">
-              <i className="bi bi-receipt me-2"></i> Órdenes
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <NavLink className="nav-link" to="/admin/productos">
-              <i className="bi bi-box-seam-fill me-2"></i> Productos
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <NavLink className="nav-link" to="/admin/categorias">
-              <i className="bi bi-tags-fill me-2"></i> Categorías
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <NavLink className="nav-link" to="/admin/usuarios">
-              <i className="bi bi-people-fill me-2"></i> Usuarios
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <NavLink className="nav-link" to="/admin/productos/reportes">
-              <i className="bi bi-file-earmark-bar-graph-fill me-2"></i> Reportes
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <NavLink className="nav-link" to="/admin/perfil">
-              <i className="bi bi-person-circle me-2"></i> Perfil
-            </NavLink>
-          </li>
-        </ul>
-        
-        <div className="sidebar-footer">
-          <NavLink className="nav-link" to="/">
-            <i className="bi bi-shop me-2"></i> Ver Tienda
-          </NavLink>
-          <button className="nav-link" onClick={handleLogout}>
-            <i className="bi bi-box-arrow-left me-2"></i> Cerrar Sesión
-          </button>
-        </div>
-      </nav>
+    <Container fluid>
+      <Row>
+        <Col md={2} className="bg-dark min-vh-100 p-0">
+          <div className="p-3 text-white text-center fw-bold border-bottom border-secondary">
+            Panel Admin
+          </div>
+          <Nav className="flex-column p-2">
+            <Nav.Link as={Link} to="/admin/productos" className="text-white-50 hover-light">
+              <i className="bi bi-box-seam me-2"></i> Productos
+            </Nav.Link>
+            <Nav.Link as={Link} to="/admin/usuarios" className="text-white-50 hover-light">
+              <i className="bi bi-people me-2"></i> Usuarios
+            </Nav.Link>
+            <Nav.Link as={Link} to="/admin/categorias" className="text-white-50 hover-light">
+               <i className="bi bi-tags me-2"></i> Categorías
+            </Nav.Link>
+            <Nav.Link as={Link} to="/" className="text-warning mt-4 border-top border-secondary pt-3">
+              <i className="bi bi-arrow-left-circle me-2"></i> Volver a la Tienda
+            </Nav.Link>
+          </Nav>
+        </Col>
 
-      <main className="admin-content">
-        <Outlet />
-      </main>
-    </div>
+        <Col md={10} className="p-4 bg-light">
+          <Outlet /> 
+        </Col>
+      </Row>
+    </Container>
   );
 }

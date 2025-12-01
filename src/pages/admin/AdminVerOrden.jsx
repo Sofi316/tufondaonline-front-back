@@ -1,120 +1,116 @@
-
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Table, Button, Badge } from 'react-bootstrap';
-import { Link, useParams } from 'react-router-dom';
-import { getOrden } from '../../data/usersData.js'; 
+import { Container, Card, Row, Col, Table, Button, Badge, Spinner, Alert } from 'react-bootstrap';
+import { useParams, useNavigate } from 'react-router-dom';
+import api from '../../config/api';
 
 export default function AdminVerOrden() {
-  
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-  const { id } = useParams(); 
   const [orden, setOrden] = useState(null);
+  const [productosMap, setProductosMap] = useState({}); 
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    
-    setOrden(getOrden(id)); 
-  }, [id]); 
+    const fetchData = async () => {
+      try {
+        const ordenRes = await api.get(`/ordenes/${id}`);
+        setOrden(ordenRes.data);
 
-  const getBadgeVariant = (estado) => {
-    switch (estado) {
-      case 'Completado': return 'success';
-      case 'Procesando': return 'warning';
-      case 'Cancelado': return 'danger';
-      default: return 'secondary';
-    }
-  };
+        // 2. Pedir los Productos para saber sus nombres (porque DetalleOrden solo tiene ID)
+        // Nota: Si tu backend ya devuelve el nombre en el detalle, puedes borrar este paso.
+        const prodRes = await api.get('/productos');
+        
+        const mapa = {};
+        prodRes.data.forEach(p => {
+            mapa[p.id] = p; 
+        });
+        setProductosMap(mapa);
+        
+        setLoading(false);
+      } catch (err) {
+        console.error(err);
+        setError("No se pudo cargar la información de la orden.");
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [id]);
 
-  const formatPesoChileno = (valor) => {
-    return new Intl.NumberFormat('es-CL', {
-      style: 'currency',
-      currency: 'CLP'
-    }).format(valor);
-  };
-
-  if (!orden) {
-    return <Container fluid><p>Cargando detalle de la orden...</p></Container>;
-  }
+  if (loading) return <Container className="mt-5 text-center"><Spinner animation="border" /></Container>;
+  if (error) return <Container className="mt-5"><Alert variant="danger">{error}</Alert></Container>;
+  if (!orden) return null;
 
   return (
-    <Container fluid>
-      <Row>
-        <Col>
-          
-          <Button as={Link} to="/admin/ordenes" variant="secondary" size="sm" className="mb-3">
-            <i className="bi bi-arrow-left me-1"></i>
-            Volver a Órdenes
-          </Button>
-          
-          <h2>Detalle de Orden #{orden.id}</h2>
-        </Col>
-      </Row>
+    <Container className="my-4">
+      <Button variant="outline-secondary" className="mb-3" onClick={() => navigate('/admin/ordenes')}>
+        <i className="bi bi-arrow-left me-2"></i> Volver a Órdenes
+      </Button>
 
-      <Row>
-        
-        <Col md={4}>
-          <Card className="shadow-sm mb-3">
-            <Card.Header>
-              <Card.Title as="h5">Información del Cliente</Card.Title>
-            </Card.Header>
-            <Card.Body>
-              <p><strong>Nombre:</strong> {orden.clienteNombre}</p>
-              <p><strong>Email:</strong> {orden.clienteEmail}</p>
-              <p><strong>Dirección:</strong> {orden.direccion}</p>
-              <p><strong>Comuna:</strong> {orden.comuna}</p>
-              <p><strong>Región:</strong> {orden.region}</p>
-            </Card.Body>
-          </Card>
-          
-          <Card className="shadow-sm mb-3">
-            <Card.Header>
-              <Card.Title as="h5">Resumen de Pago</Card.Title>
-            </Card.Header>
-            <Card.Body>
-              <p><strong>Fecha:</strong> {orden.fecha}</p>
-              <p><strong>Estado:</strong> 
-                <Badge bg={getBadgeVariant(orden.estado)} className="ms-2">
-                  {orden.estado}
-                </Badge>
-              </p>
-              <hr />
-              <h4 className="text-end">
-                Total Pagado: {formatPesoChileno(orden.total)}
-              </h4>
-            </Card.Body>
-          </Card>
-        </Col>
-        
-        
-        <Col md={8}>
-          <Card className="shadow-sm mb-3">
-            <Card.Header>
-              <Card.Title as="h5">Items del Pedido</Card.Title>
-            </Card.Header>
-            <Card.Body>
-              <Table responsive>
-                <thead>
-                  <tr>
-                    <th>Producto</th>
-                    <th>Cantidad</th>
-                    <th>Precio Unitario</th>
-                    <th>Subtotal</th>
+      <Card className="shadow-sm">
+        <Card.Header className="bg-primary text-white d-flex justify-content-between align-items-center">
+          <h4 className="mb-0">Orden #{orden.id}</h4>
+          <Badge bg="light" text="dark" className="fs-6">{orden.estado || "Procesando"}</Badge>
+        </Card.Header>
+        <Card.Body>
+          <Row className="mb-4">
+            <Col md={6}>
+              <h5 className="text-muted">Datos del Cliente</h5>
+              <p className="mb-1"><strong>ID Usuario:</strong> {orden.usuarioId}</p>
+              
+              <h5 className="text-muted mt-3">Detalles de Envío</h5>
+              <p>{orden.direccionEnvio}</p>
+            </Col>
+            <Col md={6} className="text-md-end">
+              <h5 className="text-muted">Resumen</h5>
+              <p className="mb-1"><strong>Fecha:</strong> {orden.fecha ? new Date(orden.fecha).toLocaleDateString() : '-'}</p>
+              <p className="mb-1"><strong>Método Pago:</strong> {orden.metodoPago}</p>
+              <h3 className="text-success mt-2">${orden.total ? orden.total.toLocaleString('es-CL') : 0}</h3>
+            </Col>
+          </Row>
+
+          <h5 className="mb-3">Productos Comprados</h5>
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th className="text-center">Precio Unit.</th>
+                <th className="text-center">Cantidad</th>
+                <th className="text-end">Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              {orden.detalles && orden.detalles.map((detalle, index) => {
+                const productoInfo = productosMap[detalle.productoId];
+                
+                return (
+                  <tr key={detalle.id || index}>
+                    <td>
+                        <div className="d-flex align-items-center">
+                            {productoInfo && (
+                                <img src={productoInfo.img} alt="" style={{width: '40px', marginRight: '10px'}} />
+                            )}
+                            <div>
+                                <strong>{productoInfo ? productoInfo.nombre : `Producto ID ${detalle.productoId}`}</strong>
+                            </div>
+                        </div>
+                    </td>
+                    <td className="text-center">${detalle.precioUnitario?.toLocaleString('es-CL')}</td>
+                    <td className="text-center">{detalle.cantidad}</td>
+                    <td className="text-end">${(detalle.precioUnitario * detalle.cantidad).toLocaleString('es-CL')}</td>
                   </tr>
-                </thead>
-                <tbody>
-                  {orden.items.map(item => (
-                    <tr key={item.id}>
-                      <td>{item.nombre}</td>
-                      <td>{item.cantidad}</td>
-                      <td>{formatPesoChileno(item.precio)}</td>
-                      <td>{formatPesoChileno(item.cantidad * item.precio)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
+                );
+              })}
+            </tbody>
+          </Table>
+        </Card.Body>
+        <Card.Footer className="text-end">
+            <Button variant="success" onClick={() => window.print()}>
+                <i className="bi bi-printer me-2"></i> Imprimir Comprobante
+            </Button>
+        </Card.Footer>
+      </Card>
     </Container>
   );
 }

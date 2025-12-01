@@ -1,170 +1,205 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Alert } from 'react-bootstrap';  
-import '../utils/Registro.logic.js'; 
-import { getRegiones, getComunas } from '../data/datos.js';
-import { createUsuario } from '../data/usersData.js';
+import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import api from '../config/api'; 
 
-function Registro() {
+export default function Registro() {
+  const navigate = useNavigate();
 
-  const initialState = {
+  const [formData, setFormData] = useState({
     rut: '',
-    email: '',
     nombre: '',
     apellidos: '',
+    email: '',
     fechaNac: '',
     direccion: '',
-    region: '',
-    comuna: '',
-    contraseña: '',  
-    contraseñaCon: '',
-    codigo: '',
-    tipo: 'cliente'  
-  };
+    region: '', 
+    comuna: '', 
+    password: '',
+    confirmPassword: '',
+    tipo: 'cliente' 
+  });
 
-  const [formData, setFormData] = useState(initialState);
   const [listaRegiones, setListaRegiones] = useState([]);
   const [listaComunas, setListaComunas] = useState([]);
-  const [mensaje, setMensaje] = useState("");  
-  const [tipoMensaje, setTipoMensaje] = useState("success");  
-  const navigate = useNavigate();  
-
-  useEffect(() => {
-    setListaRegiones(getRegiones());
-  }, []);  
-
-  useEffect(() => {
-    if (formData.region) {
-      setListaComunas(getComunas(formData.region));
-    } else {
-      setListaComunas([]);
-    }
-    setFormData(prev => ({ ...prev, comuna: '' }));
-  }, [formData.region]);  
-
   
+  const [mensaje, setMensaje] = useState("");
+  const [variant, setVariant] = useState("success");
+
+  useEffect(() => {
+    const cargarRegiones = async () => {
+      try {
+        const response = await api.get('/regiones');
+        setListaRegiones(response.data);
+      } catch (error) {
+        console.error("Error cargando regiones:", error);
+        setMensaje("Error cargando regiones. Verifique conexión.");
+        setVariant("danger");
+      }
+    };
+    cargarRegiones();
+  }, []);
+
+  useEffect(() => {
+    const cargarComunas = async () => {
+      if (!formData.region) {
+        setListaComunas([]);
+        return;
+      }
+      try {
+        // Asumiendo que tu backend tiene un endpoint para filtrar comunas por región
+        // Puede ser /comunas/{idRegion} o /comunas?regionId={id}
+        // Ajusta esta línea según tu API real:
+        const response = await api.get(`/comunas/${formData.region}`); 
+        setListaComunas(response.data);
+      } catch (error) {
+        console.error("Error cargando comunas:", error);
+      }
+    };
+    cargarComunas();
+  }, [formData.region]);
+
   const handleChange = (e) => {
-    setMensaje(""); 
-    const resultado = window.RegistroLogic.handleChange(formData, e);
-    setFormData(resultado);
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const resultado = window.RegistroLogic.validarFormulario(formData);
 
-    if (!resultado.ok) {
-      setTipoMensaje(resultado.tipo);
-      setMensaje(resultado.mensaje);
+  
+    if (formData.password !== formData.confirmPassword) {
+      setMensaje("Las contraseñas no coinciden");
+      setVariant("danger");
       return;
     }
 
     try {
-      createUsuario({ ...formData, tipo: 'cliente' });
-      setTipoMensaje("success");
-      setMensaje("¡Registro exitoso!");
-      setFormData(initialState);
-      setTimeout(() => navigate('/iniciarSesion'), 2000);
+    
+      await api.post('/register', formData); 
+      
+      setMensaje("Usuario registrado exitosamente. Redirigiendo al login...");
+      setVariant("success");
+      
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000);
+
     } catch (error) {
-      setTipoMensaje("danger");
-      setMensaje("Error al registrar el usuario: " + error.message);
+      console.error(error);
+      setMensaje(error.response?.data?.message || "Error al registrar el usuario");
+      setVariant("danger");
     }
   };
 
   return (
-    <main className="contenedor my-4">
-      <h1 className="hReg text-center mb-4">Registro de Usuario</h1> 
+    <Container className="my-5">
+      <Row className="justify-content-center">
+        <Col md={8} lg={6}>
+          <Card className="shadow">
+            <Card.Body className="p-4">
+              <h2 className="text-center mb-4">Crear Cuenta</h2>
+              
+              {mensaje && <Alert variant={variant}>{mensaje}</Alert>}
 
-      {mensaje && (
-        <Alert
-          variant={tipoMensaje} 
-          onClose={() => setMensaje("")} 
-          dismissible 
-          style={{ whiteSpace: 'pre-wrap' }}
-        >
-          {mensaje}
-        </Alert>
-      )}
+              <Form onSubmit={handleSubmit}>
+                <Row>
+                  <Col md={6}>
+                    <Form.Group className="mb-3">
+                      <Form.Label>RUT</Form.Label>
+                      <Form.Control type="text" name="rut" onChange={handleChange} required />
+                    </Form.Group>
+                  </Col>
+                  <Col md={6}>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Email</Form.Label>
+                      <Form.Control type="email" name="email" onChange={handleChange} required />
+                    </Form.Group>
+                  </Col>
+                </Row>
 
-      <form className="formulario" id="formularioRegistro" onSubmit={handleSubmit} noValidate>
-        <div className="row g-3">
+                <Row>
+                  <Col md={6}>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Nombre</Form.Label>
+                      <Form.Control type="text" name="nombre" onChange={handleChange} required />
+                    </Form.Group>
+                  </Col>
+                  <Col md={6}>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Apellidos</Form.Label>
+                      <Form.Control type="text" name="apellidos" onChange={handleChange} required />
+                    </Form.Group>
+                  </Col>
+                </Row>
 
-          <div className="col-md-6">
-            <label htmlFor="rut" className="form-label">RUT</label>
-            <input name="rut" placeholder="Ej: 12345678-K" type="text" className="form-control" id="rut" value={formData.rut} onChange={handleChange} required />
-          </div>
+                <Form.Group className="mb-3">
+                   <Form.Label>Fecha de Nacimiento</Form.Label>
+                   <Form.Control type="date" name="fechaNac" onChange={handleChange} required />
+                </Form.Group>
 
-          <div className="col-md-6">
-            <label htmlFor="email" className="form-label">Correo</label>
-            <input type="email" name="email" placeholder="tu@ejemplo.com" className="form-control" id="email" value={formData.email} onChange={handleChange} required />
-          </div>
+                <Form.Group className="mb-3">
+                  <Form.Label>Dirección</Form.Label>
+                  <Form.Control type="text" name="direccion" onChange={handleChange} required />
+                </Form.Group>
 
-          <div className="col-md-6">
-            <label htmlFor="nombre" className="form-label">Nombre</label>
-            <input name="nombre" placeholder="Ingresa tu nombre" type="text" className="form-control" id="nombre" value={formData.nombre} onChange={handleChange} required maxLength="50" />
-          </div>
+                <Row>
+                  <Col md={6}>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Región</Form.Label>
+                      <Form.Select name="region" onChange={handleChange} value={formData.region} required>
+                        <option value="">Seleccione...</option>
+                        {listaRegiones.map(reg => (
+                          <option key={reg.id} value={reg.id}>{reg.nombre}</option>
+                        ))}
+                      </Form.Select>
+                    </Form.Group>
+                  </Col>
+                  <Col md={6}>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Comuna</Form.Label>
+                      <Form.Select name="comuna" onChange={handleChange} required disabled={!formData.region}>
+                        <option value="">Seleccione...</option>
+                        {listaComunas.map(com => (
+                          <option key={com.id} value={com.id}>{com.nombre}</option>
+                        ))}
+                      </Form.Select>
+                    </Form.Group>
+                  </Col>
+                </Row>
 
-          <div className="col-md-6">
-            <label htmlFor="apellidos" className="form-label">Apellidos</label>
-            <input name="apellidos" placeholder="Ingresa tus apellidos" type="text" className="form-control" id="apellidos" value={formData.apellidos} onChange={handleChange} required maxLength="100" />
-          </div>
+                <Row>
+                  <Col md={6}>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Contraseña</Form.Label>
+                      <Form.Control type="password" name="password" onChange={handleChange} required />
+                    </Form.Group>
+                  </Col>
+                  <Col md={6}>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Confirmar Contraseña</Form.Label>
+                      <Form.Control type="password" name="confirmPassword" onChange={handleChange} required />
+                    </Form.Group>
+                  </Col>
+                </Row>
+                
+                <Form.Group className="mb-4">
+                    <Form.Label>Tipo de Cuenta</Form.Label>
+                    <Form.Select name="tipo" onChange={handleChange}>
+                        <option value="cliente">Cliente</option>
+                        <option value="vendedor">Vendedor</option>
+                    </Form.Select>
+                </Form.Group>
 
-          <div className="col-md-6">
-            <label htmlFor="fechaNac" className="form-label">Fecha de nacimiento</label>
-            <input type="date" name="fechaNac" className="form-control" id="fechaNac" value={formData.fechaNac} onChange={handleChange} required />
-          </div>
-
-          <div className="col-md-6">
-            <label htmlFor="direccion" className="form-label">Dirección</label>
-            <input type="text" name="direccion" placeholder="Ej: Av. Siempreviva 123" className="form-control" id="direccion" value={formData.direccion} onChange={handleChange} required maxLength="300" />
-          </div>
-
-          <div className="col-md-6">
-            <label htmlFor="region" className="form-label">Región</label>
-            <select name="region" id="region" className="form-select" value={formData.region} onChange={handleChange} required>
-              <option value="">Seleccione una región</option>
-              {listaRegiones.map(region => (<option key={region} value={region}>{region}</option>))}
-            </select>
-          </div>
-
-          <div className="col-md-6">
-            <label htmlFor="comuna" className="form-label">Comuna</label>
-            <select name="comuna" id="comuna" className="form-select" value={formData.comuna} onChange={handleChange} disabled={listaComunas.length === 0} required>
-              <option value="">{formData.region ? "Seleccione una comuna" : "Seleccione una región primero"}</option>
-              {listaComunas.map(comuna => (<option key={comuna} value={comuna}>{comuna}</option>))}
-            </select>
-          </div>
-
-          <div className="col-md-6">
-            <label htmlFor="contraseña" className="form-label">Contraseña</label>
-            <input type="password" name="contraseña" placeholder="Entre 4 y 10 caracteres" className="form-control" id="contraseña" value={formData.contraseña} onChange={handleChange} required minLength="4" maxLength="10" />
-          </div>
-
-          <div className="col-md-6">
-            <label htmlFor="contraseñaCon" className="form-label">Confirmar contraseña</label>
-            <input type="password" name="contraseñaCon" placeholder="Repita su contraseña" className="form-control" id="contraseñaCon" value={formData.contraseñaCon} onChange={handleChange} required />
-          </div>
-
-          <div className="col-12">
-            <label htmlFor="codigo" className="form-label">Código registro (opcional)</label>
-            <input name="codigo" placeholder="Ej: FELICES8" className="form-control" id="codigo" value={formData.codigo} onChange={handleChange} />
-          </div>
-
-          <div className="col-12 d-flex align-items-center gap-3 mt-3">
-            <button className="btn btn-danger" type="submit">Registrar</button>
-            <Link to="/iniciarSesion">¿Ya tienes una cuenta?</Link>
-          </div>
-
-          <div className="col-12 mt-2">
-            <p className="text-muted small">
-              Regístrate con el código FELICES8 y tendrás 10% de descuento en tu próxima compra!
-            </p>
-          </div>
-        </div>
-      </form>
-    </main>
+                <div className="d-grid">
+                  <Button variant="primary" type="submit" size="lg">
+                    Registrarse
+                  </Button>
+                </div>
+              </Form>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
 }
-
-export default Registro;

@@ -1,240 +1,100 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Table, Button, Modal, Form, Badge, ListGroup } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-
-import '../../utils/AdminUsuarios.logic.js'; 
-
-import { getUsuarios, updateUsuario, deleteUsuario, getOrdenesPorUsuario } from '../../data/usersData.js';
-import { getRegiones, getComunas } from '../../data/datos.js';
+import { Container, Row, Col, Table, Card, Button, Badge, Spinner, Alert } from 'react-bootstrap';
+import api from '../../config/api';
 
 export default function AdminUsuarios() {
   const [usuarios, setUsuarios] = useState([]);
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [showDetailsModal, setShowDetailsModal] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [editFormData, setEditFormData] = useState({});
-  const [regiones, setRegiones] = useState([]);
-  const [comunas, setComunas] = useState([]);
-  const [historialCompras, setHistorialCompras] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  const cargarUsuarios = async () => {
+    try {
+      const response = await api.get('/usuarios');
+      setUsuarios(response.data);
+      setLoading(false);
+    } catch (err) {
+      console.error(err);
+      setError("No se pudieron cargar los usuarios.");
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    setUsuarios(window.AdminUsuariosLogic.initUsuarios(getUsuarios));
-    setRegiones(window.AdminUsuariosLogic.initRegiones(getRegiones));
+    cargarUsuarios();
   }, []);
 
-  useEffect(() => {
-    const nuevasComunas = window.AdminUsuariosLogic.updateComunasPorRegion(editFormData.region, getComunas);
-    setComunas(nuevasComunas);
-  }, [editFormData.region]);
-
-  const handleShowDetails = (user) => {
-    const { selectedUser, historial } = window.AdminUsuariosLogic.handleShowDetails(user, getOrdenesPorUsuario);
-    setSelectedUser(selectedUser);
-    setHistorialCompras(historial);
-    setShowDetailsModal(true);
+  const handleEliminar = async (id) => {
+    if (window.confirm("¿Estás seguro de eliminar este usuario? Esta acción no se puede deshacer.")) {
+      try {
+        await api.delete(`/usuarios/${id}`);
+        cargarUsuarios(); 
+      } catch (err) {
+        alert("Error al eliminar usuario.");
+      }
+    }
   };
 
-  const handleCloseDetails = () => {
-    const result = window.AdminUsuariosLogic.handleCloseDetails();
-    setShowDetailsModal(result.show);
-    setHistorialCompras(result.historial);
-  };
-
-  const handleShowEdit = (user) => {
-    const result = window.AdminUsuariosLogic.handleShowEdit(user, getComunas);
-    setSelectedUser(result.selectedUser);
-    setEditFormData(result.editFormData);
-    setComunas(result.comunas);
-    setShowDetailsModal(false);
-    setShowEditModal(true);
-  };
-
-  const handleCloseEdit = () => setShowEditModal(false);
-
-  const handleEditFormChange = (e) => {
-    const { name, value } = e.target;
-    const nuevo = window.AdminUsuariosLogic.handleEditFormChange(editFormData, name, value);
-    setEditFormData(nuevo);
-  };
-
-  const handleEditSubmit = (e) => {
-    e.preventDefault();
-    const nuevosUsuarios = window.AdminUsuariosLogic.handleEditSubmit(selectedUser, editFormData, updateUsuario, getUsuarios);
-    setUsuarios(nuevosUsuarios);
-    handleCloseEdit();
-  };
-
-  const handleDelete = (id) => {
-    const nuevosUsuarios = window.AdminUsuariosLogic.handleDelete(id, deleteUsuario, getUsuarios, window.confirm);
-    if (nuevosUsuarios.length > 0) setUsuarios(nuevosUsuarios);
-  };
-
-  const formatPesoChileno = (valor) => {
-    return window.AdminUsuariosLogic.formatPesoChileno(valor);
-  };
+  if (loading) return <Container className="mt-5 text-center"><Spinner animation="border" /></Container>;
 
   return (
     <Container fluid>
-      <Row className="align-items-center mb-3">
+      <Row className="mb-3">
         <Col>
           <h2>Gestión de Usuarios</h2>
-          <p className="text-muted">Administra los usuarios del sistema.</p>
-        </Col>
-        <Col xs="auto" className="text-end">
-          <Button as={Link} to="/admin/usuarios/crearUser" variant="primary">
-            <i className="bi bi-plus-lg me-2"></i>
-            Nuevo Usuario
-          </Button>
+          {error && <Alert variant="danger">{error}</Alert>}
         </Col>
       </Row>
 
-      <Table striped bordered hover responsive>
-        <thead className="table-dark">
-          <tr>
-            <th>RUT</th><th>Nombre</th><th>Email</th><th>Tipo (Rol)</th>
-            <th>Región</th><th>Estado</th><th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {usuarios.map(user => (
-            <tr key={user.id}>
-              <td>{user.rut}</td><td>{user.nombre}</td><td>{user.email}</td>
-              <td>{user.role}</td><td>{user.region}</td>
-              <td>
-                <Badge bg={user.activo ? 'success' : 'danger'}>
-                  {user.activo ? 'Activo' : 'Inactivo'}
-                </Badge>
-              </td>
-              <td>
-                <Button variant="info" size="sm" className="me-2" onClick={() => handleShowDetails(user)}>
-                  <i className="bi bi-eye-fill"></i>
-                </Button>
-                <Button variant="warning" size="sm" className="me-2" onClick={() => handleShowEdit(user)}>
-                  <i className="bi bi-pencil-fill"></i>
-                </Button>
-                <Button variant="danger" size="sm" onClick={() => handleDelete(user.id)}>
-                  <i className="bi bi-trash-fill"></i>
-                </Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-
-      <Modal show={showDetailsModal} onHide={handleCloseDetails} centered size="lg">
-        <Modal.Header closeButton>
-          <Modal.Title>Detalles del Usuario</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {selectedUser && (
-            <Row>
-              <Col md={6}>
-                <h5>Información Personal</h5>
-                <div className="detalles-usuario mb-3">
-                  <p><strong>RUT:</strong> {selectedUser.rut}</p>
-                  <p><strong>Nombre:</strong> {selectedUser.nombre}</p>
-                  <p><strong>Email:</strong> {selectedUser.email}</p>
-                  <p><strong>Rol:</strong> {selectedUser.role}</p>
-                  <p><strong>Región:</strong> {selectedUser.region}</p>
-                  <p><strong>Comuna:</strong> {selectedUser.comuna}</p>
-                  <p><strong>Estado:</strong>
-                    <Badge bg={selectedUser.activo ? 'success' : 'danger'} className="ms-2">
-                      {selectedUser.activo ? 'Activo' : 'Inactivo'}
-                    </Badge>
-                  </p>
-                  <p><strong>Miembro desde:</strong> {selectedUser.fechaRegistro}</p>
-                </div>
-              </Col>
-
-              <Col md={6}>
-                <h5>Historial de Compras ({historialCompras.length})</h5>
-                {historialCompras.length > 0 ? (
-                  <ListGroup variant="flush" style={{ maxHeight: '300px', overflowY: 'auto' }}>
-                    {historialCompras.map(orden => (
-                      <ListGroup.Item key={orden.id} className="d-flex justify-content-between align-items-start">
-                        <div>
-                          <Link to={`/admin/ordenes/${orden.id}`} onClick={handleCloseDetails}>
-                            <strong>Orden #{orden.id}</strong>
-                          </Link>
-                          <small className="d-block text-muted">{orden.fecha}</small>
-                        </div>
-                        <Badge bg="secondary" pill>{formatPesoChileno(orden.total)}</Badge>
-                      </ListGroup.Item>
-                    ))}
-                  </ListGroup>
-                ) : (
-                  <p className="text-muted">Este usuario no tiene órdenes registradas.</p>
-                )}
-              </Col>
-            </Row>
-          )}
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseDetails}>Cerrar</Button>
-          <Button variant="warning" onClick={() => handleShowEdit(selectedUser)}>Editar Usuario</Button>
-        </Modal.Footer>
-      </Modal>
-
-      <Modal show={showEditModal} onHide={handleCloseEdit} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>Editar Usuario</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {editFormData && (
-            <Form onSubmit={handleEditSubmit}>
-              <Form.Group className="mb-3" controlId="editRut">
-                <Form.Label>RUT</Form.Label>
-                <Form.Control type="text" name="rut" value={editFormData.rut || ''} onChange={handleEditFormChange} readOnly />
-              </Form.Group>
-
-              <Form.Group className="mb-3" controlId="editNombre">
-                <Form.Label>Nombre</Form.Label>
-                <Form.Control type="text" name="nombre" value={editFormData.nombre || ''} onChange={handleEditFormChange} required />
-              </Form.Group>
-
-              <Form.Group className="mb-3" controlId="editEmail">
-                <Form.Label>Email</Form.Label>
-                <Form.Control type="email" name="email" value={editFormData.email || ''} onChange={handleEditFormChange} required />
-              </Form.Group>
-
-              <Form.Group className="mb-3" controlId="editRole">
-                <Form.Label>Tipo (Rol)</Form.Label>
-                <Form.Select name="role" value={editFormData.role || ''} onChange={handleEditFormChange} required>
-                  <option value="cliente">Cliente</option>
-                  <option value="vendedor">Vendedor</option>
-                  <option value="administrador">Administrador</option>
-                </Form.Select>
-              </Form.Group>
-
-              <Form.Group className="mb-3" controlId="editEstado">
-                <Form.Label>Estado</Form.Label>
-                <Form.Select name="activo" value={editFormData.activo || false} onChange={handleEditFormChange} required>
-                  <option value={true}>Activo</option>
-                  <option value={false}>Inactivo</option>
-                </Form.Select>
-              </Form.Group>
-
-              <Form.Group className="mb-3" controlId="editRegion">
-                <Form.Label>Región</Form.Label>
-                <Form.Select name="region" value={editFormData.region || ''} onChange={handleEditFormChange}>
-                  <option value="">Seleccione una región</option>
-                  {regiones.map(r => <option key={r} value={r}>{r}</option>)}
-                </Form.Select>
-              </Form.Group>
-
-              <Form.Group className="mb-3" controlId="editComuna">
-                <Form.Label>Comuna</Form.Label>
-                <Form.Select name="comuna" value={editFormData.comuna || ''} onChange={handleEditFormChange} disabled={comunas.length === 0}>
-                  <option value="">Seleccione una comuna</option>
-                  {comunas.map(c => <option key={c} value={c}>{c}</option>)}
-                </Form.Select>
-              </Form.Group>
-
-              <Button variant="primary" type="submit">Guardar Cambios</Button>
-            </Form>
-          )}
-        </Modal.Body>
-      </Modal>
+      <Card className="shadow-sm">
+        <Card.Body className="p-0">
+          <Table responsive hover className="m-0 align-middle">
+            <thead className="bg-light">
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>RUT</th>
+                <th>Rol</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {usuarios.map((user) => (
+                <tr key={user.id}>
+                  <td>{user.id}</td>
+                  <td>{user.nombre} {user.apellidos}</td>
+                  <td>{user.email}</td>
+                  <td>{user.rut}</td>
+                  <td>
+                    {/* Ajusta según si guardas 'administrador' o 'ROLE_ADMIN' */}
+                    {user.rol === 'administrador' || user.rol === 'admin' ? (
+                        <Badge bg="danger">Admin</Badge>
+                    ) : user.rol === 'vendedor' ? (
+                        <Badge bg="warning" text="dark">Vendedor</Badge>
+                    ) : (
+                        <Badge bg="primary">Cliente</Badge>
+                    )}
+                  </td>
+                  <td>
+                    <Button 
+                      variant="outline-danger" 
+                      size="sm"
+                      onClick={() => handleEliminar(user.id)}
+                    >
+                      <i className="bi bi-trash"></i>
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+              {usuarios.length === 0 && (
+                  <tr>
+                      <td colSpan="6" className="text-center py-4">No hay usuarios registrados.</td>
+                  </tr>
+              )}
+            </tbody>
+          </Table>
+        </Card.Body>
+      </Card>
     </Container>
   );
 }

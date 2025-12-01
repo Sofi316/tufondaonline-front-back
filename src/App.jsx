@@ -7,29 +7,13 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Registro from './pages/Registro';
 import Blogs from './pages/Blogs';
-import Blog1 from './pages/Blog1'; 
-import Blog2 from './pages/Blog2'; 
+import DetalleBlog from './pages/DetalleBlog'; 
 import Contacto from './pages/Contacto';
 import Nosotros from './pages/Nosotros';
 import IniciarSesion from './pages/IniciarSesion';
 import Ofertas from './pages/Ofertas.jsx';
 import Footer from './components/Footer';
 import Categorias from './pages/Categorias';
-import ProductoChoripan from './pages/ProductoChoripan';
-import ProductoCompleto from './pages/ProductoCompleto';
-import ProductoAnticucho from './pages/ProductoAnticucho';
-import ProductoPastelChoclo from './pages/ProductoPastelChoclo';
-import ProductoEmpanada from './pages/ProductoEmpanada';
-import ProductoChoripanVeg from './pages/ProductoChoripanVeg';
-import ProductoCompletoVeg from './pages/ProductoCompletoVeg';
-import ProductoEmpanadaVeg from './pages/ProductoEmpanadaVeg';
-import ProductoEmpanadaQueso from './pages/ProductoEmpanadaQueso';
-import ProductoAnticuchoVeg from './pages/ProductoAnticuchoVer';
-import ProductoPastelChocloVeg from './pages/ProductoPastelChocloVeg';
-import ProductoTerremoto from './pages/ProductoTerremoto';
-import ProductoTerremotoNinos from './pages/ProductoTerremotoNinos';
-import ProductoCocaCola from './pages/ProductoCoca';
-import ProductoAgua from './pages/ProductoAgua';
 import Carrito from './pages/Carrito';
 import AdminLayout from './components/AdminLayout';
 import AdminDashboard from './pages/admin/AdminDashboard';
@@ -44,6 +28,7 @@ import AdminReportesProductos from './pages/admin/AdminReportesProductos';
 import AdminCategorias from './pages/admin/AdminCategorias';
 import AdminCrearCategoria from './pages/admin/AdminCrearCategoria';
 import AdminPerfil from './pages/admin/AdminPerfil';
+import DetalleProducto from './pages/DetalleProducto';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import './styles/styles.css';
@@ -69,27 +54,12 @@ export default function App() {
             <Routes>  
               <Route path="/" element={<Home />} />
               <Route path="/registro" element={<Registro />} />
-              <Route path="/blogs" element={<Blogs />} />
-              <Route path="/blog1" element={<Blog1 />} />
-              <Route path="/blog2" element={<Blog2 />} />
+              <Route path="/blogs" element={<Blogs />} /> 
+              <Route path="/blog/:id" element={<DetalleBlog />} />
               <Route path="/ofertas" element={<Ofertas />} /> 
               <Route path="/categorias" element={<Categorias />} />
               <Route path="/contacto" element={<Contacto />} />
-              <Route path="/choripan" element={<ProductoChoripan />} />
-              <Route path="/completo" element={<ProductoCompleto />} />
-              <Route path="/anticucho" element={<ProductoAnticucho />} />
-              <Route path="/pastelChoclo" element={<ProductoPastelChoclo />} />
-              <Route path="/empanada" element={<ProductoEmpanada />} />
-              <Route path="/choripanVegano" element={<ProductoChoripanVeg />} />
-              <Route path="/completoVegano" element={<ProductoCompletoVeg />} />
-              <Route path="/empanadaVegana" element={<ProductoEmpanadaVeg />} />
-              <Route path="/empanadaQueso" element={<ProductoEmpanadaQueso />} />
-              <Route path="/anticuchoVerdura" element={<ProductoAnticuchoVeg />} />
-              <Route path="/pastelChocloVegano" element={<ProductoPastelChocloVeg />} />
-              <Route path="/terremoto" element={<ProductoTerremoto />} />
-              <Route path="/terremotoNinos" element={<ProductoTerremotoNinos />} />
-              <Route path="/cocaCola" element={<ProductoCocaCola />} />
-              <Route path="/agua" element={<ProductoAgua />} />
+              <Route path="/detalle/:id" element={<DetalleProducto />} />
               <Route path="/nosotros" element={<Nosotros />} />
               <Route path="/carrito" element={<Carrito />} />
               <Route path="/iniciarSesion" element={<IniciarSesion />} />

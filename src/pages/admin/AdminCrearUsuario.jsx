@@ -1,231 +1,151 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap';
-import { createUsuario } from '../../data/usersData.js';
-import { getRegiones, getComunas } from '../../data/datos.js';
-import '../../utils/AdminCrearUsuario.logic.js'; 
+import { Container, Row, Col, Card, Form, Button, Alert, Spinner } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import api from '../config/api';
 
 export default function AdminCrearUsuario() {
+  const navigate = useNavigate();
 
-  const initialState = {
-    rut: '', email: '', nombre: '', apellidos: '', fechaNac: '',
-    direccion: '', region: '', comuna: '', contraseña: '',
-    contraseñaCon: '', tipo: 'cliente'
-  };
+  const [formData, setFormData] = useState({
+    rut: '', email: '', nombre: '', apellidos: '', 
+    fechaNac: '', direccion: '', 
+    region: '', comuna: '', 
+    password: '', rol: 'cliente'
+  });
 
-  const [formData, setFormData] = useState(initialState);
-  const [listaRegiones, setListaRegiones] = useState([]);
-  const [listaComunas, setListaComunas] = useState([]);
+  const [regiones, setRegiones] = useState([]);
+  const [comunas, setComunas] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [mensaje, setMensaje] = useState("");
-  const [tipoMensaje, setTipoMensaje] = useState("success");
+  const [variant, setVariant] = useState("success");
 
   useEffect(() => {
-    setListaRegiones(getRegiones());
+    api.get('/regiones').then(res => setRegiones(res.data));
   }, []);
 
+  
   useEffect(() => {
     if (formData.region) {
-      setListaComunas(getComunas(formData.region));
+      // Ajusta la ruta si tu backend usa /comunas?regionId=...
+      api.get(`/comunas/${formData.region}`)
+         .then(res => setComunas(res.data))
+         .catch(() => setComunas([]));
     } else {
-      setListaComunas([]);
+      setComunas([]);
     }
-    setFormData(prev => ({ ...prev, comuna: '' }));
   }, [formData.region]);
 
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setMensaje("");
+
+    try {
+      await api.post('/usuarios', formData);
+      setVariant("success");
+      setMensaje("Usuario registrado correctamente.");
+      
+      setFormData({
+        rut: '', email: '', nombre: '', apellidos: '', 
+        fechaNac: '', direccion: '', region: '', comuna: '', 
+        password: '', rol: 'cliente'
+      });
+
+    } catch (error) {
+      setVariant("danger");
+      setMensaje(error.response?.data?.message || "Error al registrar usuario.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <Container fluid>
-      <Row>
+    <Container className="my-4">
+      <Row className="mb-3">
         <Col>
-          <h2>Crear Nuevo Usuario</h2>
-          <p className="text-muted">
-            Complete el formulario para registrar un nuevo usuario en el sistema.
-          </p>
+          <h2>Registrar Nuevo Usuario</h2>
+          <Button variant="outline-secondary" size="sm" onClick={() => navigate('/admin/usuarios')}>
+            <i className="bi bi-arrow-left me-1"></i> Ver Usuarios
+          </Button>
         </Col>
       </Row>
 
-      {mensaje && (
-        <Row>
-          <Col lg={10} className="mx-auto">
-            <Alert variant={tipoMensaje} onClose={() => setMensaje("")} dismissible>
-              {mensaje}
-            </Alert>
-          </Col>
-        </Row>
-      )}
+      {mensaje && <Alert variant={variant} dismissible onClose={() => setMensaje("")}>{mensaje}</Alert>}
 
-      <Row>
-        <Col lg={10} className="mx-auto">
-          <Card className="shadow-sm">
-            <Card.Body>
-              <Form
-                onSubmit={(e) => {
-                  const result = window.AdminCrearUsuarioLogic.handleSubmit(
-                    e,
-                    formData,
-                    createUsuario,
-                    initialState
-                  );
-                  if (result) {
-                    setTipoMensaje(result.tipoMensaje);
-                    setMensaje(result.mensaje);
-                    if (result.reset) setFormData(initialState);
-                  }
-                }}
-                noValidate
-              >
+      <Card className="shadow-sm">
+        <Card.Body>
+          <Form onSubmit={handleSubmit}>
+            <Row className="mb-3">
+              <Form.Group as={Col} md={6}>
+                <Form.Label>RUT</Form.Label>
+                <Form.Control name="rut" value={formData.rut} onChange={handleChange} required />
+              </Form.Group>
+              <Form.Group as={Col} md={6}>
+                <Form.Label>Email</Form.Label>
+                <Form.Control type="email" name="email" value={formData.email} onChange={handleChange} required />
+              </Form.Group>
+            </Row>
 
-                <Row className="mb-3">
-                  <Form.Group as={Col} md={6} controlId="formRut">
-                    <Form.Label>RUT</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Ingrese RUT"
-                      name="rut"
-                      value={formData.rut}
-                      onChange={(e) => window.AdminCrearUsuarioLogic.handleChange(e, setFormData, setMensaje)}
-                    />
-                  </Form.Group>
+            <Row className="mb-3">
+              <Form.Group as={Col} md={6}>
+                <Form.Label>Nombre</Form.Label>
+                <Form.Control name="nombre" value={formData.nombre} onChange={handleChange} required />
+              </Form.Group>
+              <Form.Group as={Col} md={6}>
+                <Form.Label>Apellidos</Form.Label>
+                <Form.Control name="apellidos" value={formData.apellidos} onChange={handleChange} required />
+              </Form.Group>
+            </Row>
 
-                  <Form.Group as={Col} md={6} controlId="formEmail">
-                    <Form.Label>Correo</Form.Label>
-                    <Form.Control
-                      type="email"
-                      placeholder="Ingrese correo"
-                      name="email"
-                      value={formData.email}
-                      onChange={(e) => window.AdminCrearUsuarioLogic.handleChange(e, setFormData, setMensaje)}
-                    />
-                  </Form.Group>
-                </Row>
+            <Row className="mb-3">
+               <Col md={6}>
+                 <Form.Group>
+                   <Form.Label>Región</Form.Label>
+                   <Form.Select name="region" value={formData.region} onChange={handleChange} required>
+                     <option value="">Seleccione...</option>
+                     {regiones.map(r => <option key={r.id} value={r.id}>{r.nombre}</option>)}
+                   </Form.Select>
+                 </Form.Group>
+               </Col>
+               <Col md={6}>
+                 <Form.Group>
+                   <Form.Label>Comuna</Form.Label>
+                   <Form.Select name="comuna" value={formData.comuna} onChange={handleChange} required disabled={!formData.region}>
+                     <option value="">Seleccione...</option>
+                     {comunas.map(c => <option key={c.id} value={c.id}>{c.nombre}</option>)}
+                   </Form.Select>
+                 </Form.Group>
+               </Col>
+            </Row>
 
-                <Row className="mb-3">
-                  <Form.Group as={Col} md={6} controlId="formNombre">
-                    <Form.Label>Nombre</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Ingrese nombre"
-                      name="nombre"
-                      value={formData.nombre}
-                      onChange={(e) => window.AdminCrearUsuarioLogic.handleChange(e, setFormData, setMensaje)}
-                    />
-                  </Form.Group>
+            <Row className="mb-3">
+              <Form.Group as={Col} md={6}>
+                <Form.Label>Contraseña</Form.Label>
+                <Form.Control type="password" name="password" value={formData.password} onChange={handleChange} required />
+              </Form.Group>
+              
+              <Form.Group as={Col} md={6}>
+                <Form.Label>Rol</Form.Label>
+                <Form.Select name="rol" value={formData.rol} onChange={handleChange}>
+                  <option value="cliente">Cliente</option>
+                  <option value="vendedor">Vendedor</option>
+                  <option value="administrador">Administrador</option>
+                </Form.Select>
+              </Form.Group>
+            </Row>
 
-                  <Form.Group as={Col} md={6} controlId="formApellidos">
-                    <Form.Label>Apellidos</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Ingrese apellidos"
-                      name="apellidos"
-                      value={formData.apellidos}
-                      onChange={(e) => window.AdminCrearUsuarioLogic.handleChange(e, setFormData, setMensaje)}
-                    />
-                  </Form.Group>
-                </Row>
-
-                <Row className="mb-3">
-                  <Form.Group as={Col} md={6} controlId="formFechaNac">
-                    <Form.Label>Fecha de nacimiento</Form.Label>
-                    <Form.Control
-                      type="date"
-                      name="fechaNac"
-                      value={formData.fechaNac}
-                      onChange={(e) => window.AdminCrearUsuarioLogic.handleChange(e, setFormData, setMensaje)}
-                    />
-                  </Form.Group>
-
-                  <Form.Group as={Col} md={6} controlId="formDireccion">
-                    <Form.Label>Dirección</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Ingrese dirección"
-                      name="direccion"
-                      value={formData.direccion}
-                      onChange={(e) => window.AdminCrearUsuarioLogic.handleChange(e, setFormData, setMensaje)}
-                    />
-                  </Form.Group>
-                </Row>
-
-                <Row className="mb-3">
-                  <Form.Group as={Col} md={6} controlId="formRegion">
-                    <Form.Label>Región</Form.Label>
-                    <Form.Select
-                      name="region"
-                      value={formData.region}
-                      onChange={(e) => window.AdminCrearUsuarioLogic.handleChange(e, setFormData, setMensaje)}
-                    >
-                      <option value="">Seleccione una región</option>
-                      {listaRegiones.map(region => (
-                        <option key={region} value={region}>{region}</option>
-                      ))}
-                    </Form.Select>
-                  </Form.Group>
-
-                  <Form.Group as={Col} md={6} controlId="formComuna">
-                    <Form.Label>Comuna</Form.Label>
-                    <Form.Select
-                      name="comuna"
-                      value={formData.comuna}
-                      onChange={(e) => window.AdminCrearUsuarioLogic.handleChange(e, setFormData, setMensaje)}
-                      disabled={listaComunas.length === 0}
-                    >
-                      <option value="">
-                        {formData.region ? "Seleccione una comuna" : "Seleccione una región"}
-                      </option>
-                      {listaComunas.map(comuna => (
-                        <option key={comuna} value={comuna}>{comuna}</option>
-                      ))}
-                    </Form.Select>
-                  </Form.Group>
-                </Row>
-
-                <Row className="mb-3">
-                  <Form.Group as={Col} md={4} controlId="formPass1">
-                    <Form.Label>Contraseña</Form.Label>
-                    <Form.Control
-                      type="password"
-                      placeholder="Contraseña"
-                      name="contraseña"
-                      value={formData.contraseña}
-                      onChange={(e) => window.AdminCrearUsuarioLogic.handleChange(e, setFormData, setMensaje)}
-                    />
-                  </Form.Group>
-
-                  <Form.Group as={Col} md={4} controlId="formPass2">
-                    <Form.Label>Confirmar Contraseña</Form.Label>
-                    <Form.Control
-                      type="password"
-                      placeholder="Confirme contraseña"
-                      name="contraseñaCon"
-                      value={formData.contraseñaCon}
-                      onChange={(e) => window.AdminCrearUsuarioLogic.handleChange(e, setFormData, setMensaje)}
-                    />
-                  </Form.Group>
-
-                  <Form.Group as={Col} md={4} controlId="formTipo">
-                    <Form.Label>Tipo de Usuario</Form.Label>
-                    <Form.Select
-                      name="tipo"
-                      value={formData.tipo}
-                      onChange={(e) => window.AdminCrearUsuarioLogic.handleChange(e, setFormData, setMensaje)}
-                      required
-                    >
-                      <option value="cliente">Cliente</option>
-                      <option value="vendedor">Vendedor</option>
-                      <option value="administrador">Administrador</option>
-                    </Form.Select>
-                  </Form.Group>
-                </Row>
-
-                <div className="text-end">
-                  <Button variant="primary" type="submit">
-                    Crear Usuario
-                  </Button>
-                </div>
-
-              </Form>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
+            <div className="text-end">
+              <Button variant="primary" type="submit" disabled={loading}>
+                {loading ? <Spinner size="sm" animation="border" /> : "Crear Usuario"}
+              </Button>
+            </div>
+          </Form>
+        </Card.Body>
+      </Card>
     </Container>
   );
 }

@@ -1,68 +1,101 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { useAuth } from '../context/AuthContext'; 
-import '../utils/CarritoContext.logic.js'; 
-
 
 const CarritoContext = createContext();
 
 export const useCarrito = () => {
   const context = useContext(CarritoContext);
   if (!context) {
-    throw new Error('useCarrito debe ser usado dentro de un CarritoProvider');
+    throw new Error("useCarrito debe usarse dentro de un CarritoProvider");
   }
   return context;
 };
 
 export const CarritoProvider = ({ children }) => {
-  const carritoInicial = JSON.parse(localStorage.getItem('carrito')) || [];
-  const [carrito, setCarrito] = useState(carritoInicial);
-  const { descuentoAplicado } = useAuth(); 
+  
+  const [carrito, setCarrito] = useState(() => {
+    try {
+      const carritoGuardado = localStorage.getItem('carritoCompras');
+      return carritoGuardado ? JSON.parse(carritoGuardado) : [];
+    } catch (error) {
+      console.error("Error leyendo carrito del storage", error);
+      return [];
+    }
+  });
+
+  const [montoDescuento, setMontoDescuento] = useState(0);
 
   useEffect(() => {
-    localStorage.setItem('carrito', JSON.stringify(carrito));
+    localStorage.setItem('carritoCompras', JSON.stringify(carrito));
   }, [carrito]);
 
- const agregarAlCarrito = (id, nombre, precio, img) => {
-  setCarrito(prevCarrito =>
-    window.CarritoLogic.agregarAlCarrito(prevCarrito, id, nombre, precio, img)
-  );
-};
+  // --- FUNCIONES DEL CARRITO ---
 
-const eliminarDelCarrito = (nombre) => {
-  setCarrito(prevCarrito =>
-    window.CarritoLogic.eliminarDelCarrito(prevCarrito, nombre)
-  );
-};
+  const agregarAlCarrito = (producto) => {
+    setCarrito((prevCarrito) => {
+      const existe = prevCarrito.find((item) => item.id === producto.id);
 
-const actualizarCantidad = (nombre, nuevaCantidad) => {
-  setCarrito(prevCarrito =>
-    window.CarritoLogic.actualizarCantidad(prevCarrito, nombre, nuevaCantidad)
-  );
-};
-
-const vaciarCarrito = () => {
-  setCarrito(window.CarritoLogic.vaciarCarrito());
-};
-
-
-  const { totalProductos, montoSubtotal, montoDescuento, montoTotal } =
-  window.CarritoLogic.calcularTotales(carrito, descuentoAplicado);
-
-
-  const valor = {
-    carrito,            
-    agregarAlCarrito,   
-    eliminarDelCarrito, 
-    actualizarCantidad, 
-    vaciarCarrito,      
-    totalProductos,     
-    montoSubtotal,      
-    montoDescuento,     
-    montoTotal          
+      if (existe) {
+        return prevCarrito.map((item) =>
+          item.id === producto.id
+            ? { ...item, cantidad: item.cantidad + 1 }
+            : item
+        );
+      } else {
+      
+        return [...prevCarrito, { ...producto, cantidad: 1 }];
+      }
+    });
   };
+
+  const eliminarDelCarrito = (idProducto) => {
+
+    setCarrito((prev) => prev.filter((item) => item.id !== idProducto));
+  };
+
+  const actualizarCantidad = (idProducto, nuevaCantidad) => {
+    if (nuevaCantidad < 1) return; 
+    setCarrito((prev) =>
+      prev.map((item) =>
+        item.id === idProducto ? { ...item, cantidad: nuevaCantidad } : item
+      )
+    );
+  };
+
+  const vaciarCarrito = () => {
+    setCarrito([]);
+    setMontoDescuento(0); 
+    localStorage.removeItem('carritoCompras');
+  };
+
+  // --- CÁLCULOS ---
+  const cantidadTotal = carrito.reduce((acc, item) => acc + item.cantidad, 0);
+
+  const montoSubtotal = carrito.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
+
+  const montoTotal = montoSubtotal - montoDescuento;
+
+  const aplicarDescuentoValor = (valor) => {
+    setMontoDescuento(valor);
+  };
+
+  const value = {
+    carrito,
+    agregarAlCarrito,
+    eliminarDelCarrito,
+    actualizarCantidad,
+    vaciarCarrito,
+    cantidadTotal,
+    montoSubtotal,
+    montoDescuento,
+    montoTotal,
+    aplicarDescuentoValor
+  };
+
   return (
-    <CarritoContext.Provider value={valor}>
+    <CarritoContext.Provider value={value}>
       {children}
     </CarritoContext.Provider>
   );
 };
+
+export default CarritoContext;

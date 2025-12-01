@@ -1,62 +1,89 @@
-
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, ListGroup, Button } from 'react-bootstrap';
+import { Container, Row, Col, Table, Button, Card, Spinner, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { obtenerCategorias } from '../../data/productosData.js'; 
+import api from '../config/api'; 
 export default function AdminCategorias() {
-  
   const [categorias, setCategorias] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  
+  const cargarCategorias = async () => {
+    try {
+      const response = await api.get('/categorias');
+      setCategorias(response.data);
+      setLoading(false);
+    } catch (err) {
+      console.error(err);
+      setError("Error al cargar categorías.");
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    setCategorias(obtenerCategorias());
+    cargarCategorias();
   }, []);
 
-  
-  const handleEliminarCategoria = (categoriaAEliminar) => {
-      if (window.confirm(`¿Estás seguro de eliminar la categoría "${categoriaAEliminar}"? Esto no eliminará los productos asociados.`)) {
-          
-          setCategorias(categorias.filter(cat => cat !== categoriaAEliminar));
+  const handleEliminar = async (id) => {
+    if (window.confirm("¿Seguro que deseas eliminar esta categoría?")) {
+      try {
+        await api.delete(`/categorias/${id}`);
+        setCategorias(categorias.filter(c => c.id !== id));
+      } catch (err) {
+        alert("No se puede eliminar. Es posible que tenga productos asociados.");
       }
-  }
+    }
+  };
+
+  if (loading) return <Container className="mt-5 text-center"><Spinner animation="border" /></Container>;
 
   return (
     <Container fluid>
-      <Row className="align-items-center mb-3">
+      <Row className="mb-3 align-items-center">
         <Col>
           <h2>Gestión de Categorías</h2>
-          <p className="text-muted">Administra las categorías de productos.</p>
         </Col>
-        <Col xs="auto" className="text-end">
-          <Button as={Link} to="/admin/categorias/crear" variant="primary">
-            <i className="bi bi-plus-lg me-2"></i> Nueva Categoría
+        <Col className="text-end">
+          <Button as={Link} to="/admin/categorias/nueva" variant="success">
+            <i className="bi bi-plus-lg me-2"></i>Nueva Categoría
           </Button>
         </Col>
       </Row>
 
-      <Row>
-        <Col md={8} lg={6} className="mx-auto"> 
-            {categorias.length > 0 ? (
-                <ListGroup>
-                {categorias.map((categoria, index) => (
-                    <ListGroup.Item key={index} className="d-flex justify-content-between align-items-center">
-                    {categoria}
+      {error && <Alert variant="danger">{error}</Alert>}
+
+      <Card className="shadow-sm">
+        <Card.Body className="p-0">
+          <Table responsive hover className="m-0 align-middle">
+            <thead className="bg-light">
+              <tr>
+                <th>ID</th>
+                <th>Nombre Categoría</th>
+                <th className="text-end">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {categorias.map((cat) => (
+                <tr key={cat.id}>
+                  <td>{cat.id}</td>
+                  <td className="fw-bold">{cat.nombre}</td>
+                  <td className="text-end">
                     <Button 
-                        variant="outline-danger" 
-                        size="sm" 
-                        onClick={() => handleEliminarCategoria(categoria)}
-                        title="Eliminar categoría (simulado)"
+                      variant="outline-danger" 
+                      size="sm" 
+                      onClick={() => handleEliminar(cat.id)}
                     >
-                        <i className="bi bi-trash-fill"></i>
+                      <i className="bi bi-trash"></i> Eliminar
                     </Button>
-                    </ListGroup.Item>
-                ))}
-                </ListGroup>
-            ) : (
-                <p className="text-center text-muted">No hay categorías definidas en los productos.</p>
-            )}
-        </Col>
-      </Row>
+                  </td>
+                </tr>
+              ))}
+              {categorias.length === 0 && (
+                <tr><td colSpan="3" className="text-center py-4">No hay categorías registradas.</td></tr>
+              )}
+            </tbody>
+          </Table>
+        </Card.Body>
+      </Card>
     </Container>
   );
 }

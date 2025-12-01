@@ -1,181 +1,201 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Form, Button, Alert, ListGroup, Badge } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import { Container, Row, Col, Card, Form, Button, Alert, Spinner } from 'react-bootstrap';
 import { useCarrito } from '../components/CarritoContext';
-import { agregarOrden } from '../data/usersData';
 import { useAuth } from '../context/AuthContext';
-import { getRegiones, getComunas } from '../data/datos';
-
+import { useNavigate } from 'react-router-dom';
+import api from '../config/api';
 
 export default function Comprar() {
-  const { carrito, montoSubtotal, montoDescuento, montoTotal, vaciarCarrito } = useCarrito();
-  const { usuarioLogueado, codigoDescuentoUsado } = useAuth();
+  const { carrito, montoTotal, vaciarCarrito } = useCarrito();
+  const { user } = useAuth();
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    nombre: '', apellidos: '', correo: '', calle: '',
-    departamento: '', region: '', comuna: '', indicaciones: ''
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  
+  const [datosEnvio, setDatosEnvio] = useState({
+    direccion: user?.direccion || '',
+    comuna: user?.comuna || '',
+    telefono: '',
+    notas: ''
   });
-  const [error, setError] = useState('');
-  const [validated, setValidated] = useState(false);
-  const [regionesList, setRegionesList] = useState([]);
-  const [comunasList, setComunasList] = useState([]);
-  const [simularFallo, setSimularFallo] = useState(false);
-
-  useEffect(() => { setRegionesList(getRegiones()); }, []);
 
   useEffect(() => {
-    if (formData.region) { setComunasList(getComunas(formData.region)); }
-    else { setComunasList([]); }
-  }, [formData.region]);
-
-  useEffect(() => {
-    if (usuarioLogueado) {
-      const userRegion = usuarioLogueado.region || '';
-      const userComuna = usuarioLogueado.comuna || '';
-      const regionValida = getRegiones().includes(userRegion);
-      setFormData(prev => ({
-        ...prev,
-        nombre: usuarioLogueado.nombre?.split(' ')[0] || '',
-        apellidos: usuarioLogueado.nombre?.split(' ').slice(1).join(' ') || '',
-        correo: usuarioLogueado.email || '',
-        calle: usuarioLogueado.direccion || '',
-        region: regionValida ? userRegion : '',
-        comuna: '',
-        departamento: prev.departamento || '',
-        indicaciones: prev.indicaciones || '',
-      }));
-      if (regionValida) {
-         const comunasDeRegion = getComunas(userRegion);
-         setComunasList(comunasDeRegion);
-         if (comunasDeRegion.includes(userComuna)){
-             setTimeout(() => {
-                 setFormData(prev => ({ ...prev, comuna: userComuna }));
-             }, 0);
-         }
-      }
-    } else {
-         setFormData({
-            nombre: '', apellidos: '', correo: '', calle: '',
-            departamento: '', region: '', comuna: '', indicaciones: ''
-         });
-    }
-  }, [usuarioLogueado]);
+    if (!user) navigate('/login');
+    if (carrito.length === 0) navigate('/categorias');
+  }, [carrito, user, navigate]);
 
   const handleChange = (e) => {
-    setError('');
-    const { name, value, type, checked } = e.target;
-    if (name === 'simularFallo') { setSimularFallo(checked); return; }
-    setFormData(prev => {
-        const newState = { ...prev, [name]: value };
-        if (name === 'region') { newState.comuna = ''; }
-        return newState;
-    });
+    setDatosEnvio({ ...datosEnvio, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (event) => {
-     event.preventDefault(); event.stopPropagation(); setError('');
-     const form = event.currentTarget;
-     if (form.checkValidity() === false || !formData.region || !formData.comuna) {
-       setValidated(true); setError('Por favor, completa campos requeridos (región y comuna).'); return;
-     }
-     setValidated(true);
-     const orderNumber = `ORD-${Date.now()}`;
-    const paymentSuccess = Math.random() > 0.5;
-     const orderDetails = { orderNumber, customerInfo: formData, items: carrito, total: montoTotal };
-     if (paymentSuccess) {
-       try { agregarOrden(orderDetails); } catch (e) { console.error("Error al guardar:", e); }
-       vaciarCarrito();
-       navigate('/pago-exitoso', { state: { orderDetails } });
-     } else {
-       navigate('/pago-fallido', { state: { orderDetails } });
-     }
-  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    
+    const ordenData = {
+      usuarioId: user.id, 
+      direccionEnvio: `${datosEnvio.direccion}, ${datosEnvio.comuna}. Notas: ${datosEnvio.notas}`, 
+      metodoPago: "Webpay", 
+      
+      detalles: carrito.map(prod => ({
+        productoId: prod.id,       
+        cantidad: prod.cantidad,   
+        precioUnitario: prod.precio 
+      }))
+    };
 
-  const formatPesoChileno = (valor) => {
-    if (typeof valor !== 'number' || isNaN(valor)) {
-        return '$ -.---';
+    try {
+ 
+      const response = await api.post('/ordenes', ordenData);
+      
+      console.log("Orden creada ID:", response.data.id);
+      
+      vaciarCarrito(); 
+      navigate('/pago-exitoso');
+
+    } catch (err) {
+      console.error("Error al crear la orden:", err);
+      const errorMsg = err.response?.data?.message || "Hubo un problema al procesar tu pedido. Intenta nuevamente.";
+      setError(errorMsg);
+    } finally {
+      setLoading(false);
     }
-    return new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' }).format(valor);
   };
+
+  if (!user) return null;
 
   return (
     <Container className="my-5">
-      <nav aria-label="breadcrumb" className="mb-4">
-        <ol className="breadcrumb">
-          <li className="breadcrumb-item"><Link to="/">Inicio</Link></li>
-          <li className="breadcrumb-item"><Link to="/Carrito">Carrito</Link></li>
-          <li className="breadcrumb-item active" aria-current="page">Comprar</li>
-        </ol>
-      </nav>
-      <h2>Finalizar Compra</h2>
-      <p className="text-muted mb-4">Completa tu información para procesar el pedido.</p>
+      <h2 className="mb-4">Finalizar Compra</h2>
       {error && <Alert variant="danger">{error}</Alert>}
-      <Form noValidate validated={validated} onSubmit={handleSubmit}>
-        <Row>
-          <Col md={5} lg={4} className="order-md-last mb-4">
-            <Card className="shadow-sm">
-              <Card.Header className="d-flex justify-content-between align-items-center">
-                <h4 className="mb-0">Resumen</h4>
-                <Badge bg="secondary" pill>{carrito.length} items</Badge>
-              </Card.Header>
-              <ListGroup variant="flush">
-                {carrito.map(item => (
-                  <ListGroup.Item key={item.id} className="d-flex justify-content-between lh-sm py-2 px-3">
-                    <div>
-                      <h6 className="my-0">{item.nombre} <small className="text-muted">(x{item.cantidad})</small></h6>
-                    </div>
-                    <span className="text-muted">{formatPesoChileno(item.precio * item.cantidad)}</span>
-                  </ListGroup.Item>
+      
+      <Row>
+        <Col md={7}>
+          <Card className="shadow-sm mb-4">
+            <Card.Header className="bg-white fw-bold">Datos de Envío</Card.Header>
+            <Card.Body>
+              <Form onSubmit={handleSubmit} id="form-compra">
+                <Form.Group className="mb-3">
+                  <Form.Label>Dirección de entrega</Form.Label>
+                  <Form.Control 
+                    type="text" 
+                    name="direccion" 
+                    value={datosEnvio.direccion} 
+                    onChange={handleChange} 
+                    required 
+                    placeholder="Ej: Av. Siempreviva 742"
+                  />
+                </Form.Group>
+                
+                <Row>
+                    <Col md={6}>
+                        <Form.Group className="mb-3">
+                        <Form.Label>Comuna</Form.Label>
+                        <Form.Control 
+                            type="text" 
+                            name="comuna" 
+                            value={datosEnvio.comuna} 
+                            onChange={handleChange} 
+                            required 
+                            placeholder="Ej: Santiago"
+                        />
+                        </Form.Group>
+                    </Col>
+                    <Col md={6}>
+                        <Form.Group className="mb-3">
+                        <Form.Label>Teléfono</Form.Label>
+                        <Form.Control 
+                            type="tel" 
+                            name="telefono" 
+                            placeholder="+569..."
+                            value={datosEnvio.telefono} 
+                            onChange={handleChange} 
+                            required 
+                        />
+                        </Form.Group>
+                    </Col>
+                </Row>
+
+                <Form.Group className="mb-3">
+                  <Form.Label>Notas del pedido (Opcional)</Form.Label>
+                  <Form.Control 
+                    as="textarea" 
+                    rows={2} 
+                    name="notas" 
+                    value={datosEnvio.notas} 
+                    onChange={handleChange} 
+                    placeholder="Ej: Dejar en conserjería, timbre malo..."
+                  />
+                </Form.Group>
+                
+                <Form.Group className="mb-3">
+                    <Form.Label>Método de Pago</Form.Label>
+                    <Form.Select disabled>
+                        <option>Webpay / Tarjeta (Simulado)</option>
+                    </Form.Select>
+                </Form.Group>
+
+              </Form>
+            </Card.Body>
+          </Card>
+        </Col>
+
+        <Col md={5}>
+          <Card className="shadow-sm bg-light border-0">
+            <Card.Body>
+              <h4 className="mb-3">Resumen del Pedido</h4>
+              <ul className="list-group list-group-flush mb-3 rounded">
+                {carrito.map((item) => (
+                    <li key={item.id} className="list-group-item d-flex justify-content-between align-items-center bg-transparent px-0 border-bottom">
+                        <div>
+                            <small className="fw-bold">{item.nombre}</small>
+                            <div className="text-muted small">x{item.cantidad}</div>
+                        </div>
+                        <span>${(item.precio * item.cantidad).toLocaleString('es-CL')}</span>
+                    </li>
                 ))}
-                {montoDescuento > 0 && (
-                  <ListGroup.Item className="d-flex justify-content-between py-2 px-3 text-muted">
-                    <span>Subtotal</span>
-                    <span>{formatPesoChileno(montoSubtotal)}</span>
-                  </ListGroup.Item>
-                )}
-                {montoDescuento > 0 && (
-                   <ListGroup.Item className="d-flex justify-content-between py-2 px-3 text-success">
-                    <span>Descuento ({codigoDescuentoUsado || `${(montoDescuento/montoSubtotal*100).toFixed(0)}%`})</span>
-                    <span>-{formatPesoChileno(montoDescuento)}</span>
-                  </ListGroup.Item>
-                )}
-                <ListGroup.Item className="d-flex justify-content-between py-3 px-3">
-                  <strong className="fs-5">Total a Pagar</strong>
-                  <strong className="fs-5">{formatPesoChileno(montoTotal)}</strong>
-                </ListGroup.Item>
-              </ListGroup>
-            </Card>
-          </Col>
-          <Col md={7} lg={8}>
-             <Card className="shadow-sm">
-                <Card.Body className="p-4">
-                  <h4 className="mb-3">Información del cliente</h4>
-                  {usuarioLogueado && <Alert variant='info' size='sm'>Campos pre-llenados...</Alert>}
-                  <Row className="g-3">
-                    <Col sm={6}><Form.Group controlId="nombre"><Form.Label>Nombre</Form.Label><Form.Control type="text" name="nombre" value={formData.nombre} onChange={handleChange} required /><Form.Control.Feedback type="invalid">Requerido.</Form.Control.Feedback></Form.Group></Col>
-                    <Col sm={6}><Form.Group controlId="apellidos"><Form.Label>Apellidos</Form.Label><Form.Control type="text" name="apellidos" value={formData.apellidos} onChange={handleChange} required /><Form.Control.Feedback type="invalid">Requerido.</Form.Control.Feedback></Form.Group></Col>
-                    <Col sm={12}><Form.Group controlId="correo"><Form.Label>Correo</Form.Label><Form.Control type="email" name="correo" value={formData.correo} onChange={handleChange} placeholder="tu@ejemplo.com" required /><Form.Control.Feedback type="invalid">Requerido.</Form.Control.Feedback></Form.Group></Col>
-                  </Row>
-                  <hr className="my-4" />
-                  <h4 className="mb-3">Dirección de entrega</h4>
-                  <Row className="g-3">
-                    <Col sm={9}><Form.Group controlId="calle"><Form.Label>Calle y Número</Form.Label><Form.Control type="text" name="calle" value={formData.calle} onChange={handleChange} placeholder="Ej: Av. Pajaritos 123" required /><Form.Control.Feedback type="invalid">Requerido.</Form.Control.Feedback></Form.Group></Col>
-                    <Col sm={3}><Form.Group controlId="departamento"><Form.Label>Depto <span className="text-muted">(Opc.)</span></Form.Label><Form.Control type="text" name="departamento" value={formData.departamento} onChange={handleChange} placeholder="101"/></Form.Group></Col>
-                    <Col md={6}><Form.Group controlId="region"><Form.Label>Región</Form.Label><Form.Select name="region" value={formData.region} onChange={handleChange} required aria-label="Región"><option value="">Seleccione...</option>{regionesList.map(r => (<option key={r} value={r}>{r}</option>))}</Form.Select><Form.Control.Feedback type="invalid">Requerido.</Form.Control.Feedback></Form.Group></Col>
-                    <Col md={6}><Form.Group controlId="comuna"><Form.Label>Comuna</Form.Label><Form.Select name="comuna" value={formData.comuna} onChange={handleChange} required disabled={!formData.region || comunasList.length === 0} aria-label="Comuna"><option value="">{formData.region ? 'Seleccione...' : 'Región primero'}</option>{comunasList.map(c => (<option key={c} value={c}>{c}</option>))}</Form.Select><Form.Control.Feedback type="invalid">Requerido.</Form.Control.Feedback></Form.Group></Col>
-                    <Col sm={12}><Form.Group controlId="indicaciones"><Form.Label>Indicaciones <span className="text-muted">(Opc.)</span></Form.Label><Form.Control as="textarea" rows={3} name="indicaciones" value={formData.indicaciones} onChange={handleChange} placeholder="Ej: Dejar en conserjería..."/></Form.Group></Col>
-                  </Row>
-                  <hr className="my-4" />
-                  <div className="d-grid">
-                    <Button type="submit" variant="success" size="lg" disabled={carrito.length === 0}>
-                       {carrito.length === 0 ? "Tu carrito está vacío" : `Pagar ahora ${formatPesoChileno(montoTotal)}`}
-                    </Button>
-                  </div>
-                </Card.Body>
-             </Card>
-          </Col>
-        </Row>
-      </Form>
+              </ul>
+
+              <div className="d-flex justify-content-between mb-2">
+                <span>Subtotal</span>
+                <span>${montoTotal.toLocaleString('es-CL')}</span>
+              </div>
+              <div className="d-flex justify-content-between mb-3 text-success">
+                <span>Envío</span>
+                <span>Gratis</span>
+              </div>
+              <hr />
+              <div className="d-flex justify-content-between mb-4">
+                <strong>Total a Pagar</strong>
+                <strong className="fs-4 text-primary">${montoTotal.toLocaleString('es-CL')}</strong>
+              </div>
+
+              <div className="d-grid">
+                <Button 
+                    variant="success" 
+                    size="lg" 
+                    type="submit" 
+                    form="form-compra" 
+                    disabled={loading}
+                    className="fw-bold"
+                >
+                  {loading ? (
+                    <>
+                      <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />
+                      Procesando...
+                    </>
+                  ) : "Pagar Ahora"}
+                </Button>
+              </div>
+              <div className="text-center mt-3">
+                <small className="text-muted"><i className="bi bi-lock-fill"></i> Pago seguro encriptado</small>
+              </div>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
     </Container>
   );
 }

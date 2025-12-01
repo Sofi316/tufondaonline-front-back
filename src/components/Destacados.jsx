@@ -1,56 +1,70 @@
-import React from 'react';
-import { Carousel } from 'react-bootstrap';
-import terremoto from '../assets/terremoto-1.jpg';
-import choripan from '../assets/choripan-1.jpg';
-import sopaipa from "../assets/sopaipa-1.jpg";
-import empanada from "../assets/productos/empanada2.jpg"
+import React, { useState, useEffect } from 'react';
+import { Card, Button, Row, Col, Container } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { useCarrito } from '../components/CarritoContext';
+import api from '../config/api'; 
 
 export default function Destacados() {
+  const { agregarAlCarrito } = useCarrito();
+  const [productosDestacados, setProductosDestacados] = useState([]);
+
+  useEffect(() => {
+    const cargarDestacados = async () => {
+      try {
+        const response = await api.get('/productos');
+        
+        // LÓGICA DE NEGOCIO: ¿Cuáles son destacados?
+        // Opción A: Los primeros 3
+        // Opción B: Filtrar por un campo boolean "destacado" si lo agregaste a la BD
+        // Aquí tomaremos los primeros 3 como ejemplo
+        const seleccion = response.data.slice(0, 3);
+        
+        setProductosDestacados(seleccion);
+      } catch (error) {
+        console.error("Error cargando destacados:", error);
+      }
+    };
+    cargarDestacados();
+  }, []);
+
+  if (productosDestacados.length === 0) return null;
+
   return (
-   <>
-    <div className="container-fluid mt-0 mb-4 text-center">
-        <h2>Destacados</h2>
-        <p>Atrevete a probar nuestros platos más populares!</p>
-    </div>
-    <Carousel className="carousel-fijo">
-      
-      <Carousel.Item>
-        <img
-          className="d-block w-100"
-          src={terremoto}
-          alt="terremoto"
-        />
-        <Carousel.Caption>
-          <h3>Terremoto</h3>
-          <p>Para calmar la sed!</p>
-        </Carousel.Caption>
-      </Carousel.Item>
-
-      <Carousel.Item>
-        <img
-          className="d-block w-100"
-          src={choripan}
-          alt="choripan"
-        />
-        <Carousel.Caption>
-          <h3>Choripan</h3>
-          <p>El choripan más rico de Chile!</p>
-        </Carousel.Caption>
-      </Carousel.Item>
-
-      <Carousel.Item>
-        <img
-          className="d-block w-100"
-          src={empanada} 
-          alt="empanada"
-        />
-        <Carousel.Caption>
-          <h3>Empanada de pino</h3>
-          <p>Pruebala sin pasas!</p>
-        </Carousel.Caption>
-      </Carousel.Item>
-
-    </Carousel>
-  </>
+    <Container className="my-5">
+      <h2 className="text-center mb-4">Favoritos de la Fonda</h2>
+      <Row xs={1} md={3} className="g-4">
+        {productosDestacados.map((prod) => (
+          <Col key={prod.id}>
+            <Card className="h-100 shadow-sm border-0">
+              <div style={{height: '200px', overflow: 'hidden'}}>
+                <Card.Img 
+                  variant="top" 
+                  src={prod.img} 
+                  style={{objectFit: 'cover', height: '100%'}}
+                />
+              </div>
+              <Card.Body className="d-flex flex-column text-center">
+                <Card.Title>{prod.nombre}</Card.Title>
+                <Card.Text className="text-muted fw-bold">
+                  ${prod.precio.toLocaleString('es-CL')}
+                </Card.Text>
+                <div className="mt-auto">
+                   <Button 
+                      variant="primary" 
+                      className="me-2"
+                      onClick={() => agregarAlCarrito(prod)}
+                   >
+                     Agregar
+                   </Button>
+                   <Link to={`/detalle/${prod.id}`} className="btn btn-outline-secondary">
+                     Ver
+                   </Link>
+                </div>
+              </Card.Body>
+            </Card>
+          </Col>
+        ))}
+      </Row>
+    </Container>
   );
 }

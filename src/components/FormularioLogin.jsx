@@ -1,84 +1,66 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Form, Button, Alert } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext'; 
-import '../utils/FormularioLogin.logic.js'; 
 
 export default function FormularioLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const { login } = useAuth(); 
   const navigate = useNavigate();
 
-  const { iniciarSesion } = useAuth();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
 
-  const handleSubmit = (e) => {
-  e.preventDefault();
-  setError('');
+    const resultado = await login(email, password);
 
-  const resultado = window.FormularioLoginLogic.procesarLogin(email, password, iniciarSesion);
+    setLoading(false);
 
-  if (resultado.exito) {
-    console.log('¡Inicio de sesión exitoso via lógica externa!', resultado.usuario);
-
-    if (resultado.usuario.role === 'administrador') {
-      navigate('/admin');
-    } else {
+    if (resultado.success) {
       navigate('/');
+    } else {
+      setError(resultado.message);
     }
-  } else {
-    setError(resultado.mensaje);
-  }
-};
-
+  };
 
   return (
-    <form onSubmit={handleSubmit} noValidate>
-      {error && (
-        <div className="alert alert-danger" role="alert">
-          {error}
+    <>
+      {error && <Alert variant="danger">{error}</Alert>}
+
+      <Form onSubmit={handleSubmit}>
+        <Form.Group className="mb-3" controlId="formEmail">
+          <Form.Label>Correo Electrónico</Form.Label>
+          <Form.Control
+            type="email"
+            placeholder="nombre@ejemplo.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </Form.Group>
+
+        <Form.Group className="mb-3" controlId="formPassword">
+          <Form.Label>Contraseña</Form.Label>
+          <Form.Control
+            type="password"
+            placeholder="Tu contraseña"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </Form.Group>
+
+        <div className="d-grid gap-2">
+          <Button variant="primary" type="submit" size="lg" disabled={loading}>
+            {loading ? 'Verificando...' : 'Ingresar'}
+          </Button>
         </div>
-      )}
-
-  
-      <div className="mb-3">
-        <label htmlFor="loginEmail" className="form-label">Correo</label>
-        <input
-          type="email"
-          id="loginEmail"
-          name="email"
-          className={`form-control ${error ? 'is-invalid' : ''}`}
-          placeholder="@duoc.cl, @profesor.duoc.cl..."
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-      </div>
-
-
-      <div className="mb-3">
-        <label htmlFor="loginPassword" className="form-label">Contraseña</label>
-        <input
-          type="password"
-          id="loginPassword"
-          name="password"
-          className={`form-control ${error ? 'is-invalid' : ''}`}
-          placeholder="******"
-          required
-          minLength="4"
-          maxLength="10" 
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </div>
-
-      <div className="d-grid gap-2 d-md-flex justify-content-md-start">
-        <button type="submit" className="btn btn-danger me-md-2">
-          Ingresar
-        </button>
-        <Link to="/registro" className="btn btn-outline-primary">
-          Crear cuenta
-        </Link>
-      </div>
-    </form>
+      </Form>
+    </>
   );
 }

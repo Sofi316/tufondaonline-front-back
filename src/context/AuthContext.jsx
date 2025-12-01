@@ -1,113 +1,89 @@
- 
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { loginUser as apiLoginUser } from '../data/usersData';  
+import React, { createContext, useState, useContext, useEffect } from 'react';
+import api from '../config/api'; 
 
 const AuthContext = createContext();
 
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-   if (!context) {
-    throw new Error('useAuth debe ser usado dentro de un AuthProvider');
-  }
-  return context;
-};
-
- 
-function calcularEdad(fechaNac) {
-    if (!fechaNac) return 0;
-    try {
-        const nacimiento = new Date(fechaNac);
-        if (isNaN(nacimiento.getTime())) return 0;
-        const hoy = new Date();
-        let edad = hoy.getFullYear() - nacimiento.getFullYear();
-        const mes = hoy.getMonth() - nacimiento.getMonth();
-        if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) {
-            edad--;
-        }
-        return edad;
-    } catch (e) {
-        console.error("Error calculando edad:", e);
-        return 0;
-    }
-}
+export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
-  const navigate = useNavigate();
-   
-  const [usuarioLogueado, setUsuarioLogueado] = useState(() => {
-     const storedUser = localStorage.getItem('usuarioLogueado');
-     try { return storedUser ? JSON.parse(storedUser) : null; }
-     catch (e) { console.error("Fallo al parsear usuario desde localStorage", e); return null; }
-  });
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true); 
+  const [codigoDescuentoUsado, setCodigoDescuentoUsado] = useState(null);
 
-   
-   
-  const [descuentoAplicado, setDescuentoAplicado] = useState(0);
-   
-  const [codigoDescuentoUsado, setCodigoDescuentoUsado] = useState('');
-   
+  useEffect(() => {
+    const verificarSesion = () => {
+      const tokenGuardado = localStorage.getItem('token');
+      const usuarioGuardado = localStorage.getItem('usuario');
 
-   
-  const iniciarSesion = (email, password) => {
-    const user = apiLoginUser(email, password);  
-    if (user) {
-      setUsuarioLogueado(user);  
-      localStorage.setItem('usuarioLogueado', JSON.stringify(user));  
-       
-      setDescuentoAplicado(0);
-      setCodigoDescuentoUsado('');
-      console.log("Usuario inició sesión:", user);
-      return user;  
-    } else {
-      cerrarSesion();  
-      console.log("Fallo de inicio de sesión");
-      return null;  
+      if (tokenGuardado && usuarioGuardado) {
+        setUser(JSON.parse(usuarioGuardado));
+      }
+      setLoading(false);
+    };
+    verificarSesion();
+  }, []);
+
+
+  const login = async (email, password) => {
+    try {
+    
+      const response = await api.post('/login', { email, password });
+      
+    
+      const { token, usuario } = response.data; 
+
+      localStorage.setItem('token', token);
+      localStorage.setItem('usuario', JSON.stringify(usuario));
+
+      setUser(usuario);
+      return { success: true, message: "Inicio de sesión exitoso" };
+
+    } catch (error) {
+      console.error("Error en login:", error);
+      const mensajeError = error.response?.data?.message || "Credenciales incorrectas o error de servidor";
+      return { success: false, message: mensajeError };
     }
   };
 
-   
-  const cerrarSesion = () => {
-    setUsuarioLogueado(null);  
-    localStorage.removeItem('usuarioLogueado');  
-     
-    setDescuentoAplicado(0);
-    setCodigoDescuentoUsado('');
-    console.log("Usuario cerró sesión");
-    navigate('/iniciarSesion');  
-  };
-
-   
-  const aplicarCodigoDescuento = (codigoInput) => {
-     
-    if (codigoInput === 'FELICES8') {
-      setDescuentoAplicado(0.10);  
-      setCodigoDescuentoUsado(codigoInput);  
-      console.log("Código FELICES8 aplicado (10%)");
-       
-      return { success: true, message: '¡Código FELICES8 aplicado! Tienes 10% de descuento.' };
+  const register = async (userData) => {
+    try {
+      await api.post('/usuarios', userData);
+      return { success: true, message: "Usuario registrado con éxito" };
+    } catch (error) {
+      console.error("Error en registro:", error);
+      const mensajeError = error.response?.data?.message || "Error al registrar usuario";
+      return { success: false, message: mensajeError };
     }
-     
-
-     
-    setDescuentoAplicado(0);  
-    setCodigoDescuentoUsado('');
-    console.log("Código de descuento inválido:", codigoInput);
-     
-    return { success: false, message: 'Código de descuento inválido o expirado.' };
-  };
-   
-
-   
-  const valor = {
-    usuarioLogueado,         
-    iniciarSesion,           
-    cerrarSesion,            
-    descuentoAplicado,       
-    codigoDescuentoUsado,    
-    aplicarCodigoDescuento,  
   };
 
-   
-  return <AuthContext.Provider value={valor}>{children}</AuthContext.Provider>;
+  const logout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('usuario');
+    setUser(null);
+    setCodigoDescuentoUsado(null);
+  };
+
+  const aplicarCodigoDescuento = (codigo) => {
+    if (codigo === 'FELICES8') {
+      setCodigoDescuentoUsado(codigo);
+      return { success: true, message: 'Código aplicado correctamente' };
+    }
+    return { success: false, message: 'Código inválido' };
+  };
+
+  const value = {
+    user,
+    login,
+    register,
+    logout,
+    aplicarCodigoDescuento,
+    codigoDescuentoUsado,
+    loading
+  };
+
+  return (
+    <AuthContext.Provider value={value}>
+      {!loading && children} 
+    </AuthContext.Provider>
+  );
 };

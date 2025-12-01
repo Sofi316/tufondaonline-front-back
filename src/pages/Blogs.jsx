@@ -11,11 +11,11 @@ export default function Blogs() {
   useEffect(() => {
     const cargarPublicaciones = async () => {
       try {
-        const response = await api.get('/publicaciones');
+        const response = await api.get('/api/publicaciones');
         setPublicaciones(response.data);
         setLoading(false);
       } catch (err) {
-        console.error("Error cargando blog:", err);
+        console.error(err);
         setError("No se pudieron cargar las noticias.");
         setLoading(false);
       }
@@ -41,13 +41,15 @@ export default function Blogs() {
       ) : (
         <Row xs={1} md={2} lg={3} className="g-4">
           {publicaciones.map((post) => (
-            <Col key={post.id}>
+            <Col key={post.idPublicacion || post.id}>
               <Card className="h-100 shadow-sm hover-card">
                 <div style={{ height: '200px', overflow: 'hidden' }}>
                     <Card.Img 
                       variant="top" 
-                      src={post.img || "https://via.placeholder.com/400x200?text=Sin+Imagen"} 
-                      style={{ height: '100%', objectFit: 'cover' }} 
+                      src={post.imagen} 
+                      alt={post.titulo}
+                      style={{ height: '100%', objectFit: 'cover' }}
+                      onError={(e) => { e.target.src = 'https://via.placeholder.com/400x200?text=Sin+Imagen'; }} 
                     />
                 </div>
                 <Card.Body className="d-flex flex-column">
@@ -56,10 +58,14 @@ export default function Blogs() {
                     {post.fecha && new Date(post.fecha).toLocaleDateString()}
                   </Card.Text>
                   <Card.Text>
-                    {post.bajada}
+                    {post.bajada ? post.bajada.substring(0, 100) + '...' : ''}
                   </Card.Text>
                   <div className="mt-auto">
-                    <Button as={Link} to={`/blog/${post.id}`} variant="outline-danger">
+                    <Button 
+                        as={Link} 
+                        to={`/blog/${post.idPublicacion || post.id}`} 
+                        variant="outline-danger"
+                    >
                       Leer más
                     </Button>
                   </div>

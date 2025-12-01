@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Form, Button, Alert, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import api from '../config/api';
+import api from '../../config/api';
 
 export default function AdminCrearProducto() {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ export default function AdminCrearProducto() {
   const [variant, setVariant] = useState("success");
 
   useEffect(() => {
-    api.get('/categorias')
+    api.get('/api/categorias')
       .then(res => setCategorias(res.data))
       .catch(err => console.error("Error cargando categorías", err));
   }, []);
@@ -46,7 +46,7 @@ export default function AdminCrearProducto() {
       // const payload = { ...formData, categoria: { id: formData.categoriaId } };
       
       // Si tu backend espera solo el ID (ej: categoriaId), enviamos formData tal cual
-      await api.post('/productos', formData);
+      await api.post('/api/productos', formData);
       
       setVariant("success");
       setMensaje("Producto creado correctamente.");

@@ -11,7 +11,7 @@ export default function Destacados() {
   useEffect(() => {
     const cargarDestacados = async () => {
       try {
-        const response = await api.get('/productos');
+        const response = await api.get('/api/productos');
         
         // LÓGICA DE NEGOCIO: ¿Cuáles son destacados?
         // Opción A: Los primeros 3
@@ -50,12 +50,15 @@ export default function Destacados() {
                 </Card.Text>
                 <div className="mt-auto">
                    <Button 
-                      variant="primary" 
-                      className="me-2"
-                      onClick={() => agregarAlCarrito(prod)}
-                   >
-                     Agregar
-                   </Button>
+                    variant="outline-success" 
+                    size="sm"
+                    onClick={() => {
+                        agregarAlCarrito(prod);
+                        alert("¡Producto agregado al carrito!"); 
+                    }}
+                  >
+                    <i className="bi bi-cart-plus"></i> Agregar
+                  </Button>
                    <Link to={`/detalle/${prod.id}`} className="btn btn-outline-secondary">
                      Ver
                    </Link>

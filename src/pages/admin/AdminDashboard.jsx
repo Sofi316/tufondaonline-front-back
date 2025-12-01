@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Table, Button, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import api from '../config/api'; 
+import api from '../../config/api'; 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({
     totalVentas: 0,
@@ -16,9 +16,9 @@ export default function AdminDashboard() {
     const cargarDatos = async () => {
       try {
         const [resProd, resUser, resOrdenes] = await Promise.all([
-          api.get('/productos'),
-          api.get('/usuarios'),
-          api.get('/ordenes') 
+          api.get('/api/productos'),
+          api.get('/api/usuarios'),
+          api.get('/api/ordenes') 
         ]);
 
         const ordenes = resOrdenes.data || [];

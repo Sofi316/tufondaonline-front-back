@@ -10,7 +10,7 @@ function Filtrado({ onFiltrar }) {
   const [precioMax, setPrecioMax] = useState('');
 
   useEffect(() => {
-    api.get('/categorias')
+    api.get('/api/categorias')
       .then(res => {
          setListaCategorias(res.data); 
       })

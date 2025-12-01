@@ -6,7 +6,7 @@ function Ofertas() {
   const [productosOferta, setProductosOferta] = useState([]);
 
   useEffect(() => {
-    api.get('/productos')
+    api.get('/api/productos')
        .then(res => {
           const ofertas = res.data.filter(p => p.enOferta === true || p.enOferta === 1);
           setProductosOferta(ofertas);

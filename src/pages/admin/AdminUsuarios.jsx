@@ -9,7 +9,7 @@ export default function AdminUsuarios() {
 
   const cargarUsuarios = async () => {
     try {
-      const response = await api.get('/usuarios');
+      const response = await api.get('/api/usuarios');
       setUsuarios(response.data);
       setLoading(false);
     } catch (err) {
@@ -26,7 +26,7 @@ export default function AdminUsuarios() {
   const handleEliminar = async (id) => {
     if (window.confirm("¿Estás seguro de eliminar este usuario? Esta acción no se puede deshacer.")) {
       try {
-        await api.delete(`/usuarios/${id}`);
+        await api.delete(`/api/usuarios/${id}`);
         cargarUsuarios(); 
       } catch (err) {
         alert("Error al eliminar usuario.");
@@ -67,9 +67,9 @@ export default function AdminUsuarios() {
                   <td>{user.rut}</td>
                   <td>
                     {/* Ajusta según si guardas 'administrador' o 'ROLE_ADMIN' */}
-                    {user.rol === 'administrador' || user.rol === 'admin' ? (
+                    {user.rol === 'ADMINISTRADOR' ? (
                         <Badge bg="danger">Admin</Badge>
-                    ) : user.rol === 'vendedor' ? (
+                    ) : user.rol === 'VENDEDOR' ? (
                         <Badge bg="warning" text="dark">Vendedor</Badge>
                     ) : (
                         <Badge bg="primary">Cliente</Badge>

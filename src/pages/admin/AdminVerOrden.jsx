@@ -15,12 +15,12 @@ export default function AdminVerOrden() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const ordenRes = await api.get(`/ordenes/${id}`);
+        const ordenRes = await api.get(`/api/ordenes/${id}`);
         setOrden(ordenRes.data);
 
         // 2. Pedir los Productos para saber sus nombres (porque DetalleOrden solo tiene ID)
         // Nota: Si tu backend ya devuelve el nombre en el detalle, puedes borrar este paso.
-        const prodRes = await api.get('/productos');
+        const prodRes = await api.get('/api/productos');
         
         const mapa = {};
         prodRes.data.forEach(p => {

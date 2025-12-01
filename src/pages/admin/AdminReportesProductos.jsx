@@ -8,7 +8,7 @@ export default function AdminReportesProductos() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api.get('/productos')
+    api.get('/api/productos')
       .then(res => {
         setProductos(res.data);
         setLoading(false);

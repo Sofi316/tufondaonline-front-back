@@ -1,4 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import api from '../config/api'; // <--- 1. Importamos Axios configurado
+import { useAuth } from '../context/AuthContext'; // <--- 2. Importamos Auth para saber quién compra
 
 const CarritoContext = createContext();
 
@@ -12,6 +14,7 @@ export const useCarrito = () => {
 
 export const CarritoProvider = ({ children }) => {
   
+  // 1. Estado del Carrito (Local Storage)
   const [carrito, setCarrito] = useState(() => {
     try {
       const carritoGuardado = localStorage.getItem('carritoCompras');
@@ -22,7 +25,8 @@ export const CarritoProvider = ({ children }) => {
     }
   });
 
-  const [montoDescuento, setMontoDescuento] = useState(0);
+  // 2. Obtenemos el usuario para calcular descuentos
+  const { user } = useAuth();
 
   useEffect(() => {
     localStorage.setItem('carritoCompras', JSON.stringify(carrito));
@@ -33,7 +37,6 @@ export const CarritoProvider = ({ children }) => {
   const agregarAlCarrito = (producto) => {
     setCarrito((prevCarrito) => {
       const existe = prevCarrito.find((item) => item.id === producto.id);
-
       if (existe) {
         return prevCarrito.map((item) =>
           item.id === producto.id
@@ -41,14 +44,12 @@ export const CarritoProvider = ({ children }) => {
             : item
         );
       } else {
-      
         return [...prevCarrito, { ...producto, cantidad: 1 }];
       }
     });
   };
 
   const eliminarDelCarrito = (idProducto) => {
-
     setCarrito((prev) => prev.filter((item) => item.id !== idProducto));
   };
 
@@ -63,19 +64,69 @@ export const CarritoProvider = ({ children }) => {
 
   const vaciarCarrito = () => {
     setCarrito([]);
-    setMontoDescuento(0); 
     localStorage.removeItem('carritoCompras');
   };
 
-  // --- CÁLCULOS ---
-  const cantidadTotal = carrito.reduce((acc, item) => acc + item.cantidad, 0);
+  // --- CÁLCULOS AUTOMÁTICOS (Edad y Totales) ---
 
+  // 1. Calcular edad del usuario
+  const calcularEdad = (fechaNac) => {
+    if (!fechaNac) return 0;
+    const hoy = new Date();
+    const cumple = new Date(fechaNac);
+    let edad = hoy.getFullYear() - cumple.getFullYear();
+    const m = hoy.getMonth() - cumple.getMonth();
+    if (m < 0 || (m === 0 && hoy.getDate() < cumple.getDate())) {
+        edad--;
+    }
+    return edad;
+  };
+
+  const edadUsuario = user ? calcularEdad(user.fechaNac) : 0;
+  const tieneDescuentoEdad = edadUsuario >= 50; // Regla de negocio: Mayor de 50 años
+
+  // 2. Calcular montos
+  const cantidadTotal = carrito.reduce((acc, item) => acc + item.cantidad, 0);
   const montoSubtotal = carrito.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
 
+  // 3. Aplicar descuento (50% si corresponde)
+  const montoDescuento = tieneDescuentoEdad ? Math.round(montoSubtotal * 0.5) : 0;
   const montoTotal = montoSubtotal - montoDescuento;
 
-  const aplicarDescuentoValor = (valor) => {
-    setMontoDescuento(valor);
+  // --- FUNCIÓN PARA ENVIAR AL BACKEND ---
+  const procesarCompraBackend = async () => {
+    if (carrito.length === 0) return { exito: false, msg: "El carrito está vacío" };
+
+    try {
+        // A. Crear la Orden (Cabecera)
+        const ordenResponse = await api.post('/api/ordenes', {
+            estado: "PENDIENTE",
+            total: montoTotal
+        });
+
+        const idOrdenGenerada = ordenResponse.data.id;
+
+        // B. Crear los Detalles (Productos)
+        const promesasDetalle = carrito.map(item => {
+            return api.post('/api/detalle_orden', {
+                orden: { id: idOrdenGenerada },
+                producto: { id: item.id },
+                cantidad: item.cantidad,
+                precio: item.precio // Guardamos el precio original del producto
+            });
+        });
+
+        // Esperamos a que se guarden todos los productos
+        await Promise.all(promesasDetalle);
+
+        // C. Limpiar y avisar éxito
+        vaciarCarrito();
+        return { exito: true, idOrden: idOrdenGenerada };
+
+    } catch (error) {
+        console.error("Error procesando compra:", error);
+        return { exito: false, msg: "Error al procesar el pedido. Intente nuevamente." };
+    }
   };
 
   const value = {
@@ -88,7 +139,8 @@ export const CarritoProvider = ({ children }) => {
     montoSubtotal,
     montoDescuento,
     montoTotal,
-    aplicarDescuentoValor
+    tieneDescuentoEdad, // Útil para mostrar un mensaje en el carrito ("¡Tienes 50% dcto!")
+    procesarCompraBackend // <--- Exportamos la función nueva
   };
 
   return (
@@ -98,4 +150,4 @@ export const CarritoProvider = ({ children }) => {
   );
 };
 
-export default CarritoContext;
+export default CarritoProvider;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
-import { useAuth } from '../context/AuthContext'; 
+import { useAuth } from '../../context/AuthContext';
 
 export default function AdminPerfil() {
   const { user, logout } = useAuth(); 
@@ -47,7 +47,7 @@ export default function AdminPerfil() {
                  </Row>
                  <Row className="mb-3 border-bottom pb-2">
                      <Col sm={4} className="text-muted">Comuna</Col>
-                     <Col sm={8} className="fw-bold">{user.comuna || "No registrada"}</Col>
+                     <Col sm={8} className="fw-bold">{user.comuna?.nombre|| "No registrada"}</Col>
                  </Row>
                  <Row className="mb-3">
                      <Col sm={4} className="text-muted">Fecha de Nacimiento</Col>

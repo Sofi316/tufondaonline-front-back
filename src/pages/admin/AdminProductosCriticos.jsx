@@ -13,7 +13,7 @@ export default function AdminProductosCriticos() {
   useEffect(() => {
     const cargarProductos = async () => {
       try {
-        const response = await api.get('/productos');
+        const response = await api.get('/api/productos');
         const criticos = response.data.filter(p => p.stock <= STOCK_CRITICO);
         setProductos(criticos);
         setLoading(false);

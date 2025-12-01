@@ -14,7 +14,7 @@ export default function DetalleBlog() {
   useEffect(() => {
     const cargarDetalle = async () => {
       try {
-        const response = await api.get(`/publicaciones/${id}`);
+        const response = await api.get(`/api/publicaciones/${id}`);
         setPost(response.data);
         setLoading(false);
       } catch (err) {
@@ -46,9 +46,10 @@ export default function DetalleBlog() {
       <Card className="border-0 shadow-sm overflow-hidden">
         <Card.Img 
             variant="top" 
-            src={post.img} 
+            src={post.imagen} 
             alt={post.titulo}
             style={{ maxHeight: '400px', objectFit: 'cover' }}
+            onError={(e) => { e.target.src = 'https://via.placeholder.com/800x400?text=Sin+Imagen'; }}
         />
         <Card.Body className="p-4 p-md-5">
             <h1 className="display-5 fw-bold mb-3 text-dark">{post.titulo}</h1>

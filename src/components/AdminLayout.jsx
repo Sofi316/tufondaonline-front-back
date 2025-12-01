@@ -10,11 +10,11 @@ export default function AdminLayout() {
   if (loading) return <div>Cargando panel...</div>;
 
   if (!user) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/iniciarSesion" />;
   }
 
   // Ajusta 'administrador' según cómo lo guardaste en tu BD (puede ser 'admin', 'ROLE_ADMIN', etc.)
-  if (user.rol !== 'administrador' && user.rol !== 'admin') {
+  if (user.rol !== 'ADMINISTRADOR' ) {
     return <Navigate to="/" />;
   }
 

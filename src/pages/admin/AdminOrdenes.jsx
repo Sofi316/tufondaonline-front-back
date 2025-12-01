@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Card, Table, Badge, Button, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import api from '../config/api';
+import api from '../../config/api';
 
 export default function AdminOrdenes() {
   const [ordenes, setOrdenes] = useState([]);
@@ -10,7 +10,7 @@ export default function AdminOrdenes() {
   useEffect(() => {
     const cargarOrdenes = async () => {
       try {
-        const response = await api.get('/ordenes');
+        const response = await api.get('/api/ordenes');
         const lista = response.data.sort((a, b) => b.id - a.id);
         setOrdenes(lista);
         setLoading(false);

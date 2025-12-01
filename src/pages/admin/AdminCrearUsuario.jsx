@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Form, Button, Alert, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import api from '../config/api';
+import api from '../../config/api';
 
 export default function AdminCrearUsuario() {
   const navigate = useNavigate();
@@ -20,14 +20,14 @@ export default function AdminCrearUsuario() {
   const [variant, setVariant] = useState("success");
 
   useEffect(() => {
-    api.get('/regiones').then(res => setRegiones(res.data));
+    api.get('/api/regiones').then(res => setRegiones(res.data));
   }, []);
 
   
   useEffect(() => {
     if (formData.region) {
       // Ajusta la ruta si tu backend usa /comunas?regionId=...
-      api.get(`/comunas/${formData.region}`)
+      api.get(`/api/comunas/${formData.region}`)
          .then(res => setComunas(res.data))
          .catch(() => setComunas([]));
     } else {
@@ -45,7 +45,7 @@ export default function AdminCrearUsuario() {
     setMensaje("");
 
     try {
-      await api.post('/usuarios', formData);
+      await api.post('/api/usuarios', formData);
       setVariant("success");
       setMensaje("Usuario registrado correctamente.");
       

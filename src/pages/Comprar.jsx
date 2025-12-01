@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Form, Button, Alert, Spinner } from 'react-bootstrap';
-import { useCarrito } from '../components/CarritoContext';
+import { useCarrito } from '../components/CarritoContext'; // Ojo con la ruta si moviste el archivo
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import api from '../config/api';
 
 export default function Comprar() {
+
   const { carrito, montoTotal, vaciarCarrito } = useCarrito();
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -15,13 +16,13 @@ export default function Comprar() {
   
   const [datosEnvio, setDatosEnvio] = useState({
     direccion: user?.direccion || '',
-    comuna: user?.comuna || '',
+    comuna: user?.comuna?.nombre || '', // Corrección para que no salga [Object object]
     telefono: '',
     notas: ''
   });
 
   useEffect(() => {
-    if (!user) navigate('/login');
+    if (!user) navigate('/iniciarSesion');
     if (carrito.length === 0) navigate('/categorias');
   }, [carrito, user, navigate]);
 
@@ -34,30 +35,39 @@ export default function Comprar() {
     setLoading(true);
     setError("");
     
-    const ordenData = {
-      usuarioId: user.id, 
-      direccionEnvio: `${datosEnvio.direccion}, ${datosEnvio.comuna}. Notas: ${datosEnvio.notas}`, 
-      metodoPago: "Webpay", 
-      
-      detalles: carrito.map(prod => ({
-        productoId: prod.id,       
-        cantidad: prod.cantidad,   
-        precioUnitario: prod.precio 
-      }))
-    };
-
     try {
- 
-      const response = await api.post('/ordenes', ordenData);
+        // PASO 1: Crear la CABECERA de la Orden
+        // Aquí arreglamos el error 500 enviando el 'total' y el 'estado'
+        const ordenResponse = await api.post('/api/ordenes', {
+            total: montoTotal,    // <--- ¡ESTO FALTABA! (Por eso el error 500)
+            estado: "PENDIENTE"
+            // No enviamos usuarioId, el backend lo saca del token automáticamente
+        });
+        
+        const idOrdenCreada = ordenResponse.data.id;
+        console.log("Orden creada con ID:", idOrdenCreada);
+
+        // PASO 2: Crear los DETALLES (Productos) uno por uno
+        // Recorremos el carrito y enviamos cada producto al backend
+        const promesasDetalles = carrito.map(prod => {
+            return api.post('/api/detalle_orden', {
+                orden: { id: idOrdenCreada },
+                producto: { id: prod.id },
+                cantidad: prod.cantidad,
+                precio: prod.precio
+            });
+        });
+
+        // Esperamos a que se guarden todos los productos
+        await Promise.all(promesasDetalles);
       
-      console.log("Orden creada ID:", response.data.id);
-      
-      vaciarCarrito(); 
-      navigate('/pago-exitoso');
+        // PASO 3: Finalizar
+        vaciarCarrito(); 
+        navigate('/pago-exitoso');
 
     } catch (err) {
-      console.error("Error al crear la orden:", err);
-      const errorMsg = err.response?.data?.message || "Hubo un problema al procesar tu pedido. Intenta nuevamente.";
+      console.error("Error al comprar:", err);
+      const errorMsg = err.response?.data?.message || "Error al procesar la compra. Intenta nuevamente.";
       setError(errorMsg);
     } finally {
       setLoading(false);
@@ -183,7 +193,7 @@ export default function Comprar() {
                 >
                   {loading ? (
                     <>
-                      <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" className="me-2" />
+                      <Spinner as="span" animation="border" size="sm" className="me-2" />
                       Procesando...
                     </>
                   ) : "Pagar Ahora"}

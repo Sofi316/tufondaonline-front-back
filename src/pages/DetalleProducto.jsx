@@ -16,7 +16,7 @@ export default function DetalleProducto() {
   useEffect(() => {
     const fetchProducto = async () => {
       try {
-        const response = await api.get(`/productos/${id}`);
+        const response = await api.get(`/api/productos/${id}`);
         setProducto(response.data);
         setLoading(false);
       } catch (err) {
@@ -103,13 +103,14 @@ export default function DetalleProducto() {
 
               <div className="mt-auto d-grid gap-2">
                 <Button 
-                    variant="success" 
-                    size="lg" 
-                    onClick={() => agregarAlCarrito(producto)}
-                    disabled={producto.stock <= 0}
+                  variant="outline-success" 
+                  size="sm"
+                  onClick={() => {
+                      agregarAlCarrito(producto);
+                      alert("¡Producto agregado al carrito!"); 
+                  }}
                 >
-                  <i className="bi bi-cart-plus me-2"></i> 
-                  {producto.stock > 0 ? "Agregar al Carrito" : "Sin Stock"}
+                  <i className="bi bi-cart-plus"></i> Agregar
                 </Button>
               </div>
             </Card.Body>

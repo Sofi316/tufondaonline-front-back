@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Filtrado from './Filtrado';
+import Filtrado from '../components/Filtrado';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { useCarrito } from '../components/CarritoContext';
 import { Link } from 'react-router-dom';
@@ -19,7 +19,7 @@ function Categorias() {
   useEffect(() => {
     const fetchProductos = async () => {
       try {
-        const response = await api.get('/productos'); 
+        const response = await api.get('/api/productos'); 
         setDatosProductos(response.data);
         setProductosFiltrados(response.data);
         setLoading(false);
@@ -37,9 +37,10 @@ function Categorias() {
 
 
     if (filtros.categorias.length > 0) {
-      resultado = resultado.filter(p => 
-        filtros.categorias.includes(p.categoria) 
-      );
+      resultado = resultado.filter(p => {
+        const nombreCategoria = typeof p.categoria === 'object' ? p.categoria.nombre : p.categoria;
+        return filtros.categorias.includes(nombreCategoria);
+      });
     }
 
     if (filtros.precioMin !== '') {
@@ -85,10 +86,13 @@ function Categorias() {
                       <Button 
                         variant="outline-success" 
                         size="sm"
-                        onClick={() => agregarAlCarrito(producto)}
+                        onClick={() => {
+                            agregarAlCarrito(producto);
+                            alert("¡Producto agregado al carrito!"); 
+                        }}
                       >
                         <i className="bi bi-cart-plus"></i> Agregar
-                      </Button>
+                    </Button>
                     </div>
                   </Card.Body>
                   <Card.Footer className="bg-white border-top-0">

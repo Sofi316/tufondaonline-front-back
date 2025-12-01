@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Card, Form, Button, Alert, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import api from '../config/api';
+import api from '../../config/api';
 
 export default function AdminCrearCategoria() {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ export default function AdminCrearCategoria() {
     setMensaje("");
 
     try {
-      await api.post('/categorias', { nombre });
+      await api.post('/api/categorias', { nombre });
       
       setMensaje("Categoría creada exitosamente.");
       setTimeout(() => {

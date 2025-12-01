@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Table, Button, Badge, Form, InputGroup, Spinner } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import api from '../config/api';
+import api from '../../config/api';
 
 export default function AdminProductos() {
   const [productos, setProductos] = useState([]);
@@ -11,7 +11,7 @@ export default function AdminProductos() {
 
   const cargarProductos = async () => {
     try {
-      const response = await api.get('/productos');
+      const response = await api.get('/api/productos');
       setProductos(response.data);
       setLoading(false);
     } catch (error) {
@@ -27,7 +27,7 @@ export default function AdminProductos() {
   const handleEliminar = async (id) => {
     if (window.confirm("¿Estás seguro de eliminar este producto?")) {
       try {
-        await api.delete(`/productos/${id}`);
+        await api.delete(` /api/productos/${id} `);
         setProductos(productos.filter(p => p.id !== id));
         alert("Producto eliminado.");
       } catch (error) {

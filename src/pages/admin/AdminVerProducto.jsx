@@ -14,7 +14,7 @@ export default function AdminVerProducto() {
   useEffect(() => {
     const fetchProducto = async () => {
       try {
-        const response = await api.get(`/productos/${id}`);
+        const response = await api.get(`/api/productos/${id}`);
         setProducto(response.data);
         setLoading(false);
       } catch (err) {
@@ -30,7 +30,7 @@ export default function AdminVerProducto() {
   const handleEliminar = async () => {
     if (window.confirm("¿Estás seguro de que deseas eliminar este producto? Esta acción no se puede deshacer.")) {
         try {
-            await api.delete(`/productos/${id}`);
+            await api.delete(`/api/productos/${id}`);
             alert("Producto eliminado correctamente.");
             navigate('/admin/productos'); 
         } catch (err) {

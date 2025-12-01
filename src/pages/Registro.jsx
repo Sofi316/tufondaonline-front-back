@@ -29,7 +29,7 @@ export default function Registro() {
   useEffect(() => {
     const cargarRegiones = async () => {
       try {
-        const response = await api.get('/regiones');
+        const response = await api.get('/api/regiones');
         setListaRegiones(response.data);
       } catch (error) {
         console.error("Error cargando regiones:", error);
@@ -47,10 +47,8 @@ export default function Registro() {
         return;
       }
       try {
-        // Asumiendo que tu backend tiene un endpoint para filtrar comunas por región
-        // Puede ser /comunas/{idRegion} o /comunas?regionId={id}
-        // Ajusta esta línea según tu API real:
-        const response = await api.get(`/comunas/${formData.region}`); 
+        
+        const response = await api.get(`/api/comunas/${formData.region}`); 
         setListaComunas(response.data);
       } catch (error) {
         console.error("Error cargando comunas:", error);
@@ -75,13 +73,13 @@ export default function Registro() {
 
     try {
     
-      await api.post('/register', formData); 
+      await api.post('auth/register', formData); 
       
       setMensaje("Usuario registrado exitosamente. Redirigiendo al login...");
       setVariant("success");
       
       setTimeout(() => {
-        navigate('/login');
+        navigate('/iniciarSesion');
       }, 2000);
 
     } catch (error) {

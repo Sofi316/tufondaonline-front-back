@@ -19,7 +19,7 @@ export default function Carrito() {
   const handleProcederPago = () => {
     if (!user) {
       alert("Debes iniciar sesión para continuar con la compra.");
-      navigate('/login');
+      navigate('/iniciarSesion');
     } else {
       navigate('/comprar');
     }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Form, Button, Alert, Spinner } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
-import api from '../config/api';
+import api from '../../config/api';
 
 export default function AdminEditarProducto() {
   const { id } = useParams(); 
@@ -26,8 +26,8 @@ export default function AdminEditarProducto() {
     const cargarDatos = async () => {
       try {
         const [prodRes, catRes] = await Promise.all([
-          api.get(`/productos/${id}`),
-          api.get('/categorias')
+          api.get(`/api/productos/${id}`),
+          api.get('/api/categorias')
         ]);
 
         const p = prodRes.data;
@@ -67,7 +67,7 @@ export default function AdminEditarProducto() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await api.put(`/productos/${id}`, formData);
+      await api.put(`/api/productos/${id}`, formData);
       alert("Producto actualizado correctamente");
       navigate('/admin/productos');
     } catch (err) {

@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
     
-      const response = await api.post('/login', { email, password });
+      const response = await api.post('/auth/login', { email, password });
       
     
       const { token, usuario } = response.data; 
@@ -40,19 +40,25 @@ export const AuthProvider = ({ children }) => {
 
     } catch (error) {
       console.error("Error en login:", error);
-      const mensajeError = error.response?.data?.message || "Credenciales incorrectas o error de servidor";
+      const mensajeError = error.response?.status === 403 
+        ? "Credenciales incorrectas" 
+        : "Error de servidor";
       return { success: false, message: mensajeError };
     }
   };
 
   const register = async (userData) => {
     try {
-      await api.post('/usuarios', userData);
+      const response = await api.post('/auth/register', userData);
+      
+      const { token, usuario } = response.data; 
+      localStorage.setItem('token', token);
+      localStorage.setItem('usuario', JSON.stringify(usuario));
+      setUser(usuario);
       return { success: true, message: "Usuario registrado con éxito" };
     } catch (error) {
       console.error("Error en registro:", error);
-      const mensajeError = error.response?.data?.message || "Error al registrar usuario";
-      return { success: false, message: mensajeError };
+      return { success: false, message: "Error al registrar usuario (posiblemente email o RUT duplicado)" };
     }
   };
 
@@ -72,18 +78,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   const value = {
-    user,
-    login,
-    register,
-    logout,
-    aplicarCodigoDescuento,
-    codigoDescuentoUsado,
-    loading
+    user, login, register, logout, aplicarCodigoDescuento, codigoDescuentoUsado, loading
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {!loading && children} 
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;
 };

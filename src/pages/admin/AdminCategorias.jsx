@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Table, Button, Card, Spinner, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import api from '../config/api'; 
+import api from '../../config/api'; 
 export default function AdminCategorias() {
   const [categorias, setCategorias] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -9,7 +9,7 @@ export default function AdminCategorias() {
 
   const cargarCategorias = async () => {
     try {
-      const response = await api.get('/categorias');
+      const response = await api.get('/api/categorias');
       setCategorias(response.data);
       setLoading(false);
     } catch (err) {
@@ -26,7 +26,7 @@ export default function AdminCategorias() {
   const handleEliminar = async (id) => {
     if (window.confirm("¿Seguro que deseas eliminar esta categoría?")) {
       try {
-        await api.delete(`/categorias/${id}`);
+        await api.delete(`/api/categorias/${id}`);
         setCategorias(categorias.filter(c => c.id !== id));
       } catch (err) {
         alert("No se puede eliminar. Es posible que tenga productos asociados.");

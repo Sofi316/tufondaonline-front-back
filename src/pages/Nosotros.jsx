@@ -6,7 +6,7 @@ export default function Nosotros() {
     <main className="container my-4">
       <div className="row">
         <div className="col-lg-8 mx-auto text-center">
-          <h1 className="mb-4">Sobre nosotros</h1>
+          <h1 className="mb-4 texto-azul">Sobre nosotros</h1>
           <p className="lead">
             Fonda Online es una tienda online, como bien dice su nombre, que ofrece los
             mejores productos gastronómicos para celebrar el 18 de septiembre como corresponde.

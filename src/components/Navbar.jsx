@@ -61,13 +61,11 @@ export default function Navbar() {
                                 <NavLink to="/contacto" className="nav-link" onClick={() => setIsExpanded(false)}>Contacto</NavLink>
                             </li>
 
-                            {/* --- LÓGICA DE SESIÓN --- */}
                             {user ? (
                                 <>
-                                    {/* Solo mostramos el panel si el rol es ADMINISTRADOR (Mayúscula, como viene de Java) */}
                                     {(user.rol === 'ADMINISTRADOR' || user.rol === 'VENDEDOR') && (
                                         <li className="nav-item">
-                                            <NavLink to="/admin" className="nav-link text-warning fw-bold" onClick={() => setIsExpanded(false)}>
+                                            <NavLink to="/admin/dashboard" className="nav-link text-warning fw-bold" onClick={() => setIsExpanded(false)}>
                                                 <i className="bi bi-gear-fill me-1"></i>Admin
                                             </NavLink>
                                         </li>
@@ -86,13 +84,11 @@ export default function Navbar() {
                             ) : (
                                 <>
                                     <li className="nav-item me-2">
-                                        {/* CORREGIDO: Ruta a /iniciarSesion */}
                                         <Link to="/iniciarSesion" className="btn btn-danger" onClick={() => setIsExpanded(false)}>
                                             Iniciar Sesión
                                         </Link>
                                     </li>
                                     <li className="nav-item">
-                                        {/* CORREGIDO: Ruta a /registro */}
                                         <Link to="/registro" className="btn btn-primary" onClick={() => setIsExpanded(false)}>
                                             Crear cuenta
                                         </Link>
@@ -100,7 +96,6 @@ export default function Navbar() {
                                 </>
                             )}
 
-                            {/* --- CARRITO --- */}
                             <li className="nav-item ms-lg-3 mt-2 mt-lg-0">
                                 <NavLink to="/Carrito" className="nav-link position-relative" onClick={() => setIsExpanded(false)}>
                                     <span className="d-inline-block">

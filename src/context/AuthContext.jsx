@@ -2,7 +2,6 @@ import React, { createContext, useState, useContext, useEffect } from 'react';
 import api from '../config/api'; 
 
 const AuthContext = createContext();
-
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
@@ -23,13 +22,9 @@ export const AuthProvider = ({ children }) => {
     verificarSesion();
   }, []);
 
-
   const login = async (email, password) => {
     try {
-    
       const response = await api.post('/auth/login', { email, password });
-      
-    
       const { token, usuario } = response.data; 
 
       localStorage.setItem('token', token);
@@ -50,11 +45,12 @@ export const AuthProvider = ({ children }) => {
   const register = async (userData) => {
     try {
       const response = await api.post('/auth/register', userData);
-      
       const { token, usuario } = response.data; 
+
       localStorage.setItem('token', token);
       localStorage.setItem('usuario', JSON.stringify(usuario));
       setUser(usuario);
+
       return { success: true, message: "Usuario registrado con éxito" };
     } catch (error) {
       console.error("Error en registro:", error);
@@ -65,6 +61,9 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('usuario');
+
+    window.dispatchEvent(new Event("carrito-limpiar"));
+
     setUser(null);
     setCodigoDescuentoUsado(null);
   };
@@ -78,8 +77,18 @@ export const AuthProvider = ({ children }) => {
   };
 
   const value = {
-    user, login, register, logout, aplicarCodigoDescuento, codigoDescuentoUsado, loading
+    user,
+    login,
+    register,
+    logout,
+    aplicarCodigoDescuento,
+    codigoDescuentoUsado,
+    loading
   };
 
-  return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={value}>
+      {!loading && children}
+    </AuthContext.Provider>
+  );
 };

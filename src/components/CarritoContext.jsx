@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import api from '../config/api'; // <--- 1. Importamos Axios configurado
-import { useAuth } from '../context/AuthContext'; // <--- 2. Importamos Auth para saber quién compra
-
+import api from '../config/api'; 
+import { useAuth } from '../context/AuthContext'; 
 const CarritoContext = createContext();
 
 export const useCarrito = () => {
@@ -14,7 +13,6 @@ export const useCarrito = () => {
 
 export const CarritoProvider = ({ children }) => {
   
-  // 1. Estado del Carrito (Local Storage)
   const [carrito, setCarrito] = useState(() => {
     try {
       const carritoGuardado = localStorage.getItem('carritoCompras');
@@ -25,14 +23,18 @@ export const CarritoProvider = ({ children }) => {
     }
   });
 
-  // 2. Obtenemos el usuario para calcular descuentos
   const { user } = useAuth();
 
   useEffect(() => {
     localStorage.setItem('carritoCompras', JSON.stringify(carrito));
   }, [carrito]);
+  useEffect(() => {
+    const limpiar = () => setCarrito([]);
+    window.addEventListener("carrito-limpiar", limpiar);
 
-  // --- FUNCIONES DEL CARRITO ---
+    return () => window.removeEventListener("carrito-limpiar", limpiar);
+  }, []);
+
 
   const agregarAlCarrito = (producto) => {
     setCarrito((prevCarrito) => {
@@ -67,9 +69,7 @@ export const CarritoProvider = ({ children }) => {
     localStorage.removeItem('carritoCompras');
   };
 
-  // --- CÁLCULOS AUTOMÁTICOS (Edad y Totales) ---
 
-  // 1. Calcular edad del usuario
   const calcularEdad = (fechaNac) => {
     if (!fechaNac) return 0;
     const hoy = new Date();
@@ -83,22 +83,22 @@ export const CarritoProvider = ({ children }) => {
   };
 
   const edadUsuario = user ? calcularEdad(user.fechaNac) : 0;
-  const tieneDescuentoEdad = edadUsuario >= 50; // Regla de negocio: Mayor de 50 años
+  const tieneDescuentoEdad = edadUsuario >= 50; 
 
-  // 2. Calcular montos
   const cantidadTotal = carrito.reduce((acc, item) => acc + item.cantidad, 0);
-  const montoSubtotal = carrito.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
+  const montoSubtotal = carrito.reduce((acc, item) => {
+  const precioFinal = item.precioOferta ?? item.precio;
+  return acc + (precioFinal * item.cantidad);
+}, 0);
 
-  // 3. Aplicar descuento (50% si corresponde)
+
   const montoDescuento = tieneDescuentoEdad ? Math.round(montoSubtotal * 0.5) : 0;
   const montoTotal = montoSubtotal - montoDescuento;
 
-  // --- FUNCIÓN PARA ENVIAR AL BACKEND ---
   const procesarCompraBackend = async () => {
     if (carrito.length === 0) return { exito: false, msg: "El carrito está vacío" };
 
     try {
-        // A. Crear la Orden (Cabecera)
         const ordenResponse = await api.post('/api/ordenes', {
             estado: "PENDIENTE",
             total: montoTotal
@@ -106,20 +106,17 @@ export const CarritoProvider = ({ children }) => {
 
         const idOrdenGenerada = ordenResponse.data.id;
 
-        // B. Crear los Detalles (Productos)
         const promesasDetalle = carrito.map(item => {
             return api.post('/api/detalle_orden', {
                 orden: { id: idOrdenGenerada },
                 producto: { id: item.id },
                 cantidad: item.cantidad,
-                precio: item.precio // Guardamos el precio original del producto
+                precio: item.precio 
             });
         });
 
-        // Esperamos a que se guarden todos los productos
         await Promise.all(promesasDetalle);
 
-        // C. Limpiar y avisar éxito
         vaciarCarrito();
         return { exito: true, idOrden: idOrdenGenerada };
 
@@ -139,8 +136,8 @@ export const CarritoProvider = ({ children }) => {
     montoSubtotal,
     montoDescuento,
     montoTotal,
-    tieneDescuentoEdad, // Útil para mostrar un mensaje en el carrito ("¡Tienes 50% dcto!")
-    procesarCompraBackend // <--- Exportamos la función nueva
+    tieneDescuentoEdad, 
+    procesarCompraBackend 
   };
 
   return (

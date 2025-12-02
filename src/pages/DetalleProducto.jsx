@@ -75,7 +75,7 @@ export default function DetalleProducto() {
                     {producto.enOferta && <Badge bg="danger">¡OFERTA!</Badge>}
                 </div>
                 
-                <h1 className="display-5 fw-bold mb-3">{producto.nombre}</h1>
+                <h1 className="display-5 fw-bold mb-3 texto-azul">{producto.nombre}</h1>
                 
                 <div className="mb-4">
                     {producto.enOferta ? (

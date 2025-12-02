@@ -15,6 +15,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     const cargarDatos = async () => {
       try {
+        
         const [resProd, resUser, resOrdenes] = await Promise.all([
           api.get('/api/productos'),
           api.get('/api/usuarios'),
@@ -132,7 +133,7 @@ export default function AdminDashboard() {
                 ordenesRecientes.map(ord => (
                   <tr key={ord.id}>
                     <td>#{ord.id}</td>
-                    <td>{ord.usuarioId}</td>
+                    <td>{ord.usuario?.id}</td>
                     <td>{ord.fecha ? new Date(ord.fecha).toLocaleDateString() : '-'}</td>
                     <td>${ord.total ? ord.total.toLocaleString('es-CL') : 0}</td>
                     <td><span className="badge bg-secondary">{ord.estado || 'Procesando'}</span></td>

@@ -38,6 +38,7 @@ import AdminCategorias from './pages/admin/AdminCategorias';
 import AdminCrearCategoria from './pages/admin/AdminCrearCategoria';
 import AdminPerfil from './pages/admin/AdminPerfil';
 import AdminCrearUsuario from './pages/admin/AdminCrearUsuario';
+import AdminEditarUsuario from './pages/admin/AdminEditarUsuario'; 
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
@@ -53,7 +54,7 @@ export default function App() {
         <Routes>
           {/* RUTA ADMIN (Layout separado) */}
           <Route path="/admin" element={<AdminLayout />}>
-            <Route index element={<AdminDashboard />} />
+            <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="usuarios" element={<AdminUsuarios />} />
             <Route path="usuarios/crearUser" element={<AdminCrearUsuario />} />
             <Route path="ordenes" element={<AdminOrdenes />} />
@@ -67,6 +68,7 @@ export default function App() {
             <Route path="categorias" element={<AdminCategorias />} />
             <Route path="categorias/crear" element={<AdminCrearCategoria />} />
             <Route path="perfil" element={<AdminPerfil />} />
+            <Route path="usuarios/editar/:id" element={<AdminEditarUsuario />} />
           </Route>
 
           {/* RUTAS PÚBLICAS (Con Navbar y Footer) */}

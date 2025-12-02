@@ -22,7 +22,18 @@ export default function FormularioLogin() {
     setLoading(false);
 
     if (resultado.success) {
-      navigate('/');
+      const usuario = JSON.parse(localStorage.getItem("usuario"));
+
+      console.log("ROL RECIBIDO DEL BACKEND:", usuario?.rol);
+
+   
+      if (usuario?.rol === "ADMINISTRADOR" || usuario?.rol === "VENDEDOR") {
+        navigate('/admin/dashboard');
+      }
+      else {
+        navigate('/');
+      }
+
     } else {
       setError(resultado.message);
     }

@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import '../styles/styles.css';
 
 export default function Bienvenida() {
   return (
     <div className="card my-5">
       
-      <div className="card-header text-center">
+      <div className="card-bienvenida">
        
         <h2> Bienvenido a la FondaOnline </h2>
       </div>
@@ -33,7 +34,7 @@ export default function Bienvenida() {
             Ver Categorías
           </Link>
 
-          <Link to="/registro" className="btn btn-outline-primary">
+          <Link to="/registro" className="btn btn-primary">
             Crear cuenta
           </Link>
         </div>

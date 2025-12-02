@@ -46,7 +46,7 @@ export default function AdminOrdenes() {
               {ordenes.map(orden => (
                 <tr key={orden.id}>
                   <td className="fw-bold">#{orden.id}</td>
-                  <td>{orden.usuarioId}</td>
+                  <td>{orden.usuario?.id}</td>
                   <td>{orden.fecha ? new Date(orden.fecha).toLocaleDateString() : '-'}</td>
                   <td>{orden.metodoPago || 'Webpay'}</td>
                   <td>${orden.total ? orden.total.toLocaleString('es-CL') : 0}</td>

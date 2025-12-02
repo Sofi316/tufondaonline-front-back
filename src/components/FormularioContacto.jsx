@@ -18,20 +18,17 @@ export default function FormularioContacto() {
 
   const resultado = window.FormularioContactoLogic.enviarFormulario(nombre, correo, contenido);
 
-  // Limpia los errores previos
   setErrorNombre('');
   setErrorCorreo('');
   setErrorContenido('');
 
   if (!resultado.exito) {
-    // Muestra los mensajes de error
     setErrorNombre(resultado.errores.errorNombre);
     setErrorCorreo(resultado.errores.errorCorreo);
     setErrorContenido(resultado.errores.errorContenido);
     return;
   }
 
-  // Si todo salió bien, muestra el mensaje de éxito y limpia el formulario
   setExito(true);
   setNombre('');
   setCorreo('');

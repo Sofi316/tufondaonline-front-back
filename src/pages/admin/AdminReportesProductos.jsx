@@ -23,8 +23,7 @@ export default function AdminReportesProductos() {
 
   const valorTotalInventario = productos.reduce((acc, p) => acc + (p.precio * p.stock), 0);
 
-  // 3. Productos por Categoría (Para el gráfico)
-  // Nota: Si tu backend devuelve objeto categoria {id, nombre}, usa p.categoria.nombre
+
   const dataPorCategoria = productos.reduce((acc, curr) => {
     const catNombre = typeof curr.categoria === 'object' ? curr.categoria.nombre : curr.categoria;
     const existente = acc.find(item => item.name === catNombre);

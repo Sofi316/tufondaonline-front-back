@@ -30,7 +30,7 @@ export default function Blogs() {
   return (
     <Container className="my-5">
       <div className="text-center mb-5">
-        <h1 className="display-4 fw-bold">Noticias Dieciocheras</h1>
+        <h1 className="display-4 fw-bold texto-azul">Noticias Dieciocheras</h1>
         <p className="lead text-muted">Novedades, recetas y cultura</p>
       </div>
 

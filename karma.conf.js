@@ -7,7 +7,7 @@ module.exports = function (config) {
       'src/utils/**/*.logic.spec.js'
     ],
     browsers: ['ChromeHeadless'],
-    // 👇 Cambiamos los reporters
+  
     reporters: ['spec'],
     plugins: [
       'karma-jasmine',

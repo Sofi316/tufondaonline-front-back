@@ -26,7 +26,6 @@ export default function AdminVerProducto() {
     fetchProducto();
   }, [id]);
 
-  // --- FUNCIÓN PARA ELIMINAR EL PRODUCTO ---
   const handleEliminar = async () => {
     if (window.confirm("¿Estás seguro de que deseas eliminar este producto? Esta acción no se puede deshacer.")) {
         try {

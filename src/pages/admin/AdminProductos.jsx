@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Table, Button, Badge, Form, InputGroup, Spinner } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../../config/api';
+import { useAuth } from "../../context/AuthContext";
+
 
 export default function AdminProductos() {
+  const { user } = useAuth();
   const [productos, setProductos] = useState([]);
   const [filtro, setFiltro] = useState("");
   const [loading, setLoading] = useState(true);
@@ -27,7 +30,7 @@ export default function AdminProductos() {
   const handleEliminar = async (id) => {
     if (window.confirm("¿Estás seguro de eliminar este producto?")) {
       try {
-        await api.delete(` /api/productos/${id} `);
+        await api.delete(`/api/productos/${id}`);
         setProductos(productos.filter(p => p.id !== id));
         alert("Producto eliminado.");
       } catch (error) {
@@ -50,7 +53,8 @@ export default function AdminProductos() {
           <h2>Inventario de Productos</h2>
         </Col>
         <Col md={6} className="text-md-end">
-          <Button as={Link} to="/admin/productos/nuevo" variant="success">
+          <Button as={Link} to="/admin/productos/crear" variant="success" 
+          disabled={user.rol !== "ADMINISTRADOR"}>
             <i className="bi bi-plus-lg me-2"></i>Nuevo Producto
           </Button>
         </Col>
@@ -107,19 +111,12 @@ export default function AdminProductos() {
                   </td>
                   <td className="text-end">
                     <Button 
-                        variant="outline-info" 
-                        size="sm" 
-                        className="me-2"
-                        onClick={() => navigate(`/admin/productos/ver/${p.id}`)}
-                    >
-                      <i className="bi bi-eye"></i>
-                    </Button>
-                    <Button 
                         variant="outline-warning" 
                         size="sm" 
                         className="me-2"
                         as={Link} 
                         to={`/admin/productos/editar/${p.id}`}
+                        disabled={user.rol !== "ADMINISTRADOR"}
                     >
                       <i className="bi bi-pencil"></i>
                     </Button>
@@ -127,6 +124,7 @@ export default function AdminProductos() {
                         variant="outline-danger" 
                         size="sm"
                         onClick={() => handleEliminar(p.id)}
+                        disabled={user.rol !== "ADMINISTRADOR"}
                     >
                       <i className="bi bi-trash"></i>
                     </Button>

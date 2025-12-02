@@ -27,7 +27,7 @@ export default function AdminCategorias() {
     if (window.confirm("¿Seguro que deseas eliminar esta categoría?")) {
       try {
         await api.delete(`/api/categorias/${id}`);
-        setCategorias(categorias.filter(c => c.id !== id));
+        setCategorias(categorias.filter(c => c.idCategoria !== id));
       } catch (err) {
         alert("No se puede eliminar. Es posible que tenga productos asociados.");
       }
@@ -43,7 +43,7 @@ export default function AdminCategorias() {
           <h2>Gestión de Categorías</h2>
         </Col>
         <Col className="text-end">
-          <Button as={Link} to="/admin/categorias/nueva" variant="success">
+          <Button as={Link} to="/admin/categorias/crear" variant="success">
             <i className="bi bi-plus-lg me-2"></i>Nueva Categoría
           </Button>
         </Col>
@@ -70,7 +70,7 @@ export default function AdminCategorias() {
                     <Button 
                       variant="outline-danger" 
                       size="sm" 
-                      onClick={() => handleEliminar(cat.id)}
+                      onClick={() => handleEliminar(cat.idCategoria)}
                     >
                       <i className="bi bi-trash"></i> Eliminar
                     </Button>

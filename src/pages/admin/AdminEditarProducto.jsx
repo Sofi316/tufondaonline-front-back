@@ -13,7 +13,7 @@ export default function AdminEditarProducto() {
     stock: '',
     img: '',
     descripcion: '',
-    categoria: '', 
+    categoriaId: '', 
     enOferta: false,
     precioOferta: ''
   });
@@ -31,28 +31,28 @@ export default function AdminEditarProducto() {
         ]);
 
         const p = prodRes.data;
-        
+
         setFormData({
-            nombre: p.nombre,
-            precio: p.precio,
-            stock: p.stock,
-            img: p.img,
-            descripcion: p.descripcion,
-            // Ajuste según si tu backend devuelve objeto o string en categoria
-            categoria: typeof p.categoria === 'object' ? p.categoria.nombre : p.categoria, 
-            enOferta: p.enOferta,
-            precioOferta: p.precioOferta || ''
+          nombre: p.nombre,
+          precio: p.precio,
+          stock: p.stock,
+          img: p.img,
+          descripcion: p.descripcion,
+          categoriaId: p.categoria.idCategoria,  
+          enOferta: p.enOferta,
+          precioOferta: p.precioOferta ?? ''
         });
-        
+
         setCategorias(catRes.data);
-        
         setLoading(false);
+
       } catch (err) {
         console.error(err);
         setError("Error cargando el producto.");
         setLoading(false);
       }
     };
+    
     cargarDatos();
   }, [id]);
 
@@ -66,17 +66,36 @@ export default function AdminEditarProducto() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const payload = {
+      nombre: formData.nombre,
+      precio: Number(formData.precio),
+      stock: Number(formData.stock),
+      img: formData.img,
+      descripcion: formData.descripcion,
+      enOferta: formData.enOferta,
+      precioOferta: formData.enOferta ? Number(formData.precioOferta) : null,
+      categoria: {
+        idCategoria: Number(formData.categoriaId)
+      }
+    };
+
     try {
-      await api.put(`/api/productos/${id}`, formData);
+      await api.put(`/api/productos/${id}`, payload);
       alert("Producto actualizado correctamente");
       navigate('/admin/productos');
+
     } catch (err) {
       console.error(err);
       setError("Error al actualizar producto. Revise los campos.");
     }
   };
 
-  if (loading) return <Container className="mt-5 text-center"><Spinner animation="border" /></Container>;
+  if (loading) return (
+    <Container className="mt-5 text-center">
+      <Spinner animation="border" />
+    </Container>
+  );
 
   return (
     <Container className="my-4">
@@ -108,14 +127,21 @@ export default function AdminEditarProducto() {
                         <Row className="mb-3">
                             <Form.Group as={Col} md={6}>
                                 <Form.Label>Categoría</Form.Label>
-                                <Form.Select name="categoria" value={formData.categoria} onChange={handleChange} required>
-                                    <option value="">Seleccione...</option>
-                                    {categorias.map(c => (
-                                        // Ajusta si c es string o objeto
-                                        <option key={c.id || c} value={c.nombre || c}>{c.nombre || c}</option>
-                                    ))}
+                                <Form.Select 
+                                  name="categoriaId" 
+                                  value={formData.categoriaId} 
+                                  onChange={handleChange} 
+                                  required
+                                >
+                                  <option value="">Seleccione...</option>
+                                  {categorias.map(c => (
+                                    <option key={c.idCategoria} value={c.idCategoria}>
+                                      {c.nombre}
+                                    </option>
+                                  ))}
                                 </Form.Select>
                             </Form.Group>
+
                             <Form.Group as={Col} md={6}>
                                 <Form.Label>Stock</Form.Label>
                                 <Form.Control type="number" name="stock" value={formData.stock} onChange={handleChange} required />
@@ -139,16 +165,21 @@ export default function AdminEditarProducto() {
                         <div className="bg-light p-3 rounded mb-3">
                             <Form.Check 
                                 type="switch"
-                                id="oferta-switch"
                                 label="¿Producto en Oferta?"
                                 name="enOferta"
                                 checked={formData.enOferta}
                                 onChange={handleChange}
                             />
+
                             {formData.enOferta && (
                                 <Form.Group className="mt-2">
                                     <Form.Label>Precio Oferta</Form.Label>
-                                    <Form.Control type="number" name="precioOferta" value={formData.precioOferta} onChange={handleChange} />
+                                    <Form.Control 
+                                      type="number" 
+                                      name="precioOferta" 
+                                      value={formData.precioOferta} 
+                                      onChange={handleChange} 
+                                    />
                                 </Form.Group>
                             )}
                         </div>

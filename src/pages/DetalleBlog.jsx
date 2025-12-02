@@ -52,7 +52,7 @@ export default function DetalleBlog() {
             onError={(e) => { e.target.src = 'https://via.placeholder.com/800x400?text=Sin+Imagen'; }}
         />
         <Card.Body className="p-4 p-md-5">
-            <h1 className="display-5 fw-bold mb-3 text-dark">{post.titulo}</h1>
+            <h1 className="display-5 fw-bold mb-3 texto-azul">{post.titulo}</h1>
             
             <div className="text-muted mb-4 border-bottom pb-3">
                 <i className="bi bi-calendar-event me-2"></i>

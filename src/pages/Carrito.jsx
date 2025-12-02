@@ -35,9 +35,12 @@ export default function Carrito() {
     );
   }
 
+ 
+  const f = (num) => Number(num ?? 0).toLocaleString("es-CL");
+
   return (
     <Container className="my-5">
-      <h2 className="mb-4">Tu Pedido</h2>
+      <h2 className="mb-4 texto-azul">Tu Pedido</h2>
       <Row>
         <Col lg={8}>
           <div className="table-responsive">
@@ -52,51 +55,71 @@ export default function Carrito() {
                 </tr>
               </thead>
               <tbody>
-                {carrito.map((item) => (
-                  <tr key={item.id}>
-                    <td>
-                      <div className="d-flex align-items-center">
-                        <img 
-                          src={item.img} 
-                          alt={item.nombre} 
-                          style={{ width: '50px', height: '50px', objectFit: 'cover', marginRight: '10px', borderRadius: '5px' }} 
-                        />
-                        <span>{item.nombre}</span>
-                      </div>
-                    </td>
-                    <td>${item.precio.toLocaleString('es-CL')}</td>
-                    <td>
-                      <div className="d-flex align-items-center gap-2">
+                {carrito.map((item) => {
+                  const precioFinal = item.precioOferta ?? item.precio;  
+                  const precioNumero = Number(precioFinal ?? 0);
+
+                  return (
+                    <tr key={item.id}>
+                      <td>
+                        <div className="d-flex align-items-center">
+                          <img 
+                            src={item.img} 
+                            alt={item.nombre} 
+                            style={{ width: '50px', height: '50px', objectFit: 'cover', marginRight: '10px', borderRadius: '5px' }} 
+                          />
+                          <span>{item.nombre}</span>
+                        </div>
+                      </td>
+
+                      <td>
+                        {item.precioOferta ? (
+                          <>
+                            <span className="text-danger fw-bold">${f(item.precioOferta)}</span>
+                            <br />
+                            <del className="text-muted small">${f(item.precio)}</del>
+                          </>
+                        ) : (
+                          <span>${f(item.precio)}</span>
+                        )}
+                      </td>
+
+                      <td>
+                        <div className="d-flex align-items-center gap-2">
+                          <Button 
+                            variant="outline-secondary" 
+                            size="sm" 
+                            onClick={() => actualizarCantidad(item.id, item.cantidad - 1)}
+                            disabled={item.cantidad <= 1}
+                          >
+                            -
+                          </Button>
+                          <span>{item.cantidad}</span>
+                          <Button 
+                            variant="outline-secondary" 
+                            size="sm" 
+                            onClick={() => actualizarCantidad(item.id, item.cantidad + 1)}
+                          >
+                            +
+                          </Button>
+                        </div>
+                      </td>
+
+                    
+                      <td>${f(precioNumero * item.cantidad)}</td>
+
+                      <td>
                         <Button 
-                          variant="outline-secondary" 
+                          variant="danger" 
                           size="sm" 
-                          onClick={() => actualizarCantidad(item.id, item.cantidad - 1)}
-                          disabled={item.cantidad <= 1}
+                          onClick={() => eliminarDelCarrito(item.id)}
                         >
-                          -
+                          <i className="bi bi-trash"></i>
                         </Button>
-                        <span>{item.cantidad}</span>
-                        <Button 
-                          variant="outline-secondary" 
-                          size="sm" 
-                          onClick={() => actualizarCantidad(item.id, item.cantidad + 1)}
-                        >
-                          +
-                        </Button>
-                      </div>
-                    </td>
-                    <td>${(item.precio * item.cantidad).toLocaleString('es-CL')}</td>
-                    <td>
-                      <Button 
-                        variant="danger" 
-                        size="sm" 
-                        onClick={() => eliminarDelCarrito(item.id)}
-                      >
-                        <i className="bi bi-trash"></i>
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </Table>
           </div>
@@ -105,13 +128,14 @@ export default function Carrito() {
           </Button>
         </Col>
 
+        {/* RESUMEN */}
         <Col lg={4}>
           <Card className="shadow-sm mt-3 mt-lg-0">
-            <Card.Header className="bg-light fw-bold">Resumen de Compra</Card.Header>
+            <Card.Header className="bg-light fw-bold ">Resumen de Compra</Card.Header>
             <Card.Body>
               <div className="d-flex justify-content-between mb-3">
                 <span>Total a Pagar:</span>
-                <span className="fw-bold fs-4">${montoTotal.toLocaleString('es-CL')}</span>
+                <span className="fw-bold fs-4">${f(montoTotal)}</span>
               </div>
               <div className="d-grid">
                 <Button variant="success" size="lg" onClick={handleProcederPago}>

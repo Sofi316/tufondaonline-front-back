@@ -16,7 +16,7 @@ export default function Comprar() {
   
   const [datosEnvio, setDatosEnvio] = useState({
     direccion: user?.direccion || '',
-    comuna: user?.comuna?.nombre || '', // Corrección para que no salga [Object object]
+    comuna: user?.comuna?.nombre || '', 
     telefono: '',
     notas: ''
   });
@@ -41,7 +41,7 @@ export default function Comprar() {
         const ordenResponse = await api.post('/api/ordenes', {
             total: montoTotal,    // <--- ¡ESTO FALTABA! (Por eso el error 500)
             estado: "PENDIENTE"
-            // No enviamos usuarioId, el backend lo saca del token automáticamente
+            
         });
         
         const idOrdenCreada = ordenResponse.data.id;
@@ -78,7 +78,7 @@ export default function Comprar() {
 
   return (
     <Container className="my-5">
-      <h2 className="mb-4">Finalizar Compra</h2>
+      <h2 className="mb-4 texto-azul">Finalizar Compra</h2>
       {error && <Alert variant="danger">{error}</Alert>}
       
       <Row>

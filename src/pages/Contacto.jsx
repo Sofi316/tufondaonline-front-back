@@ -10,7 +10,7 @@ export default function Contacto() {
       </div>
 
       <div className="container" style={{ maxWidth: '600px' }}>
-        <h1 className="text-center">Formulario de Contacto</h1>
+        <h1 className="text-center texto-azul">Formulario de Contacto</h1>
         
         <FormularioContacto />
 

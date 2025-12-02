@@ -42,18 +42,25 @@ export default function AdminCrearProducto() {
     setMensaje("");
 
     try {
-      // Ajuste: Si tu backend espera el objeto categoria completo, descomenta esto:
-      // const payload = { ...formData, categoria: { id: formData.categoriaId } };
-      
-      // Si tu backend espera solo el ID (ej: categoriaId), enviamos formData tal cual
-      await api.post('/api/productos', formData);
-      
+      const payload = {
+        nombre: formData.nombre,
+        descripcion: formData.descripcion,
+        precio: Number(formData.precio),
+        stock: Number(formData.stock),
+        img: formData.img,
+        enOferta: formData.enOferta,
+        precioOferta: formData.enOferta ? Number(formData.precioOferta) : null,
+        categoria: { 
+          idCategoria: Number(formData.categoriaId)
+        }
+      };
+
+      await api.post('/api/productos', payload);
+
       setVariant("success");
       setMensaje("Producto creado correctamente.");
-      
-      setTimeout(() => {
-        navigate('/admin/productos');
-      }, 1500);
+
+      setTimeout(() => navigate('/admin/productos'), 1500);
 
     } catch (error) {
       console.error(error);
@@ -95,14 +102,16 @@ export default function AdminCrearProducto() {
               <Form.Group as={Col} md={6}>
                 <Form.Label>Categoría</Form.Label>
                 <Form.Select 
-                    name="categoriaId" 
-                    value={formData.categoriaId} 
-                    onChange={handleChange} 
-                    required
+                  name="categoriaId" 
+                  value={formData.categoriaId} 
+                  onChange={handleChange} 
+                  required
                 >
                   <option value="">Seleccione...</option>
                   {categorias.map((cat) => (
-                    <option key={cat.id} value={cat.id}>{cat.nombre}</option>
+                    <option key={cat.idCategoria} value={cat.idCategoria}>
+                      {cat.nombre}
+                    </option>
                   ))}
                 </Form.Select>
               </Form.Group>
@@ -121,19 +130,25 @@ export default function AdminCrearProducto() {
             </Row>
 
             <div className="bg-light p-3 rounded mb-3">
-                <Form.Check 
-                    type="switch"
-                    label="¿Está en Oferta?"
-                    name="enOferta"
-                    checked={formData.enOferta}
-                    onChange={handleChange}
-                />
-                {formData.enOferta && (
-                    <Form.Group className="mt-2">
-                        <Form.Label>Precio Oferta</Form.Label>
-                        <Form.Control type="number" name="precioOferta" value={formData.precioOferta} onChange={handleChange} required={formData.enOferta}/>
-                    </Form.Group>
-                )}
+              <Form.Check 
+                type="switch"
+                label="¿Está en Oferta?"
+                name="enOferta"
+                checked={formData.enOferta}
+                onChange={handleChange}
+              />
+              {formData.enOferta && (
+                <Form.Group className="mt-2">
+                  <Form.Label>Precio Oferta</Form.Label>
+                  <Form.Control 
+                    type="number" 
+                    name="precioOferta" 
+                    value={formData.precioOferta} 
+                    onChange={handleChange} 
+                    required={formData.enOferta}
+                  />
+                </Form.Group>
+              )}
             </div>
 
             <Form.Group className="mb-4">

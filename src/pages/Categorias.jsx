@@ -4,6 +4,7 @@ import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { useCarrito } from '../components/CarritoContext';
 import { Link } from 'react-router-dom';
 import api from '../config/api'; 
+import '../styles/styles.css';
 
 function Categorias() {
   const { agregarAlCarrito } = useCarrito();
@@ -74,32 +75,37 @@ function Categorias() {
                       style={{ objectFit: 'cover', height: '100%' }} 
                     />
                   </div>
-                  <Card.Body className="d-flex flex-column">
+                  <Card.Body className="d-flex flex-column texto-azul">
                     <Card.Title>{producto.nombre}</Card.Title>
                     <Card.Text className="text-muted small">
                       {producto.descripcion ? producto.descripcion.substring(0, 50) + '...' : ''}
                     </Card.Text>
                     <div className="mt-auto d-flex justify-content-between align-items-center">
-                      <span className="h5 mb-0 text-primary">
+                      <span className="h5 mb-0 texto-azul">
                         ${producto.precio.toLocaleString('es-CL')}
                       </span>
                       <Button 
-                        variant="outline-success" 
+                        className="btn-azul"
                         size="sm"
                         onClick={() => {
-                            agregarAlCarrito(producto);
-                            alert("¡Producto agregado al carrito!"); 
+                          agregarAlCarrito(producto);
+                          alert("¡Producto agregado al carrito!");
                         }}
                       >
                         <i className="bi bi-cart-plus"></i> Agregar
-                    </Button>
+                      </Button>
                     </div>
                   </Card.Body>
-                  <Card.Footer className="bg-white border-top-0">
-                     <Link to={`/detalle${producto.detalle || '/' + producto.id}`} className="btn btn-primary w-100 btn-sm">
+                  <Card.Footer 
+                      className="bg-white border-top-0 d-flex justify-content-center"
+                    >
+                      <Link 
+                        to={`/detalle${producto.detalle || '/' + producto.id}`} 
+                        className="btn btn-danger"
+                      >
                         Ver Detalle
-                     </Link>
-                  </Card.Footer>
+                      </Link>
+                    </Card.Footer>
                 </Card>
               </Col>
             ))}
